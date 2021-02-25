@@ -1,44 +1,53 @@
 import React, { useState } from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import './AdminTableRow.css';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { Trash } from 'react-bootstrap-icons';
 import { ZoomIn } from 'react-bootstrap-icons';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
 
+function AdminTableRow({ order }) {
 
-function AdminTableRow({order}) {
+    const store = useSelector((store) => store);
+    const formatDate = (orderDate) => {
+        const date = new Date(orderDate);
+        const options = { month: "short", day: "numeric", year: "numeric" }
+        const fd = new Intl.DateTimeFormat('en-us', options).format(date);
+        return fd.toString();
+    }
 
-  const store = useSelector((store) => store);
-  const formatDate = (orderDate) =>{
-    const date = new Date(orderDate);
-    const options = {month:"short", day: "numeric", year: "numeric"}
-    const fd = new Intl.DateTimeFormat('en-us', options).format(date);
-    return fd.toString();
-  }
+    return (
 
-  return (
-        <>
-        <tr>
-            <td>
-                {formatDate(order.order_date)}
-            </td>
-            <td>
-                {order.name}
-            </td>
-            <td>
-                {order.email}
-            </td>
-            <td>
-            {order.complete ? "Sent (Resend)" : "Pending"}
-            </td>
-            <td>
-                <PencilSquare font-size="2rem" color="black"/> - <Trash font-size="2rem" color="black"/> - <ZoomIn font-size="2rem" color="black"/>
-            </td>
-        </tr>
-        <tr>
-
-        </tr>
-        </>
+            <tr>
+                <tr>
+                    <td>
+                        {formatDate(order.order_date)}
+                    </td>
+                    <td>
+                        {order.name}
+                    </td>
+                    <td>
+                        {order.email}
+                    </td>
+                    <td>
+                        {order.complete ? "Sent (Resend)" : "Pending"}
+                    </td>
+                    <td>
+                        <ButtonGroup>
+                            <Button variant="outline-dark">
+                                <PencilSquare fontSize="2rem" />
+                            </Button>
+                            <Button variant="outline-dark">
+                                <Trash fontSize="2rem" />
+                            </Button>
+                            <Button variant="outline-dark">
+                                <ZoomIn fontSize="2rem" />
+                            </Button>
+                        </ButtonGroup>
+                    </td>
+                </tr>
+            </tr>
     );
 }
 
