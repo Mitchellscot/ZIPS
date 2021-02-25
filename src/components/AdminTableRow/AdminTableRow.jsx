@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import {useSelector} from 'react-redux';
 import './AdminTableRow.css';
+import { PencilSquare } from 'react-bootstrap-icons';
+import { Trash } from 'react-bootstrap-icons';
+import { ZoomIn } from 'react-bootstrap-icons';
 
 
 function AdminTableRow({order}) {
 
   const store = useSelector((store) => store);
   const formatDate = (orderDate) =>{
-    let date = new Date(orderDate);
-    return date.toString();
+    const date = new Date(orderDate);
+    const options = {month:"short", day: "numeric", year: "numeric"}
+    const fd = new Intl.DateTimeFormat('en-us', options).format(date);
+    return fd.toString();
   }
 
   return (
@@ -24,13 +29,14 @@ function AdminTableRow({order}) {
                 {order.email}
             </td>
             <td>
-                {order.complete}
+            {order.complete ? "Sent (Resend)" : "Pending"}
             </td>
             <td>
-                {order.complete ? "Send Email" : "Resend Email"}
-                {" | "}
-                {"Delete"}
+                <PencilSquare font-size="2rem" color="black"/> - <Trash font-size="2rem" color="black"/> - <ZoomIn font-size="2rem" color="black"/>
             </td>
+        </tr>
+        <tr>
+
         </tr>
         </>
     );
