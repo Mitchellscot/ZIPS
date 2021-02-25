@@ -1,29 +1,30 @@
 import './GalleryItem.css';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
 
-function GalleryItem({image}){
-
+function GalleryItem({ image }) {
+    const cart = useSelector(store => store.cart);
+    const dispatch = useDispatch();
     const [selected, setSelected] = React.useState(false);
-    const toggleSelected = () =>{
+    const toggleSelected = () => {
         setSelected(!selected);
-
     }
-
     const handleSelect = () => {
-        toggleSelected()
-        
+    toggleSelected()
+    selected ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
+    dispatch({ type: 'ADD_TO_CART', payload: image });
     }
 
-    return(
+    return (
         <>
-        <li className={selected ? "selected" : "notSelected"}>{
-            <img src={image.url} alt={image.id} height="150px" width="150pxs"/>
-        }
-        
-        </li>
-        <button 
-        onClick={handleSelect}
-        type="button">Select this Image</button>
+            <li className={cart.includes(image) ? "selected" : "notSelected"}>{
+                <img src={image.url} alt={image.id} height="150px" width="150pxs" />
+            }
+            </li>
+            <Button variant="primary"
+                onClick={handleSelect}
+                type="button">{cart.includes(image) ? <span>Unselect</span> : <span>Select this Image</span> }</Button>{' '}
         </>
 
     );

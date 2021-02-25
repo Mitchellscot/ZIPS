@@ -10,12 +10,23 @@ CREATE TABLE "images" (
 )
 CREATE TABLE "orders"(
 	"id" SERIAL PRIMARY KEY,
+	"complete" BOOLEAN DEFAULT FALSE,
 	"order_date" DATE DEFAULT CURRENT_DATE NOT NULL,
 	"email" VARCHAR(50) NOT NULL,
-	"name" VARCHAR(50) NOT NULL
+	"name" VARCHAR(50) NOT NULL,
+	"total" MONEY
 )
 CREATE TABLE "order_ids"(
 	"id" SERIAL PRIMARY KEY,
 	"image_id" INT REFERENCES "images" NOT NULL,
 	"order_id" INT REFERENCES "orders" NOT NULL
+)
+-- TODO - price and tax tables
+CREATE TABLE "cost"(
+	"id" SERIAL PRIMARY KEY,
+	"cost" DECIMAL NO NULL
+)
+CREATE TABLE "tax"(
+	"id" SERIAL PRIMARY KEY,
+	"tax" DECIMAL NO NULL
 )

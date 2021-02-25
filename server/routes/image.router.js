@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+//get all images that were created TODAY
 router.get('/', (req, res) => {
   const query  = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now());`;
   pool.query(query)
