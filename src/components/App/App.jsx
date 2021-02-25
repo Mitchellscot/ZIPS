@@ -15,7 +15,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
 import Gallery from '../Gallery/Gallery';
-
+import Admin from '../Admin/Admin';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
@@ -46,7 +46,13 @@ function App() {
           >
             <Gallery />
           </ProtectedRoute>
-
+          <ProtectedRoute
+            
+            exact
+            path="/admin"
+          >
+            <Admin />
+          </ProtectedRoute>
           {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
             be taken to the component and path supplied. */}

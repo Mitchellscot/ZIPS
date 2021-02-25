@@ -18,11 +18,11 @@ router.put('/completed/:id', (req, res)=>{
 router.get('/', (req, res) => {
     //sends back a row with data from the orders table along with an array or URLs for the photos
     const query = `
-    SELECT "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", array_agg("url") 
+    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
-    GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email"
+    GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
     ORDER BY "complete" DESC;
     `
     pool.query(query).then((result)=>{
