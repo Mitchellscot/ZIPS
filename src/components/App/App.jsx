@@ -13,7 +13,6 @@ import Header from '../Header/Header';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LandingPage from '../LandingPage/LandingPage';
