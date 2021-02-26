@@ -1,14 +1,16 @@
-import Accordion from 'react-bootstrap/Accordion';
-import Col from 'react-bootstrap/Col';
+import Carousel from 'react-bootstrap/Carousel';
 
-function Photos({order, image}){
+function Photos({image}){
     return(
-        
-        <Accordion.Collapse eventKey={order.id}>
-        <td md={12}>
-            <img src={image} height="150px" width="150px" thumbnail/>
-            </td>
-        </Accordion.Collapse>
+        <>
+            <img
+            className="d-block w-100"
+            height="400px" 
+            src={image} thumbnail/>
+            <Carousel.Caption>
+                <p>{image}</p>
+            </Carousel.Caption>
+            </>
     );
 }
 
