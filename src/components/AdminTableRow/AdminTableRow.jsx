@@ -19,7 +19,13 @@ function AdminTableRow({ order }) {
     const [toggleEmail, setToggleEmail] = useState(false);
 
     const deleteOrder = () => {
-        
+        axios.delete(`/api/order/delete/${order.id}`)
+            .then((response) => {
+                dispatch({ type: 'FETCH_ORDERS' })
+            })
+            .catch((error) => {
+                console.log(`HEY MITCH - COULDN'T DELETE THE ORDER: ${error}`);
+            })
     }
 
     const editMode = () => {
@@ -34,14 +40,22 @@ function AdminTableRow({ order }) {
             setToggleName(!toggleName);
             axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
                 .then((response) => {
-                    console.log(response);
                     dispatch({ type: 'FETCH_ORDERS' })
                 })
                 .catch((error) => {
-                    console.log(`HEY MITCH - CAN"T CHANGE THE NAME: ${error}`);
+                    console.log(`HEY MITCH - CAN"T CHANGE THE NAME OR EMAIL: ${error}`);
                 })
         }
     }
+    //for editing the name and email fields 
+    //completes the edit by pressing the enter key
+    const handleKeypress = e => {
+        //it triggers by pressing the enter key
+        if (e.key === 'Enter') {
+            editMode();
+        }
+    };
+
     const store = useSelector((store) => store);
     const formatDate = (orderDate) => {
         const date = new Date(orderDate);
@@ -57,13 +71,15 @@ function AdminTableRow({ order }) {
             </td>
             <td>
                 {toggleName ? <Form.Control
-                    onChange={((e)=>{setName(e.target.value)})}
+                    onKeyPress={handleKeypress}
+                    onChange={((e) => { setName(e.target.value) })}
                     value={name}
                 ></Form.Control> : order.name}
             </td>
             <td className="text-center">
                 {toggleEmail ? <Form.Control
-                    onChange={((e)=>{setEmail(e.target.value)})}
+                    onKeyPress={handleKeypress}
+                    onChange={((e) => { setEmail(e.target.value) })}
                     value={email}
                 ></Form.Control> : order.email}
             </td>
@@ -75,10 +91,12 @@ function AdminTableRow({ order }) {
                     <Button
                         onClick={editMode}
                         variant={toggleEmail ? "dark" : "outline-dark"}
-                        >
+                    >
                         <PencilSquare fontSize="2rem" />
                     </Button>
-                    <Button variant="outline-dark">
+                    <Button
+                        onClick={deleteOrder}
+                        variant="outline-dark">
                         <Trash fontSize="2rem" />
                     </Button>
                     <Button variant="outline-dark">
