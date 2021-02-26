@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import swal from 'sweetalert';
 
 function Gallery() {
   const [modal, setModal] = React.useState(false);
@@ -24,7 +25,14 @@ function Gallery() {
     setModal(false);
   }
   const handleSubmit = event => {
-    console.log('handling submit');
+    swal({
+      title: "Thank you!",
+      text: `Please pay at the front desk to recieve your photos!`,
+      icon: "success",
+      dangerMode: false,
+      buttons: false,
+      timer: 2500
+    })
     event.preventDefault();
     const imageIds = [];
     for (let image of cart) {

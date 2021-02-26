@@ -55,7 +55,6 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const newOrder = req.body;
-    console.log(`adding newOrder ${newOrder}`);
     const ordersQuery = `INSERT INTO "orders" 
     ("name", "email", "total") 
     VALUES ($1, $2, $3)
@@ -63,12 +62,9 @@ router.post('/', (req, res) => {
     pool.query(ordersQuery, [newOrder.name, newOrder.email, newOrder.total])
         .then((result) => {
             const createdOrderId = result.rows[0].id;
-            console.log(`Got the order id! ${createdOrderId}`);
             //second query, for the join table "order_ids"
             const images = req.body.images;
-            console.log(`images ${images}`);
             for (let image of images) {
-                console.log(`image ${image}`);
                 const joinTableQuery =
                     `INSERT INTO "order_ids" ("order_id", "image_id") VALUES ($1, $2);`
                 pool.query(joinTableQuery, [createdOrderId, image]).then(result => {

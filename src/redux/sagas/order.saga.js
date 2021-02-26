@@ -19,7 +19,8 @@ function* addOrder(action){
             total: action.payload.total,
             images: action.payload.images
         });
-        yield put({type: 'IDONTKNOWYET'});
+        // I don't think I need this... 
+        yield put({type: 'FETCH_ORDERS'});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN"T ADD THE ORDER - ${order}`);
