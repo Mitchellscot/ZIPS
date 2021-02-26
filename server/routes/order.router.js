@@ -2,8 +2,28 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+router.delete('/:id', (req, res)=>{
+    pool.query('DELETE FROM "orders" WHERE id=$1;', [req.params.id])
+    .then((result)=>{
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.log(`HEY MITCH - COULDN'T DELETE THE ORDER ${error}`);
+        res.sendStatus(500);
+    })
+})
+
+router.put('/update/:id', (req, res)=>{
+    const query = `UPDATE "orders" SET "name"=$1, "email"=$2 WHERE "id"=$3;`;
+    pool.query(query, [req.body.name, req.body.email, req.params.id])
+    .then((result)=>{
+        res.sendStatus(200);
+    }).catch((error)=>{
+        console.log(`HEY MITCH - COULDN'T CHANGE THE NAME! ${error}`);
+        res.sendStatus(500);
+    })
+})
+
 router.put('/completed/:id', (req, res)=>{
-    //let newOrder = req.body;
     let id = req.params.id;
     const query = `UPDATE "orders" SET "complete"='true' WHERE "id"=$1;`;
     pool.query(query, [id])

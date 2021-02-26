@@ -1,14 +1,47 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './AdminTableRow.css';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { Trash } from 'react-bootstrap-icons';
 import { ZoomIn } from 'react-bootstrap-icons';
+import { Envelope } from 'react-bootstrap-icons';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 function AdminTableRow({ order }) {
+    const dispatch = useDispatch();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [modal, setModal] = useState(false);
+    const [toggleName, setToggleName] = useState(false);
+    const [toggleEmail, setToggleEmail] = useState(false);
 
+    const deleteOrder = () => {
+        
+    }
+
+    const editMode = () => {
+        setName(order.name);
+        setEmail(order.email);
+        if (toggleName && toggleEmail === false) {
+            setToggleEmail(!toggleEmail);
+            setToggleName(!toggleName);
+        }
+        else {
+            setToggleEmail(!toggleEmail);
+            setToggleName(!toggleName);
+            axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
+                .then((response) => {
+                    console.log(response);
+                    dispatch({ type: 'FETCH_ORDERS' })
+                })
+                .catch((error) => {
+                    console.log(`HEY MITCH - CAN"T CHANGE THE NAME: ${error}`);
+                })
+        }
+    }
     const store = useSelector((store) => store);
     const formatDate = (orderDate) => {
         const date = new Date(orderDate);
@@ -18,42 +51,43 @@ function AdminTableRow({ order }) {
     }
 
     return (
-
-            <tr>
-                <tr>
-                    <td>
-                        {formatDate(order.order_date)}
-                    </td>
-                    <td>
-                        {order.name}
-                    </td>
-                    <td>
-                        {order.email}
-                    </td>
-                    <td>
-                        {order.complete ? "Sent (Resend)" : "Pending"}
-                    </td>
-                    <td>
-                        <ButtonGroup>
-                            <Button variant="outline-dark">
-                                <PencilSquare fontSize="2rem" />
-                            </Button>
-                            <Button variant="outline-dark">
-                                <Trash fontSize="2rem" />
-                            </Button>
-                            <Button variant="outline-dark">
-                                <ZoomIn fontSize="2rem" />
-                            </Button>
-                        </ButtonGroup>
-                    </td>
-                </tr>
-            </tr>
+        <tr>
+            <td>
+                {formatDate(order.order_date)}
+            </td>
+            <td>
+                {toggleName ? <Form.Control
+                    onChange={((e)=>{setName(e.target.value)})}
+                    value={name}
+                ></Form.Control> : order.name}
+            </td>
+            <td className="text-center">
+                {toggleEmail ? <Form.Control
+                    onChange={((e)=>{setEmail(e.target.value)})}
+                    value={email}
+                ></Form.Control> : order.email}
+            </td>
+            <td>
+                {order.complete ? "Sent (Resend)" : "Pending"}
+            </td>
+            <td>
+                <ButtonGroup>
+                    <Button
+                        onClick={editMode}
+                        variant={toggleEmail ? "dark" : "outline-dark"}
+                        >
+                        <PencilSquare fontSize="2rem" />
+                    </Button>
+                    <Button variant="outline-dark">
+                        <Trash fontSize="2rem" />
+                    </Button>
+                    <Button variant="outline-dark">
+                        <ZoomIn fontSize="2rem" />
+                    </Button>
+                </ButtonGroup>
+            </td>
+        </tr>
     );
 }
 
 export default AdminTableRow;
-
-/* const flagFeedback = (feedback) => {
-    const flag = feedback.flagged;
-    axios.put(`/feedback/flag/${feedback.id}`, { flagged: !flag }).then((response) => { getFeedback(); }).catch((error) => { console.log(`HEY MITCH - CAN"T FLAG IT FOR SOME REASON ${error}`) })
-} */

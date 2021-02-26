@@ -6,7 +6,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-
+//import 'bootstrap/dist/css/bootstrap.min.css'; //uncomment for testing purposes
 import { useDispatch } from 'react-redux';
 
 import Header from '../Header/Header';
