@@ -54,7 +54,7 @@ function Gallery() {
   React.useEffect(() => {
     dispatch({ type: 'FETCH_GALLERY' })
   }, []);
-
+  //consider placing the modal in it's own component... it's a lot of code.
   return (
     <>
       <Modal
@@ -113,6 +113,7 @@ function Gallery() {
 
         </Modal.Body>
       </Modal>
+
       <div className="container">
         {gallery.map(image => {
           return (
@@ -126,7 +127,6 @@ function Gallery() {
         <Button
           onClick={() => {
             addUpCart(cart);
-            console.log('here is the total:', total)
             handleShowModal()
           }}
           variant="secondary">Email Selected</Button>{' '}
