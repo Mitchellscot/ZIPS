@@ -52,7 +52,32 @@ function AdminTableRow({ order }) {
                 }
                 else return;
             });
+    }
 
+    const sendEmails = () => {
+        swal({
+            title: `Email ${order.name}?`,
+            text: `You are about to send an email to ${order.email} - Are you sure about that?`,
+            icon: "warning",
+            dangerMode: true,
+            button: "SEND IT"
+        })
+        .then(willSend=> {
+            if (willSend){
+                let newEmail = {
+                    name: order.name,
+                    email: order.email,
+                    images: order.array_agg
+                }
+                dispatch({type: 'SEND_EMAIL', payload: newEmail});
+                axios.put(`/api/order/completed/${order.id}`).then((response)=>{
+                    dispatch({ type: 'FETCH_ORDERS' });
+                }).catch((error) => {
+                    console.log(`HEY MITCH - CAN'T SET ORDER AS COMPLETED: ${error}`);
+                });
+            }
+            else return;
+        })
     }
 
     const editMode = () => {
@@ -67,10 +92,10 @@ function AdminTableRow({ order }) {
             setToggleName(!toggleName);
             axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_ORDERS' })
+                    dispatch({ type: 'FETCH_ORDERS' });
                 })
                 .catch((error) => {
-                    console.log(`HEY MITCH - CAN"T CHANGE THE NAME OR EMAIL: ${error}`);
+                    console.log(`HEY MITCH - CAN'T CHANGE THE NAME OR EMAIL: ${error}`);
                 })
         }
     }
@@ -146,6 +171,7 @@ function AdminTableRow({ order }) {
                     <ButtonGroup>
                         <Button variant="outline-dark">
                             <Envelope
+                            onClick={sendEmails}
                             variant={order.complete ? "outline-dark" : "secondary"}
                             fontSize="2rem" />
                         </Button>

@@ -11,9 +11,9 @@ function GalleryItem({ image }) {
         setSelected(!selected);
     }
     const handleSelect = () => {
-    toggleSelected()
-    selected ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
-    dispatch({ type: 'ADD_TO_CART', payload: image });
+        toggleSelected()
+        selected ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
+            dispatch({ type: 'ADD_TO_CART', payload: image });
     }
 
     return (
@@ -24,9 +24,8 @@ function GalleryItem({ image }) {
             </li>
             <Button variant="primary"
                 onClick={handleSelect}
-                type="button">{cart.includes(image) ? <span>Unselect</span> : <span>Select this Image</span> }</Button>{' '}
+                type="button">{cart.includes(image) ? <span>Unselect</span> : <span>Select this Image</span>}</Button>{' '}
         </>
-
     );
 }
 
