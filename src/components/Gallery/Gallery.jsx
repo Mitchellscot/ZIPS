@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import swal from 'sweetalert';
+import { SRLWrapper } from "simple-react-lightbox";
 
 function Gallery() {
   const [modal, setModal] = React.useState(false);
@@ -122,6 +123,8 @@ function Gallery() {
         </Modal.Body>
       </Modal>
 
+      
+      <SRLWrapper>
       <div className="container">
         {gallery.map(image => {
           return (
@@ -130,7 +133,9 @@ function Gallery() {
             </ul>
           )
         })}
-      </div>
+        </div>
+        </SRLWrapper>
+      
       <div>
         <Button
           onClick={() => {

@@ -8,11 +8,9 @@ import {
 } from 'react-router-dom';
 //import 'bootstrap/dist/css/bootstrap.min.css'; //uncomment for testing purposes
 import { useDispatch } from 'react-redux';
-
+import SimpleReactLightbox from 'simple-react-lightbox'
 import Header from '../Header/Header';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LandingPage from '../LandingPage/LandingPage';
@@ -43,7 +41,9 @@ function App() {
             exact
             path="/gallery"
           >
+            <SimpleReactLightbox>
             <Gallery />
+            </SimpleReactLightbox>
           </ProtectedRoute>
           <ProtectedRoute
             
