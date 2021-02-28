@@ -8,8 +8,9 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import swal from 'sweetalert';
+import { Circle, Check2Circle, XCircle } from 'react-bootstrap-icons';
 
-function Checkout({modal, setModal, handleShowModal, handleCloseModal, total}) {
+function Checkout({ modal, setModal, handleShowModal, handleCloseModal, total }) {
 
     const cart = useSelector(store => store.cart);
     const dispatch = useDispatch();
@@ -59,10 +60,35 @@ function Checkout({modal, setModal, handleShowModal, handleCloseModal, total}) {
                     <Row>
                         <Col md={9}>
                             {/*TODO - Change the numbers to checkmarks representing progress, so 1st is checked*/}
-                            <p>1. Select your photos</p>
-                            <p>2. Enter your name and Email</p>
-                            <p>3. Pay at the register </p>
-                            <p>4. Check your email to download your photos!</p>
+                            <p>{Object.keys(cart).length === 0 ?
+                                <XCircle
+                                    color="red"
+                                    fontSize="1.2rem" /> :
+                                <Check2Circle
+                                    color="green"
+                                    fontSize="1.2rem" />
+                            }
+                                  Select your photos</p>
+                            <p>
+                                {name === "" ?
+                                    <Circle
+                                    color="royalblue"
+                                    fontSize="1.2rem"
+                                />
+                                    : 
+                                    <Check2Circle
+                                        color="green"
+                                        fontSize="1.2rem" />
+                                }
+                                 Enter your name and Email</p>
+                            <p><Circle
+                                color="royalblue"
+                                fontSize="1.2rem"
+                            /> Pay at the register </p>
+                            <p><Circle
+                                color="royalblue"
+                                fontSize="1.2rem"
+                            /> Check your email to download your photos!</p>
                         </Col>
                         <Col md={3}>
                             TOTAL PRICE

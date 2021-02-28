@@ -6,7 +6,6 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { CartCheckFill } from 'react-bootstrap-icons';
 import Checkout from '../Checkout/Checkout';
-import Modal from 'react-bootstrap/Modal';
 
 function GalleryHeader() {
   const history = useHistory();
@@ -23,12 +22,12 @@ function GalleryHeader() {
   }
 
   const addUpCart = (cart) => {
-    let sum = total
+    let sum = 0;
     for (const image of cart) {
       sum += 5
     }
-    setTotal(sum);
-    return total.toFixed(2);
+
+    return sum.toFixed(2);
   }
 
   const resetCart = () => {
@@ -58,7 +57,7 @@ function GalleryHeader() {
           >${Object.keys(cart).length === 0 ? "00.00" : addUpCart(cart)}</span>
         </div>
         <div className="checkoutButtons">
-          <ButtonGroup className={Object.keys(cart).length === 0 ? "invisible" : "visible"}>
+          <ButtonGroup>
             <Button
               variant="dark"
               type="button"
@@ -67,7 +66,10 @@ function GalleryHeader() {
             <Button
               variant="secondary"
               type="button"
-              onClick={handleShowModal}
+              onClick={() =>{
+                handleShowModal();
+                setTotal(addUpCart(cart));
+              }}
             >Checkout&nbsp;
           <CartCheckFill
                 fontSize="1.2rem"
