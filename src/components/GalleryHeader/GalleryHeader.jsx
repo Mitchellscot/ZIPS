@@ -18,31 +18,21 @@ function Header() {
     return sum.toFixed(2);
   }
 
-  let loginLinkData = {
-    path: '/login',
-    text: 'Login / Register',
-  };
-
-  if (user.id != null) {
-    loginLinkData.path = '/user';
-    loginLinkData.text = 'Home';
-  }
-
   const resetCart = () => {
     dispatch({type: 'CLEAR_CART'})
   }
 
   return (
-    <div className="nav gallery-header">
+    <div className="gallery-header">
       <Link to="/gallery">
         <h2 className="nav-title">Brainerd Zip Line Tour</h2>
       </Link>
       <div>
       <Button 
-      variation="dark"
+      variation="outline-dark"
       type="button"
         onClick={resetCart}
-        >Clear Selected</Button>
+        >Clear Cart</Button>
       <span>${Object.keys(cart).length === 0 ? "0.00" : addUpCart(cart)}</span>
       </div>
     </div>
