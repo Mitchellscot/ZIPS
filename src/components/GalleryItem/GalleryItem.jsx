@@ -25,7 +25,7 @@ function GalleryItem({ image }) {
     }
 
     return (
-        <Card className="shadow mb-3 bg-white rounded">
+        <Card className="shadow mb-3 bg-white rounded card">
             <a href={image.url}>
                 <Card.Img variant="top" src={image.url} alt={formatTime(image.created)} height="256px" width="320px" />
             </a>
