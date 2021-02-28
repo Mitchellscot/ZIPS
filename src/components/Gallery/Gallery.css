@@ -1,7 +1,4 @@
-container{
+.galleryContainer {
     min-height: 100%;
-    margin-bottom: -100px;
-}
-.push{
-    min-height: 100px;
-}
+    padding-top: 60px !important;
+  }

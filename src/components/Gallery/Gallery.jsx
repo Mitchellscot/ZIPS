@@ -1,10 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GalleryItem from '../GalleryItem/GalleryItem';
+import GalleryHeader from '../GalleryHeader/GalleryHeader';
 import Checkout from '../Checkout/Checkout';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import { SRLWrapper } from "simple-react-lightbox";
-import Footer from '../Footer/Footer';
+import './Gallery.css';
 
 function Gallery() {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function Gallery() {
 
   return (
     <>
-
+      <GalleryHeader />
       <Checkout 
       modal={modal}
       setModal={setModal}
@@ -46,7 +48,8 @@ function Gallery() {
       />
       
       <SRLWrapper>
-      <div className="container">
+        <Container>
+      <div className="container galleryContainer">
         {gallery.map(image => {
           return (
             <ul key={image.id}>
@@ -55,13 +58,8 @@ function Gallery() {
           )
         })}
         </div>
+        </Container>
         </SRLWrapper>
-      <Footer 
-      addUpCart={addUpCart}
-      handleShowModal={handleShowModal}
-      cart={cart}
-      />
-      <div className="push"></div>
     </>
   );
 }
