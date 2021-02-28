@@ -113,7 +113,7 @@ function AdminTableRow({ order }) {
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }
-
+//TODO: put the modal in it's own component
     return (
         <>
             <Modal

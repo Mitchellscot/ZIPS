@@ -5,6 +5,7 @@ import GalleryHeader from '../GalleryHeader/GalleryHeader';
 import Checkout from '../Checkout/Checkout';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
 import { SRLWrapper } from "simple-react-lightbox";
 import './Gallery.css';
 
@@ -38,7 +39,9 @@ function Gallery() {
 
   return (
     <>
-      <GalleryHeader />
+      <GalleryHeader 
+      
+      />
       <Checkout 
       modal={modal}
       setModal={setModal}
@@ -49,12 +52,12 @@ function Gallery() {
       
       <SRLWrapper>
         <Container>
-      <div className="container galleryContainer">
+      <div className="galleryContainer row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {gallery.map(image => {
           return (
-            <ul key={image.id}>
+            <Col key={image.id}>
               <GalleryItem image={image} />
-            </ul>
+            </Col>
           )
         })}
         </div>
