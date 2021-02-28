@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import './Header.css';
+import './GalleryHeader.css';
 import {useSelector, useDispatch} from 'react-redux';
 import Button from 'react-bootstrap/Button';
 
@@ -33,7 +33,7 @@ function Header() {
   }
 
   return (
-    <div className="nav">
+    <div className="nav gallery-header">
       <Link to="/gallery">
         <h2 className="nav-title">Brainerd Zip Line Tour</h2>
       </Link>

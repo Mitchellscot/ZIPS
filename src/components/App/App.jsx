@@ -8,9 +8,6 @@ import {
 } from 'react-router-dom';
 //import 'bootstrap/dist/css/bootstrap.min.css'; //uncomment for testing purposes
 import { useDispatch } from 'react-redux';
-
-import Header from '../Header/Header';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import Gallery from '../Gallery/Gallery';
@@ -18,7 +15,6 @@ import Admin from '../Admin/Admin';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-
 import './App.css';
 
 function App() {
@@ -31,7 +27,6 @@ function App() {
   return (
     <Router>
       <div>
-        <Header />
         <Switch>
           <Redirect exact from="/" to="/gallery" />
           {/* For protected routes, the view could show one of several things on the same route.
@@ -43,7 +38,9 @@ function App() {
             exact
             path="/gallery"
           >
+
             <Gallery />
+
           </ProtectedRoute>
           <ProtectedRoute
             
@@ -88,6 +85,7 @@ function App() {
           </Route>
         </Switch>
       </div>
+
     </Router>
   );
 }

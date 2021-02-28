@@ -1,0 +1,24 @@
+.gallery-header{
+    background-color: #1c632d;
+    color: white;
+    /* margin: 0 0 3000px; ??*/
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+}
+
+.gallery-header a {
+  text-decoration: none;
+}
+
+.nav-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #d3d4d4;
+  padding-left: 10px;
+  margin: 20px;
+}
