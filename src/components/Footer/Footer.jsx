@@ -1,12 +1,20 @@
 import './Footer.css';
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import * as bootstrap from 'react-bootstrap';
 
-function Footer(){
-    return(
+function Footer() {
+    return (
         <footer className="footer mt-auto py-3 bg-primary">
             <Container>
-                <h1>This is the footer. Stuff goes here.</h1>
+                <div>
+                    <Button
+                        onClick={() => {
+                            addUpCart(cart);
+                            handleShowModal()
+                        }}
+                        variant="secondary">Email Selected</Button>{' '}
+                </div>
             </Container>
         </footer>
     );

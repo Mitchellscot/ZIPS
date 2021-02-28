@@ -9,7 +9,7 @@ import {
 //import 'bootstrap/dist/css/bootstrap.min.css'; //uncomment for testing purposes
 import { useDispatch } from 'react-redux';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import Footer from '../Footer/Footer';
+
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LandingPage from '../LandingPage/LandingPage';
@@ -85,7 +85,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-      <Footer />
+
     </Router>
   );
 }

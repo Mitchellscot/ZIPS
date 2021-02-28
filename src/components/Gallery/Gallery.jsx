@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import GalleryItem from '../GalleryItem/GalleryItem';
 import Checkout from '../Checkout/Checkout';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
 import { SRLWrapper } from "simple-react-lightbox";
+import Footer from '../Footer/Footer';
 
 function Gallery() {
   const dispatch = useDispatch();
@@ -56,15 +56,12 @@ function Gallery() {
         })}
         </div>
         </SRLWrapper>
-      
-      <div>
-        <Button
-          onClick={() => {
-            addUpCart(cart);
-            handleShowModal()
-          }}
-          variant="secondary">Email Selected</Button>{' '}
-      </div>
+      <Footer 
+      addUpCart={addUpCart}
+      handleShowModal={handleShowModal}
+      cart={cart}
+      />
+      <div className="push"></div>
     </>
   );
 }
