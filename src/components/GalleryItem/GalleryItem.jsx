@@ -1,5 +1,4 @@
 import './GalleryItem.css';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -8,13 +7,9 @@ import Card from 'react-bootstrap/Card';
 function GalleryItem({ image }) {
     const cart = useSelector(store => store.cart);
     const dispatch = useDispatch();
-    const [selected, setSelected] = React.useState(false);
-    const toggleSelected = () => {
-        setSelected(!selected);
-    }
+
     const handleSelect = () => {
-        toggleSelected()
-        selected ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
+        cart.includes(image) ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
             dispatch({ type: 'ADD_TO_CART', payload: image });
     }
     const formatTime = (imageTime) => {
@@ -25,7 +20,7 @@ function GalleryItem({ image }) {
     }
 
     return (
-        <Card className="shadow mb-3 bg-white rounded">
+        <Card className="shadow mb-3 bg-white rounded card">
             <a href={image.url}>
                 <Card.Img variant="top" src={image.url} alt={formatTime(image.created)} height="256px" width="320px" />
             </a>

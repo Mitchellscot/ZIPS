@@ -1,24 +1,31 @@
 .gallery-header{
-    background-color: #1c632d;
     color: white;
     /* margin: 0 0 3000px; ??*/
     overflow: hidden;
-    display: flex;
-    justify-content: space-around;
     z-index: 100;
     position: fixed;
     width: 100%;
-    align-items: center;
+    border-bottom: solid gray 1px;;
 }
 
-.gallery-header a {
-  text-decoration: none;
+.total-amount{
+  font-size: 3rem;
+  text-shadow: 0 2px 3px #333;
+  font-family: 'Roboto', sans-serif;
+  align-self: center;
+  flex: 0 1 200px;
 }
 
-.nav-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #d3d4d4;
-  padding-left: 10px;
-  margin: 20px;
+.visible{
+  visibility: visible;
+}
+.invisible{
+  visibility: hidden;
+}
+
+.checkoutButtons{
+  font-family: 'Roboto', sans-serif;
+}
+
+img {
 }
