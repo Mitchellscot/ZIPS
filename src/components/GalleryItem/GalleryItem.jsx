@@ -20,7 +20,7 @@ function GalleryItem({ image }) {
     return (
         <>
             <a href={image.url}>
-                <img src={image.url} alt={image.id} height="150px" width="150px" />
+                <img src={image.url} alt={image.id} height="256px" width="320px" />
             </a>
 
             <Button variant="primary"

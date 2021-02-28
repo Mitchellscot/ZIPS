@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-
+import SimpleReactLightbox from 'simple-react-lightbox'
 import rootReducer from './redux/reducers/_root.reducer'; // imports ./redux/reducers/index.js
 import rootSaga from './redux/sagas/_root.saga'; // imports ./redux/sagas/index.js
 
@@ -32,8 +32,10 @@ const store = createStore(
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
+  <SimpleReactLightbox>
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById('react-root'),
+  </Provider>
+  </SimpleReactLightbox>,
+  document.getElementById('react-root')
 );
