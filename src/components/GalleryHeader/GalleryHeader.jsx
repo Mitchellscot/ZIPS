@@ -17,9 +17,7 @@ function GalleryHeader() {
   const handleShowModal = () => {
     setModal(true);
   }
-  const handleCloseModal = () => {
-    setModal(false);
-  }
+
 
   const addUpCart = (cart) => {
     let sum = 0;
@@ -40,7 +38,6 @@ function GalleryHeader() {
         modal={modal}
         setModal={setModal}
         handleShowModal={handleShowModal}
-        handleCloseModal={handleCloseModal}
         total={total}
       />
       <div className="gallery-header shadow bg-primary d-flex justify-content-around align-items-center">

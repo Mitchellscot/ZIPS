@@ -10,13 +10,18 @@ import Row from 'react-bootstrap/Row';
 import swal from 'sweetalert';
 import { Circle, Check2Circle, XCircle } from 'react-bootstrap-icons';
 
-function Checkout({ modal, setModal, handleShowModal, handleCloseModal, total }) {
+function Checkout({ modal, setModal, total }) {
 
     const cart = useSelector(store => store.cart);
     const dispatch = useDispatch();
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
 
+    const handleCloseModal = () => {
+        setModal(false);
+        setName('');
+        setEmail('');
+      }
     const handleSubmit = event => {
         swal({
             title: "Thank you!",
@@ -70,7 +75,7 @@ function Checkout({ modal, setModal, handleShowModal, handleCloseModal, total })
                             }
                                   Select your photos</p>
                             <p>
-                                {name === "" ?
+                                {email === "" ?
                                     <Circle
                                     color="royalblue"
                                     fontSize="1.2rem"
