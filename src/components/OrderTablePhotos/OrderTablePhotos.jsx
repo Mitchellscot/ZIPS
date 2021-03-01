@@ -1,6 +1,7 @@
+import './OrderTablePhotos.css';
 import Carousel from 'react-bootstrap/Carousel';
 
-function Photos({image}){
+function OrderTablePhotos({image}){
     return(
         <>
             <img
@@ -11,4 +12,4 @@ function Photos({image}){
     );
 }
 
-export default Photos;
+export default OrderTablePhotos;
