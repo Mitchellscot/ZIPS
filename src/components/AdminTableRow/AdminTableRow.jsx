@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
 import swal from 'sweetalert';
-import Photos from './Photos';
+import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -124,7 +124,7 @@ function AdminTableRow({ order }) {
                 id="modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>
+                    <Modal.Title className="w-100 text-center">
                         <h1>Pictures From {order.name}'s Order</h1>
                     </Modal.Title>
                 </Modal.Header>
@@ -133,7 +133,7 @@ function AdminTableRow({ order }) {
                         {order.array_agg.map((image, i) => {
                             return (
                                 <Carousel.Item key={i}>
-                                    <Photos image={image} />
+                                    <OrderTablePhotos image={image} />
                                 </Carousel.Item>
                             )
                         })}

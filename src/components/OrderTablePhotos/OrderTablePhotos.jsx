@@ -1,17 +1,15 @@
+import './OrderTablePhotos.css';
 import Carousel from 'react-bootstrap/Carousel';
 
-function Photos({image}){
+function OrderTablePhotos({image}){
     return(
         <>
             <img
             className="d-block w-100"
-            height="400px" 
+            min-height="256px" min-width="320px"
             src={image} thumbnail/>
-            <Carousel.Caption>
-                <p>{image}</p>
-            </Carousel.Caption>
             </>
     );
 }
 
-export default Photos;
+export default OrderTablePhotos;
