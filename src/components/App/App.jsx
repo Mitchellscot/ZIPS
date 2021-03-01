@@ -26,7 +26,6 @@ function App() {
 
   return (
     <Router>
-      <div>
         <Switch>
           <Redirect exact from="/" to="/gallery" />
           {/* For protected routes, the view could show one of several things on the same route.
@@ -47,6 +46,7 @@ function App() {
             exact
             path="/admin"
           >
+            
             <Admin />
           </ProtectedRoute>
           {/* When a value is supplied for the authRedirect prop the user will
@@ -84,8 +84,6 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-      </div>
-
     </Router>
   );
 }

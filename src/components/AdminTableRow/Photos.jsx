@@ -5,11 +5,8 @@ function Photos({image}){
         <>
             <img
             className="d-block w-100"
-            height="400px" 
+            min-height="256px" min-width="320px"
             src={image} thumbnail/>
-            <Carousel.Caption>
-                <p>{image}</p>
-            </Carousel.Caption>
             </>
     );
 }

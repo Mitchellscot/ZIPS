@@ -124,7 +124,7 @@ function AdminTableRow({ order }) {
                 id="modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>
+                    <Modal.Title className="w-100 text-center">
                         <h1>Pictures From {order.name}'s Order</h1>
                     </Modal.Title>
                 </Modal.Header>
