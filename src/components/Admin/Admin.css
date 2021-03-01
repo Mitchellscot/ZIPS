@@ -3,22 +3,25 @@ table{
     text-align: center;
     vertical-align: middle;
 }
-li{
-    color: #00ffee;
-}
 .sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100; /* Behind the navbar */
-    padding: 48px 0 0; /* Height of navbar */
+    z-index: 99; /* Behind the navbar */
+    padding: 75px 0 0; /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  }
+  @media (max-width: 767.98px) {
+    .sidebar {
+      top: 5rem;
+      padding: 0;
+    }
   }
 .sidebar-sticky {
     position: relative;
     top: 0;
-    height: calc(100vh - 48px);
+    height: calc(100vh - 75px);
     padding-top: .5rem;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
@@ -45,4 +48,4 @@ li{
 .sidebar-heading {
     font-size: .75rem;
     text-transform: uppercase;
-}  
+} 
