@@ -56,24 +56,23 @@ function Checkout({ modal, setModal, total }) {
             id="modal"
         >
             <Modal.Header closeButton>
-                <Modal.Title id="modalTitle">
-                    <h1>Instructions</h1>
+                <Modal.Title className="w-100 text-center">
+                    <h1  text-center>{Object.keys(cart).length === 0 ? "You must first select your photos" : `$${total}`}</h1>
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Container fluid>
                     <Row>
-                        <Col md={9}>
-                            {/*TODO - Change the numbers to checkmarks representing progress, so 1st is checked*/}
+                        <Col md={8}>
                             <p>{Object.keys(cart).length === 0 ?
                                 <XCircle
                                     color="red"
-                                    fontSize="1.2rem" /> :
+                                    fontSize="1.3rem" /> :
                                 <Check2Circle
                                     color="green"
-                                    fontSize="1.2rem" />
+                                    fontSize="1.3rem" />
                             }
-                                  Select your photos</p>
+                                   &nbsp;Select your photos</p>
                             <p>
                                 {email === "" ?
                                     <Circle
@@ -83,9 +82,9 @@ function Checkout({ modal, setModal, total }) {
                                     : 
                                     <Check2Circle
                                         color="green"
-                                        fontSize="1.2rem" />
+                                        fontSize="1.3rem" />
                                 }
-                                 Enter your name and Email</p>
+                                   &nbsp;Enter your name and Email</p>
                             <p><Circle
                                 color="royalblue"
                                 fontSize="1.2rem"
@@ -95,9 +94,12 @@ function Checkout({ modal, setModal, total }) {
                                 fontSize="1.2rem"
                             /> Check your email to download your photos!</p>
                         </Col>
-                        <Col md={3}>
-                            TOTAL PRICE
-            <h1><span>${Object.keys(cart).length === 0 ? "0.00" : total}</span></h1>
+                        <Col md={4}>
+                            <img 
+                            height="150"
+                            width="161"
+                            src="circle-logo.jpg" alt ="bzt"/>
+            
                         </Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
