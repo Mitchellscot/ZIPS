@@ -12,7 +12,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+
 
 function OrdersTable() {
     const dispatch = useDispatch();
@@ -20,11 +20,14 @@ function OrdersTable() {
     const emails = useSelector(store => store.emails);
 
     React.useEffect(() => {
-        dispatch({ type: 'FETCH_ORDERS' });
+        dispatch({ type: 'FETCH_ALL_ORDERS' });
         dispatch({ type: 'FETCH_EMAIL_HISTORY' })
     }, []);
 
-
+    const handleInputChange = (event)=> {
+        dispatch({type: 'CLEAR_ORDERS'});
+        dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
+    }
 
     return (
         <Col>
@@ -32,6 +35,7 @@ function OrdersTable() {
             {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
                 <FormControl
+                    onChange={handleInputChange}
                     placeholder="Enter a name, date, or email..."
                 />
                 <InputGroup.Append>

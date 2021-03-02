@@ -55,9 +55,10 @@ router.get('/', (req, res) => {
         FROM "orders"
         JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
         JOIN "images" ON "order_ids"."image_id"="images"."id"
-        WHERE "orders"."name" ILIKE '%${query.q}%'
+        WHERE "orders"."name" ILIKE '%${query.q}%' OR "orders"."email" ILIKE '%${query.q}%'
         GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
         ORDER BY "complete" ASC;`
+        // OR "orders"."order_date" ILIKE '%${query.q}%'
     }
         pool.query(queryText).then((result) => {
             res.send(result.rows);
