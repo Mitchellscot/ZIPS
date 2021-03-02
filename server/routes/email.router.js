@@ -4,10 +4,28 @@ const sendEmail = require('../modules/send-email');
 const router = express.Router();
 const pool = require('../modules/pool');
 
+router.get('/date', (req, res) =>{
+    let query = req.query;
+    let queryText = `SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
+    FROM "emails"
+    JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
+    JOIN "images" ON "order_ids"."image_id"="images"."id"
+    WHERE CAST("emails"."date_sent" as date) = date '${query.q}'
+    GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
+    ORDER BY "date_sent" DESC;`
+    pool.query(queryText).then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
+        res.sendStatus(500);
+    })
+})
+
 router.get('/', (req, res) => {
-    //FIXXX!!!!!
-        //sends back a row with data from the orders table along with an array or URLs for the photos
-        const query = `
+    let queryText = '';
+    let query = req.query;
+    if (Object.keys(query).length === 0) {
+        queryText = `
         SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
         FROM "emails"
         JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
@@ -15,10 +33,23 @@ router.get('/', (req, res) => {
         GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
         ORDER BY "date_sent" DESC;
         `
-        pool.query(query).then((result)=>{
+    }
+    else {
+        queryText= `
+        SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
+        FROM "emails"
+        JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
+        JOIN "images" ON "order_ids"."image_id"="images"."id"
+        WHERE "emails"."name" ILIKE '%${query.q}%' 
+        OR "emails"."email_address" ILIKE '%${query.q}%' 
+        GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
+        ORDER BY "date_sent" DESC;
+        `
+    }
+        pool.query(queryText).then((result)=>{
             res.send(result.rows);
         }).catch((error)=>{
-            console.log(`HEY MITCH - COULDN"T GET THE EMAIL HISTORY ${error}`);
+            console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
              res.sendStatus(500);
             })
 });

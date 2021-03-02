@@ -1,6 +1,26 @@
 import axios from 'axios';
 import { put, takeEvery } from 'redux-saga/effects';
 
+function* fetchEmailsByDate(action){
+    try{
+        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${action.payload}`);
+        yield put({type: 'SET_EMAILS', payload: searchedEmailsByDateResponse.data});
+    }
+    catch(error){
+        console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY EMAILS BY DATE ${error}`);
+    }
+}
+
+function* fetchSearchedEmails(action) {
+    try {
+        const searchedEmailsResponse = yield axios.get(`/api/email?q=${action.payload}`);
+        yield put({type: 'SET_EMAILS', payload: searchedEmailsResponse.data});
+    }
+    catch (error){
+        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
+    }
+}
+
 function* sendEmail(action){
     try{
         yield axios.post(`/api/email`, {
@@ -30,6 +50,8 @@ function* fetchEmails() {
 function* emailSaga() {
     yield takeEvery('SEND_EMAIL', sendEmail);
     yield takeEvery('FETCH_EMAIL_HISTORY', fetchEmails);
+    yield takeEvery('SEARCH_EMAILS', fetchSearchedEmails );
+    yield takeEvery('SEARCH_EMAIL_DATES', fetchEmailsByDate);
   }
 
 export default emailSaga;

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './OrderTableRow.css';
-import { PencilSquare } from 'react-bootstrap-icons';
-import { Trash } from 'react-bootstrap-icons';
-import { ZoomIn } from 'react-bootstrap-icons';
-import { Envelope } from 'react-bootstrap-icons';
+import { PencilSquare, Images, Trash, ZoomIn, Envelope, Check2Circle } from 'react-bootstrap-icons';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -16,8 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge'
-import {check2Circle} from 'react-bootstrap-icons'
-import * as Icon from 'react-bootstrap-icons';
+
 
 //RENAME TO OrderTableRow
 function AdminTableRow({ order }) {
@@ -37,7 +33,7 @@ function AdminTableRow({ order }) {
         swal({
             title: "Are you sure?",
             text: `You are about to delete ${order.name}'s order... u sho 'bout dat? `,
-            icon: "warning",
+            icon: "error",
             dangerMode: true,
             button: "DELETE IT"
         })
@@ -45,6 +41,7 @@ function AdminTableRow({ order }) {
                 if (willDelete) {
                     axios.delete(`/api/order/delete/${order.id}`)
                         .then((response) => {
+                            
                             dispatch({ type: 'FETCH_ORDERS' })
                         })
                         .catch((error) => {
@@ -59,10 +56,11 @@ function AdminTableRow({ order }) {
         swal({
             title: `Email ${order.name}?`,
             text: `You are about to send an email to ${order.email} - Are you sure about that?`,
-            icon: "warning",
-            dangerMode: true,
-            button: "SEND IT"
-        })
+            icon: "info",
+            dangerMode: false,
+            buttons: true
+          }
+        )
         .then(willSend=> {
             if (willSend){
                 let newEmail = {
@@ -166,7 +164,7 @@ function AdminTableRow({ order }) {
                 <td className="align-middle text-center">
                     {order.complete ? 
                     <Badge pill variant="success">
-                        Sent    <Icon.Check2Circle />
+                        Sent    <Check2Circle />
                     </Badge>
                     : <Badge pill variant="warning">
                     Pending <Envelope />
@@ -187,7 +185,7 @@ function AdminTableRow({ order }) {
                             <PencilSquare fontSize="2rem" />
                         </Button>
                         <Button variant={modal ? "dark" : "outline-dark"}>
-                            <ZoomIn
+                            <Images
                                 onClick={() => {
                                     handleShowModal()
                                 }}

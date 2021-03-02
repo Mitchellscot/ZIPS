@@ -10,10 +10,6 @@ import EmailTableRow from '../EmailTableRow/EmailTableRow';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
-import {Zoom} from 'react-bootstrap-icons';
-
 
 function OrdersTable() {
     const dispatch = useDispatch();
@@ -28,15 +24,28 @@ function OrdersTable() {
     }, []);
 
     const handleInputChange = (event)=> {
-        dispatch({type: 'CLEAR_ORDERS'});
-        dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
+        if (tab === 'orders'){
+            dispatch({type: 'CLEAR_ORDERS'});
+            dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
+        }
+        else if (tab === 'emails'){
+            dispatch({type: 'CLEAR_EMAILS'});
+            dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
+        }
+
     }
 
     const handleDateSearch = () => {
-        console.log('button works');
-        console.log(dateQuery);
-        dispatch({type: 'CLEAR_ORDERS'});
-        dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
+        if (tab === 'orders'){
+            dispatch({type: 'CLEAR_ORDERS'});
+            dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
+        }
+        else if (tab === 'emails'){
+            dispatch({type: 'CLEAR_EMAILS'});
+            dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
+        }
+
+
     }
 
 /*     <DropdownButton
@@ -52,7 +61,6 @@ function OrdersTable() {
 
     return (
         <Col>
-
             {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
               <FormControl
@@ -64,10 +72,10 @@ function OrdersTable() {
               <span>OR..</span>
               </InputGroup.Text>
               <FormControl
-                    onChange={() => {setDateQuery(event.target.value); console.log(dateQuery);}}
+                    onChange={() => setDateQuery(event.target.value)}
                     type="date"
                 />
-                              <InputGroup.Append>
+                    <InputGroup.Append>          
                     <Button
                         onClick={handleDateSearch}
                         variant="outline-dark"
