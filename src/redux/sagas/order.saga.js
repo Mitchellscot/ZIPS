@@ -1,7 +1,27 @@
 import axios from 'axios';
 import { put, takeEvery } from 'redux-saga/effects';
 
-function* fetchOrders() {
+function* fetchOrdersByDate(action){
+    try{
+        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload}`);
+        yield put({type: 'SET_ORDERS', payload: searchedOrdersByDateResponse.data});
+    }
+    catch(error){
+        console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY DATE ${error}`);
+    }
+}
+
+function* fetchSearchedOrders(action) {
+    try {
+        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload}`);
+        yield put({type: 'SET_ORDERS', payload: searchedOrdersResponse.data});
+    }
+    catch (error){
+        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED ORDERS ${error}`);
+    }
+}
+
+function* fetchAllOrders() {
     try {
         const orderResponse = yield axios.get('/api/order');
         yield put({type: 'SET_ORDERS', payload: orderResponse.data});
@@ -29,7 +49,9 @@ function* addOrder(action){
 
 function* orderSaga() {
     yield takeEvery('ADD_ORDER', addOrder);
-    yield takeEvery('FETCH_ORDERS', fetchOrders)
+    yield takeEvery('FETCH_ALL_ORDERS', fetchAllOrders);
+    yield takeEvery('SEARCH_ORDERS', fetchSearchedOrders);
+    yield takeEvery('SEARCH_ORDER_DATES', fetchOrdersByDate);
   }
 
 export default orderSaga;

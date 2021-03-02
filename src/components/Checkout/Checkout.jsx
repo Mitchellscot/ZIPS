@@ -115,6 +115,7 @@ function Checkout({ modal, setModal, total }) {
                                     placeholder="Email" required />
                             </Col>
                         </Form.Row>
+                        <br />
                         <Row>
                             <Col lg={9}>
                                 <Button variant="dark" onClick={handleCloseModal}>Close</Button>

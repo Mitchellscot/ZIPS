@@ -59,16 +59,16 @@ function EmailTableRow({ email }) {
             />
 
             <tr>
-                <td>
+                <td className="align-middle text-center">
                     {formatDate(email.date_sent)}
                 </td>
-                <td>
+                <td className="align-middle text-center">
                     {email.name}
                 </td>
-                <td>
+                <td className="align-middle text-center">
                     {email.email_address}
                 </td>
-                <td>
+                <td className="align-middle text-center">
                     {email.total}
                 </td>
                 <td>

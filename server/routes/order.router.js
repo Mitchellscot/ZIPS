@@ -2,55 +2,87 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-router.delete('/delete/:id', (req, res)=>{
+router.delete('/delete/:id', (req, res) => {
     pool.query('DELETE FROM "orders" WHERE id=$1;', [req.params.id])
-    .then((result)=>{
-        res.sendStatus(200);
-    }).catch((error)=>{
-        console.log(`HEY MITCH - COULDN'T DELETE THE ORDER ${error}`);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log(`HEY MITCH - COULDN'T DELETE THE ORDER ${error}`);
+            res.sendStatus(500);
+        })
 })
 
-router.put('/update/:id', (req, res)=>{
+router.put('/update/:id', (req, res) => {
     const query = `UPDATE "orders" SET "name"=$1, "email"=$2 WHERE "id"=$3;`;
     pool.query(query, [req.body.name, req.body.email, req.params.id])
-    .then((result)=>{
-        res.sendStatus(200);
-    }).catch((error)=>{
-        console.log(`HEY MITCH - COULDN'T CHANGE THE NAME! ${error}`);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log(`HEY MITCH - COULDN'T CHANGE THE NAME! ${error}`);
+            res.sendStatus(500);
+        })
 })
 
-router.put('/completed/:id', (req, res)=>{
+router.put('/completed/:id', (req, res) => {
     let id = req.params.id;
     const query = `UPDATE "orders" SET "complete"='true' WHERE "id"=$1;`;
     pool.query(query, [id])
-    .then((result) =>{
-        res.sendStatus(200);
-    }).catch((error)=>{
-        console.log(`HEY MITCH - Couldn't make the update! - ${error}`);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log(`HEY MITCH - Couldn't make the update! - ${error}`);
+            res.sendStatus(500);
+        })
 });
 
-router.get('/', (req, res) => {
-    //sends back a row with data from the orders table along with an array or URLs for the photos
-    const query = `
-    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+router.get('/date', (req, res) =>{
+    let query = req.query;
+    let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
+    WHERE CAST("orders"."order_date" as date) = date '${query.q}'
     GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
-    ORDER BY "complete" ASC;
-    `
-    pool.query(query).then((result)=>{
+    ORDER BY "complete" ASC;`;
+    pool.query(queryText).then((result) => {
         res.send(result.rows);
-    }).catch((error)=>{
-        console.log(`HEY MITCH - COULDN"T GET THE ORDERS ${error}`);
-         res.sendStatus(500);
-        })
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED ORDERS ${error}`);
+        res.sendStatus(500);
+    })
+})
+
+router.get('/', (req, res) => {
+    let queryText = '';
+    let query = req.query;
+    //if there is no query string, get them all. If there is a query string, send a sql query with that name in it. (stretch goal)
+    if (Object.keys(query).length === 0) {
+        //sends back a row with data from the orders table along with an array or URLs for the photos
+        queryText = `
+        SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+        FROM "orders"
+        JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
+        JOIN "images" ON "order_ids"."image_id"="images"."id"
+        GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
+        ORDER BY "complete" ASC;`
+    }
+    else {
+        queryText = `
+        SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+        FROM "orders"
+        JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
+        JOIN "images" ON "order_ids"."image_id"="images"."id"
+        WHERE "orders"."name" ILIKE '%${query.q}%' 
+        OR "orders"."email" ILIKE '%${query.q}%' 
+        GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
+        ORDER BY "complete" ASC;`
+    }
+    pool.query(queryText).then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
+        res.sendStatus(500);
+    })
 });
 
 router.post('/', (req, res) => {
