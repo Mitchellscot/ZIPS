@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './AdminTableRow.css';
+import './OrderTableRow.css';
 import { PencilSquare } from 'react-bootstrap-icons';
 import { Trash } from 'react-bootstrap-icons';
 import { ZoomIn } from 'react-bootstrap-icons';
@@ -144,26 +144,26 @@ function AdminTableRow({ order }) {
                 </Modal.Body>
             </Modal>
             <tr>
-                <td>
+                <td className="align-middle text-center">
                     {formatDate(order.order_date)}
                 </td>
-                <td>
+                <td className="align-middle text-center">
                     {toggleName ? <Form.Control
-                        className="text-center"
+                        className="text-center align-middle"
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setName(e.target.value) })}
                         value={name}
                     ></Form.Control> : order.name}
                 </td>
-                <td className="text-center">
+                <td className="text-center align-middle">
                     {toggleEmail ? <Form.Control
-                        className="text-center"
+                        className="text-center align-middle"
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setEmail(e.target.value) })}
                         value={email}
                     ></Form.Control> : order.email}
                 </td>
-                <td>
+                <td className="align-middle text-center">
                     {order.complete ? 
                     <Badge pill variant="success">
                         Sent    <Icon.Check2Circle />

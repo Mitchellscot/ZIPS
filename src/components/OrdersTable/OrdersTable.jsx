@@ -1,6 +1,6 @@
 import './OrdersTable.css';
 import Table from 'react-bootstrap/Table';
-import AdminTableRow from '../AdminTableRow/AdminTableRow';
+import OrderTableRow from '../OrderTableRow/OrderTableRow';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tabs from 'react-bootstrap/Tabs'
@@ -29,14 +29,13 @@ function OrdersTable() {
     return (
         <Col>
 
-
+            {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
                 <FormControl
                     placeholder="Enter a name, date, or email..."
                 />
-
                 <InputGroup.Append>
-                <ButtonGroup>
+
                     <DropdownButton
                         as={InputGroup.Append}
                         variant="outline-dark"
@@ -50,9 +49,9 @@ function OrdersTable() {
                     <Button
                         variant="outline-dark"
                     >GO</Button>
-                    </ButtonGroup>
                 </InputGroup.Append>
             </InputGroup>
+             {/* *************** */}
 
             <Tabs defaultActiveKey="orders" id="tabz">
                 <Tab eventKey="orders" title="Orders">
@@ -79,7 +78,7 @@ function OrdersTable() {
                         {orders.map(order => {
                             return (
                                 <tbody key={order.id}>
-                                    <AdminTableRow order={order} />
+                                    <OrderTableRow order={order} />
                                 </tbody>
                             )
                         })}
