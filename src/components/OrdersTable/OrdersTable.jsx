@@ -12,12 +12,14 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import {Zoom} from 'react-bootstrap-icons';
 
 
 function OrdersTable() {
     const dispatch = useDispatch();
     const orders = useSelector(store => store.orders);
     const emails = useSelector(store => store.emails);
+    const [tab, setTab] = useState('orders');
 
     React.useEffect(() => {
         dispatch({ type: 'FETCH_ALL_ORDERS' });
@@ -37,6 +39,7 @@ function OrdersTable() {
                 <FormControl
                     onChange={handleInputChange}
                     placeholder="Enter a name, date, or email..."
+                    type="text"
                 />
                 <InputGroup.Append>
 
@@ -57,7 +60,9 @@ function OrdersTable() {
             </InputGroup>
              {/* *************** */}
 
-            <Tabs defaultActiveKey="orders" id="tabz">
+            <Tabs 
+            onSelect={(t) => setTab(t)}
+            activeKey={tab} id="tabz">
                 <Tab eventKey="orders" title="Orders">
                     <Table striped bordered hover>
                         <thead>

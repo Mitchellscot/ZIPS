@@ -59,6 +59,7 @@ router.get('/', (req, res) => {
         GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
         ORDER BY "complete" ASC;`
         // OR "orders"."order_date" ILIKE '%${query.q}%'
+        //
     }
         pool.query(queryText).then((result) => {
             res.send(result.rows);
