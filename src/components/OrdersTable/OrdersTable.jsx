@@ -20,6 +20,7 @@ function OrdersTable() {
     const orders = useSelector(store => store.orders);
     const emails = useSelector(store => store.emails);
     const [tab, setTab] = useState('orders');
+    const [dateQuery, setDateQuery] = useState('');
 
     React.useEffect(() => {
         dispatch({ type: 'FETCH_ALL_ORDERS' });
@@ -31,29 +32,44 @@ function OrdersTable() {
         dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
     }
 
+    const handleDateSearch = () => {
+        console.log('button works');
+        console.log(dateQuery);
+        dispatch({type: 'CLEAR_ORDERS'});
+        dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
+    }
+
+/*     <DropdownButton
+    as={InputGroup.Append}
+    variant="outline-dark"
+    title="Search By"
+    id="searchDropDown"
+    >
+    <Dropdown.Item>Name</Dropdown.Item>
+    <Dropdown.Item>Email</Dropdown.Item>
+    <Dropdown.Item>Date</Dropdown.Item>
+    </DropdownButton> */
+
     return (
         <Col>
 
             {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
-                <FormControl
+              <FormControl
                     onChange={handleInputChange}
-                    placeholder="Enter a name, date, or email..."
+                    placeholder="Enter a name or email..."
                     type="text"
                 />
-                <InputGroup.Append>
-
-                    <DropdownButton
-                        as={InputGroup.Append}
-                        variant="outline-dark"
-                        title="Search By"
-                        id="searchDropDown"
-                    >
-                        <Dropdown.Item>Name</Dropdown.Item>
-                        <Dropdown.Item>Email</Dropdown.Item>
-                        <Dropdown.Item>Date</Dropdown.Item>
-                    </DropdownButton>
+              <InputGroup.Text id="input-group-text">
+              <span>OR..</span>
+              </InputGroup.Text>
+              <FormControl
+                    onChange={() => {setDateQuery(event.target.value); console.log(dateQuery);}}
+                    type="date"
+                />
+                              <InputGroup.Append>
                     <Button
+                        onClick={handleDateSearch}
                         variant="outline-dark"
                     >GO</Button>
                 </InputGroup.Append>

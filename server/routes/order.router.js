@@ -35,19 +35,36 @@ router.put('/completed/:id', (req, res) => {
         })
 });
 
+router.get('/date', (req, res) =>{
+    let query = req.query;
+    let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+    FROM "orders"
+    JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
+    JOIN "images" ON "order_ids"."image_id"="images"."id"
+    WHERE CAST("orders"."order_date" as date) = date '${query.q}'
+    GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
+    ORDER BY "complete" ASC;`;
+    pool.query(queryText).then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED ORDERS ${error}`);
+        res.sendStatus(500);
+    })
+})
+
 router.get('/', (req, res) => {
     let queryText = '';
-    let query = req.query
+    let query = req.query;
     //if there is no query string, get them all. If there is a query string, send a sql query with that name in it. (stretch goal)
     if (Object.keys(query).length === 0) {
         //sends back a row with data from the orders table along with an array or URLs for the photos
         queryText = `
-    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
-    FROM "orders"
-    JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
-    JOIN "images" ON "order_ids"."image_id"="images"."id"
-    GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
-    ORDER BY "complete" ASC;`
+        SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+        FROM "orders"
+        JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
+        JOIN "images" ON "order_ids"."image_id"="images"."id"
+        GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
+        ORDER BY "complete" ASC;`
     }
     else {
         queryText = `
@@ -55,19 +72,18 @@ router.get('/', (req, res) => {
         FROM "orders"
         JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
         JOIN "images" ON "order_ids"."image_id"="images"."id"
-        WHERE "orders"."name" ILIKE '%${query.q}%' OR "orders"."email" ILIKE '%${query.q}%'
+        WHERE "orders"."name" ILIKE '%${query.q}%' 
+        OR "orders"."email" ILIKE '%${query.q}%' 
         GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
         ORDER BY "complete" ASC;`
-        // OR "orders"."order_date" ILIKE '%${query.q}%'
-        //
     }
-        pool.query(queryText).then((result) => {
-            res.send(result.rows);
-        }).catch((error) => {
-            console.log(`HEY MITCH - COULDN"T GET THE ORDERS ${error}`);
-            res.sendStatus(500);
-        })
-    });
+    pool.query(queryText).then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
+        res.sendStatus(500);
+    })
+});
 
 router.post('/', (req, res) => {
     const newOrder = req.body;
@@ -98,27 +114,3 @@ router.post('/', (req, res) => {
 });
 
 module.exports = router;
-
-/* router.get('/', (req, res) => {
-    let queryText = '';
-    let query = req.query
-    //if there is no query string, get them all. If there is a query string, send a sql query with that name in it. (stretch goal)
-    if (Object.keys(query).length === 0) {
-        queryText = 'SELECT * FROM "treats" ORDER BY "id" DESC;';
-    }
-    else {
-        queryText = `SELECT * FROM "treats" WHERE "name" ILIKE '%${query.q}%'`
-    }
-    console.log(queryText);
-    pool.query(queryText).then(result => {
-      res.send(result.rows);
-    })
-    .catch(error => {
-      console.log('error getting treats', error);
-      res.sendStatus(500);
-    });
-  }); */
-
-/*
-function b(a){$.ajax({method:"GET",url:"/treats?q="+a}).done(function(b){console.log("GET /treats?q=",a,"returned ",b)
-*/
