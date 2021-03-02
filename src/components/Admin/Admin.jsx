@@ -17,7 +17,9 @@ function Admin() {
                     <AdminSideBar />
                     <Col md={10} lg={11} className="ml-sm-auto px-md-5 py-5">
                     <main className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-4 pb-2 mb-3 border border-bottom-0 rounded-top">
+                        
                         <OrdersTable />
+                        
                         </main>
                     </Col>
                 </Row>

@@ -42,11 +42,9 @@ function App() {
 
           </ProtectedRoute>
           <ProtectedRoute
-            
             exact
             path="/admin"
           >
-            
             <Admin />
           </ProtectedRoute>
           {/* When a value is supplied for the authRedirect prop the user will
