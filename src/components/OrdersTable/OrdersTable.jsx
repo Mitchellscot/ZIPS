@@ -7,6 +7,12 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab';
 import Col from 'react-bootstrap/Col';
 import EmailTableRow from '../EmailTableRow/EmailTableRow';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 function OrdersTable() {
     const dispatch = useDispatch();
@@ -15,10 +21,39 @@ function OrdersTable() {
 
     React.useEffect(() => {
         dispatch({ type: 'FETCH_ORDERS' });
-        dispatch({type: 'FETCH_EMAIL_HISTORY'})
+        dispatch({ type: 'FETCH_EMAIL_HISTORY' })
     }, []);
+
+
+
     return (
         <Col>
+
+
+          <InputGroup className="mb-3">
+                <FormControl
+                    placeholder="Enter a name, date, or email..."
+                />
+
+                <InputGroup.Append>
+                <ButtonGroup>
+                    <DropdownButton
+                        as={InputGroup.Append}
+                        variant="outline-dark"
+                        title="Search By"
+                        id="searchDropDown"
+                    >
+                        <Dropdown.Item>Name</Dropdown.Item>
+                        <Dropdown.Item>Email</Dropdown.Item>
+                        <Dropdown.Item>Date</Dropdown.Item>
+                    </DropdownButton>
+                    <Button
+                        variant="outline-dark"
+                    >GO</Button>
+                    </ButtonGroup>
+                </InputGroup.Append>
+            </InputGroup>
+
             <Tabs defaultActiveKey="orders" id="tabz">
                 <Tab eventKey="orders" title="Orders">
                     <Table striped bordered hover>
@@ -51,7 +86,7 @@ function OrdersTable() {
                     </Table>
                 </Tab>
                 <Tab eventKey="emails" title="Emails">
-                <Table striped bordered hover>
+                    <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th width="15%">

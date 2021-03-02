@@ -149,6 +149,7 @@ function AdminTableRow({ order }) {
                 </td>
                 <td>
                     {toggleName ? <Form.Control
+                        className="text-center"
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setName(e.target.value) })}
                         value={name}
@@ -156,6 +157,7 @@ function AdminTableRow({ order }) {
                 </td>
                 <td className="text-center">
                     {toggleEmail ? <Form.Control
+                        className="text-center"
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setEmail(e.target.value) })}
                         value={email}

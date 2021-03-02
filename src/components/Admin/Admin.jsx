@@ -34,7 +34,7 @@ function Admin() {
                     </Nav>
                     {/**************************************************/}
                     <Col md={9} lg={10} className="ml-sm-auto px-md-5 py-5">
-                    <main className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                    <main className="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border border-bottom-0 rounded-top">
                         <OrdersTable />
                         </main>
                     </Col>
