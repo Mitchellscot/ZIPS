@@ -19,6 +19,7 @@ import Badge from 'react-bootstrap/Badge'
 import {check2Circle} from 'react-bootstrap-icons'
 import * as Icon from 'react-bootstrap-icons';
 
+//RENAME TO OrderTableRow
 function AdminTableRow({ order }) {
 
     const dispatch = useDispatch();
@@ -67,7 +68,9 @@ function AdminTableRow({ order }) {
                 let newEmail = {
                     name: order.name,
                     email: order.email,
-                    images: order.array_agg
+                    images: order.array_agg,
+                    total: order.total,
+                    orderId: order.id
                 }
                 dispatch({type: 'SEND_EMAIL', payload: newEmail});
                 axios.put(`/api/order/completed/${order.id}`).then((response)=>{
@@ -109,7 +112,7 @@ function AdminTableRow({ order }) {
     };
     const formatDate = (orderDate) => {
         const date = new Date(orderDate);
-        const options = { month: "short", day: "numeric", year: "numeric" }
+        const options = { month: "numeric", day: "numeric", year: "numeric" }
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }

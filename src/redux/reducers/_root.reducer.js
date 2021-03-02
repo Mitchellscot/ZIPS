@@ -4,13 +4,15 @@ import user from './user.reducer';
 import gallery from './gallery.reducer.js';
 import cart from './cart.reducer';
 import orders from './order.reducer';
+import emails from './email.reducer';
 
 const rootReducer = combineReducers({
   errors,
   user,
   gallery,
   cart,
-  orders
+  orders,
+  emails
 });
 
 export default rootReducer;

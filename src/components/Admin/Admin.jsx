@@ -8,13 +8,12 @@ import OrdersTable from '../OrdersTable/OrdersTable';
 
 function Admin() {
 
-
     return (
         <>
             <AdminHeader />
             <Container fluid>
                 <Row>
-                    {/*CONSIDER PUTTING THIS IN IT'S OWN COMPONENT */}
+                    {/* CONSIDER PUTTING THIS IN IT'S OWN COMPONENT */}
                     <Nav className="sidebar col-md-3 col-lg-2 d-md-block bg-light  collapse" >
                         <div className="position-sticky pt-3">
                             <Nav defaultActiveKey="Orders"as="ul" className="nav flex-column">
