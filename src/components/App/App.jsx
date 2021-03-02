@@ -42,7 +42,6 @@ function App() {
 
           </ProtectedRoute>
           <ProtectedRoute
-            exact
             path="/admin"
           >
             <Admin />
@@ -78,9 +77,9 @@ function App() {
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
-          <Route>
+{/*           <Route>
             <h1>404</h1>
-          </Route>
+          </Route> */}
         </Switch>
     </Router>
   );

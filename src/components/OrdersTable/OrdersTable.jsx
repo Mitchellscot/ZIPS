@@ -63,13 +63,16 @@ function OrdersTable() {
         <Col>
             {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
+          <InputGroup.Text id="input-name-text">
+              <span>Search</span>
+              </InputGroup.Text>
               <FormControl
                     onChange={handleInputChange}
-                    placeholder="Enter a name or email..."
+                    placeholder="Name or email..."
                     type="text"
                 />
               <InputGroup.Text id="input-group-text">
-              <span>OR..</span>
+              <span>Or date</span>
               </InputGroup.Text>
               <FormControl
                     onChange={() => setDateQuery(event.target.value)}

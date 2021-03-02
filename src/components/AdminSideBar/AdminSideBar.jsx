@@ -1,35 +1,46 @@
 import './AdminSideBar.css';
 import Nav from 'react-bootstrap/Nav';
-import {InboxFill, Image, CameraFill, GearFill} from 'react-bootstrap-icons';
+import { InboxFill, Image, CameraFill, GearFill } from 'react-bootstrap-icons';
+import {
+    HashRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
 
-function AdminSideBar(){
-    return(
+function AdminSideBar() {
+    let match = useRouteMatch();
+    return (
         <Nav className="sidebar col-md-2 col-lg-1 d-md-block bg-light  collapse position-sticky pt-3" >
-            <Nav defaultActiveKey="Orders"as="ul" className="nav flex-column">
+            <Nav defaultActiveKey="Orders" as="ul" className="nav flex-column">
                 <Nav.Item as="li">
-                    <Nav.Link>
+                    <Link className="nav-link" role="button" to={`${match.url}/orders`}>
                         <InboxFill />
                         &nbsp;&nbsp;Orders
-                        </Nav.Link>
+                        </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link>
+                    <Link className="nav-link" role="button" to={`${match.url}/pictures`}>
                         <Image />
-                        &nbsp;&nbsp;Pictures</Nav.Link>
+                        &nbsp;&nbsp;Pictures
+                    </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link>
+                    <Link className="nav-link" role="button" to={`${match.url}/Camera`}>
                         <CameraFill />
-                        &nbsp;&nbsp;Camera </Nav.Link>
+                        &nbsp;&nbsp;Camera
+                        </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link>
+                    <Link className="nav-link" role="button" to={`${match.url}/Account`}>
                         <GearFill />
-                        &nbsp;&nbsp;Account </Nav.Link>
+                        &nbsp;&nbsp;Account
+                        </Link>
                 </Nav.Item>
             </Nav>
-
-    </Nav>
+        </Nav>
     );
 }
 
