@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
     GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
-    ORDER BY "complete" DESC;
+    ORDER BY "complete" ASC;
     `
     pool.query(query).then((result)=>{
         res.send(result.rows);

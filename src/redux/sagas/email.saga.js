@@ -6,7 +6,9 @@ function* sendEmail(action){
         yield axios.post(`/api/email`, {
             name: action.payload.name,
             email: action.payload.email,
-            images: action.payload.images
+            images: action.payload.images,
+            total: action.payload.total,
+            orderId: action.payload.orderId
         });
         yield put({type: 'FETCH_ORDERS'});
     }
@@ -15,8 +17,19 @@ function* sendEmail(action){
     }
 }
 
+function* fetchEmails() {
+    try {
+        const emailsResponse = yield axios.get('/api/email');
+        yield put({type: 'SET_EMAILS', payload: emailsResponse.data});
+    }
+    catch (error){
+        console.log(`HEY MITCH - COULDN'T GET THE EMAILS ${error}`);
+    }
+}
+
 function* emailSaga() {
     yield takeEvery('SEND_EMAIL', sendEmail);
+    yield takeEvery('FETCH_EMAIL_HISTORY', fetchEmails);
   }
 
 export default emailSaga;
