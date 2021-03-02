@@ -142,6 +142,15 @@ function AdminTableRow({ order }) {
                 </Modal.Body>
             </Modal>
             <tr>
+            <td className="align-middle text-center">
+                    {order.complete ? 
+                    <Badge pill variant="success">
+                        Sent    <Check2Circle />
+                    </Badge>
+                    : <Badge pill variant="warning">
+                    Pending <Envelope />
+                </Badge>}
+                </td>
                 <td className="align-middle text-center">
                     {formatDate(order.order_date)}
                 </td>
@@ -161,14 +170,8 @@ function AdminTableRow({ order }) {
                         value={email}
                     ></Form.Control> : order.email}
                 </td>
-                <td className="align-middle text-center">
-                    {order.complete ? 
-                    <Badge pill variant="success">
-                        Sent    <Check2Circle />
-                    </Badge>
-                    : <Badge pill variant="warning">
-                    Pending <Envelope />
-                </Badge>}
+                <td>
+                    {order.total}
                 </td>
                 <td>
                     <ButtonGroup>

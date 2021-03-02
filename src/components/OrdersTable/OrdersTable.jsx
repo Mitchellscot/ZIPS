@@ -91,17 +91,20 @@ function OrdersTable() {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                <th width="15%">
+                            <th width="10%">
+                                    Status
+                                </th>
+                                <th width="10%">
                                     Date
                                 </th>
-                                <th width="20%">
+                                <th width="25%">
                                     Name
                                 </th>
                                 <th width="25%">
                                     Email
                                 </th>
-                                <th width="15%">
-                                    Status
+                                <th width="10%">
+                                    Total
                                 </th>
                                 <th width="20%">
                                     Actions
