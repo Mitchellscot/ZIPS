@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import './EmailTableRow.css';
 import EmailTablePhotos from '../EmailTablePhotos/EmailTablePhotos';
 import EmailTableEmail from '../EmailTableEmail/EmailTableEmail';
-import { ZoomIn } from 'react-bootstrap-icons';
+import { Images, EnvelopeOpen } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Carousel from 'react-bootstrap/Carousel';
-import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 function EmailTableRow({ email }) {
-    const dispatch = useDispatch();
     const [photoModal, setPhotoModal] = useState(false);
     const [emailModal, setEmailModal] = useState(false);
 
@@ -26,11 +21,10 @@ function EmailTableRow({ email }) {
 
     const formatDate = (emailDate) => {
         const date = new Date(emailDate);
-        const options = { month: "short", day: "numeric", year: "numeric" }
+        const options = { month: "numeric", day: "numeric", year: "numeric", hour: "numeric", minute: "numeric" }
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }
-//TODO: put the modal in it's own component
     return (
         <>
             <Modal
@@ -57,24 +51,13 @@ function EmailTableRow({ email }) {
                     </Carousel>
                 </Modal.Body>
             </Modal>
-            <Modal
-                size="lg"
-                show={emailModal}
-                onHide={() => setEmailModal(!emailModal)}
-                backdrop="static"
-                id="email-modal"
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title className="w-100 text-center">
-                        <h1>Email sent to {email.name}</h1>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Carousel>
-                        <EmailTableEmail message={email.email_text} />
-                    </Carousel>
-                </Modal.Body>
-            </Modal>
+
+            <EmailTableEmail 
+            emailModal={emailModal}
+            setEmailModal={setEmailModal}
+            email={email}
+            />
+
             <tr>
                 <td>
                     {formatDate(email.date_sent)}
@@ -89,22 +72,22 @@ function EmailTableRow({ email }) {
                     {email.total}
                 </td>
                 <td>
+                    <ButtonGroup>
                 <Button variant={emailModal ? "dark" : "outline-dark"}>
-                            <ZoomIn
+                            <EnvelopeOpen
                                 onClick={() => {
                                     handleEmailModel()
                                 }}
                                 fontSize="2rem" />
                         </Button>    
-                </td>
-                <td>
                 <Button variant={photoModal ? "dark" : "outline-dark"}>
-                            <ZoomIn
+                            <Images
                                 onClick={() => {
                                     handlePhotoModal()
                                 }}
                                 fontSize="2rem" />
                         </Button>
+                        </ButtonGroup>
                 </td>
             </tr>
         </>

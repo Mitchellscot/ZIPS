@@ -112,7 +112,7 @@ function AdminTableRow({ order }) {
     };
     const formatDate = (orderDate) => {
         const date = new Date(orderDate);
-        const options = { month: "short", day: "numeric", year: "numeric" }
+        const options = { month: "numeric", day: "numeric", year: "numeric" }
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }

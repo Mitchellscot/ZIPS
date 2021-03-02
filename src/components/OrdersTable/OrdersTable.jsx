@@ -67,10 +67,7 @@ function OrdersTable() {
                                     Amount Paid
                                 </th>
                                 <th width="15%">
-                                    View Email
-                                </th>
-                                <th width="15%">
-                                    View Photos
+                                    View Email / Photos
                                 </th>
                             </tr>
                         </thead>
