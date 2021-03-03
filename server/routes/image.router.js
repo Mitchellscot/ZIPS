@@ -39,7 +39,8 @@ router.get('/date', (req, res)=>{
 
 //get all images that were created TODAY
 router.get('/', (req, res) => {
-  const query  = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now());`;
+  const query  = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now())
+  ORDER BY "show" DESC, "created" ASC;`;
   pool.query(query)
   .then((result) => {res.send(result.rows);})
   .catch((error)=>{

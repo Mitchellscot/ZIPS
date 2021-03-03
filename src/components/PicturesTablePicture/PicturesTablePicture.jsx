@@ -9,15 +9,13 @@ import axios from 'axios';
 
 function PicturesTablePicture({ image, dateQuery }) {
     const dispatch = useDispatch();
-    const [show, setShow] = useState(false);
-    //This isn't setting show to the opposite of what it is, like it should... fix it in the morning.
+
     const handleShowImage = () => {
-        setShow(!show);
-        console.log(`Here is local state "show" ${show}`);
-        axios.put(`/api/image/show/${image.id}`, {show: show}).then((response)=>{
-            if (dateQuery !== '') {
+        axios.put(`/api/image/show/${image.id}`, {show: !image.show}).then((response)=>{
+            if (dateQuery === true) {
+                let dateQ = document.getElementById("picture-search-date").value;
                 dispatch({ type: 'RESET_IMAGES' });
-                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQuery });
+                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
             }
             else {
                 dispatch({ type: 'RESET_IMAGES' });
@@ -27,8 +25,6 @@ function PicturesTablePicture({ image, dateQuery }) {
             console.log(`HEY MITCH - CAN'T SHOW THE IMAGE: ${error}`);
         });
     }
-    //HEY MITCHELL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//You have to test this and see if you delete an image from another day if it reloads property!!
     const handleDelete = () => {
         swal({
             title: "Are you sure?",
@@ -41,9 +37,10 @@ function PicturesTablePicture({ image, dateQuery }) {
                 if (willDelete) {
                     axios.delete(`/api/image/delete/${image.id}`)
                         .then((response) => {
-                            if (dateQuery !== '') {
+                            if (dateQuery === true) {
+                                let dateQ = document.getElementById("picture-search-date").value;
                                 dispatch({ type: 'RESET_IMAGES' });
-                                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQuery });
+                                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
                             }
                             else {
                                 dispatch({ type: 'RESET_IMAGES' });

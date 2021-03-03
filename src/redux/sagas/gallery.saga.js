@@ -7,7 +7,7 @@ function* fetchImagesByDate(action){
         yield put({type: 'SET_IMAGES', payload: searchedImagesByDateResponse.data});
     }
     catch(error){
-        console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY DATE ${error}`);
+        console.log(`HEY MITCH - COULDN'T GET THE IMAGES BY DATE ${error}`);
     }
 }
 
