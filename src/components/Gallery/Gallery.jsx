@@ -34,8 +34,6 @@ function Gallery() {
     dispatch({ type: 'FETCH_GALLERY' })
   }, []);
 
-
-
   return (
     <>
       <GalleryHeader />

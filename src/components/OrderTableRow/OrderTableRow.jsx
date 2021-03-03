@@ -36,8 +36,7 @@ function AdminTableRow({ order }) {
             icon: "error",
             dangerMode: true,
             button: "DELETE IT"
-        })
-            .then(willDelete => {
+        }).then(willDelete => {
                 if (willDelete) {
                     axios.delete(`/api/order/delete/${order.id}`)
                         .then((response) => {

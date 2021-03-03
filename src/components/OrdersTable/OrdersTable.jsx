@@ -32,7 +32,6 @@ function OrdersTable() {
             dispatch({type: 'CLEAR_EMAILS'});
             dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
         }
-
     }
 
     const handleDateSearch = () => {
@@ -44,23 +43,10 @@ function OrdersTable() {
             dispatch({type: 'CLEAR_EMAILS'});
             dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
         }
-
-
     }
 
-/*     <DropdownButton
-    as={InputGroup.Append}
-    variant="outline-dark"
-    title="Search By"
-    id="searchDropDown"
-    >
-    <Dropdown.Item>Name</Dropdown.Item>
-    <Dropdown.Item>Email</Dropdown.Item>
-    <Dropdown.Item>Date</Dropdown.Item>
-    </DropdownButton> */
-
     return (
-        <Col>
+        <Col className="align-items-center justify-content-center">
             {/*ORDERS SEARCH */}
           <InputGroup className="mb-3">
           <InputGroup.Text id="input-name-text">

@@ -10,7 +10,7 @@ router.delete('/delete/:id', (req, res) => {
             console.log(`HEY MITCH - COULDN'T DELETE THE ORDER ${error}`);
             res.sendStatus(500);
         })
-})
+});
 
 router.put('/update/:id', (req, res) => {
     const query = `UPDATE "orders" SET "name"=$1, "email"=$2 WHERE "id"=$3;`;
