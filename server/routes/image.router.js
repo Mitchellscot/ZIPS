@@ -25,6 +25,15 @@ router.delete('/delete/:id', (req, res) => {
       })
 });
 
+router.get('/shown', (req, res)=>{
+  let queryText = `SELECT * FROM "images" WHERE "show"=true;`;
+  pool.query(queryText)
+  .then((result) => {res.send(result.rows);})
+  .catch((error)=>{
+    console.log('HEY MITCH - COULDN\'T GET THE IMAGES MARKED AS SHOWN', error); 
+    res.sendStatus(500);});
+})
+
 //selects all images that were created on a given date
 router.get('/date', (req, res)=>{
   let query = req.query;
