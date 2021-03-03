@@ -40,8 +40,10 @@
 .sidebar .nav-link.active .feather {
     color: inherit;
 }
-  
 .sidebar-heading {
-    font-size: .75rem;
+    font-size: .2rem;
     text-transform: uppercase;
 } 
+.nav-link{
+    font-size: 1.3rem;
+}

@@ -2,5 +2,5 @@
     border-radius: 3px 0px 0px 3px !important;
 }
 #keepWide{
-    min-width: 1140px;
+    min-width: 100%;
 }

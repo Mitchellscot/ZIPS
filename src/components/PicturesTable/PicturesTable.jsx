@@ -9,6 +9,8 @@ import Container from 'react-bootstrap/Container';
 import GalleryItem from '../GalleryItem/GalleryItem';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
+import PicturesTablePicture from '../PicturesTablePicture/PicturesTablePicture';
 
 function PicturesTable() {
     const dispatch = useDispatch();
@@ -26,9 +28,10 @@ function PicturesTable() {
 
     return (
         <>
-        <SRLWrapper>
-                <div id="keepWide" className="d-flex" >
-            <InputGroup className="mb-3 w-50 px-3">
+        <Container fluid>
+            <Row className="pb-3">
+                <Col className="d-flex flex-nowrap align-items-center">
+                <InputGroup className="input-group-md">
                 <InputGroup.Text id="input-date-text">
                     <span >Date</span>
                 </InputGroup.Text>
@@ -40,25 +43,38 @@ function PicturesTable() {
                     <Button
                         onClick={handleSearch}
                         variant="outline-dark"
-                    >GO</Button>
+                    >Search</Button>
                 </InputGroup.Append>
             </InputGroup>
             <Button
+            className="mx-2"
+            size="md"
             onClick={getTodaysImages}
-            variant="outline-dark">Get Today</Button>
-            </div>
-            <Container fluid>
-                    <Row className="row-cols-5 row-cols-sm-3 row-cols-md-5">
+            variant="outline-dark">Today</Button>
+            </Col>
+            <Col className="text-center">  
+            <h1>Can put text here if you want</h1>
+            </Col>                 
+            </Row>
+
+            <Row>
+            <SRLWrapper>
+                    <Row className="row-cols-6 row-cols-sm-3 row-cols-md-5 px-3">
                         {gallery.map(image => {
                             return (
                                 <Col key={image.id}>
-                                    <GalleryItem image={image} />
+                                    <PicturesTablePicture 
+                                    dateQuery={dateQuery}
+                                    image={image} />
                                 </Col>
                             )
                         })}
                     </Row>
+                    </SRLWrapper>
+
+                    </Row>
                 </Container>
-            </SRLWrapper>
+            
         </>
     );
 }
