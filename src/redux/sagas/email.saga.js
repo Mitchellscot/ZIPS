@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function* fetchEmailsByDate(action){
     try{
@@ -50,8 +50,8 @@ function* fetchEmails() {
 function* emailSaga() {
     yield takeEvery('SEND_EMAIL', sendEmail);
     yield takeEvery('FETCH_EMAIL_HISTORY', fetchEmails);
-    yield takeEvery('SEARCH_EMAILS', fetchSearchedEmails );
-    yield takeEvery('SEARCH_EMAIL_DATES', fetchEmailsByDate);
+    yield takeLatest('SEARCH_EMAILS', fetchSearchedEmails );
+    yield takeLatest('SEARCH_EMAIL_DATES', fetchEmailsByDate);
   }
 
 export default emailSaga;
