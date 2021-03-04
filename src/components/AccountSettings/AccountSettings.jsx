@@ -1,6 +1,6 @@
 import './AccountSettings.css';
-import {useEffect, useSelector} from 'react';
-import {useDispatch} from 'react-redux';
+import {useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,9 +10,9 @@ import {Pencil, PencilFill} from 'react-bootstrap-icons'
 
 function AccountSettings() {
     const dispatch = useDispatch();
-
-    useEffect({
-        
+    const emailSettings = useSelector(store => store.emailSettings)
+    useEffect(()=>{
+        dispatch({type: 'FETCH_EMAIL_SETTINGS'})
     },[]);
 
     return (
@@ -26,7 +26,7 @@ function AccountSettings() {
                         Sending Email
                     </td>
                     <td >
-                        bztinfo@ziplinemn.com
+                        {emailSettings.source_email}
                         &nbsp;&nbsp;<Pencil />
                     </td>
                     </tr>

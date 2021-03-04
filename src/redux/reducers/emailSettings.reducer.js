@@ -1,8 +1,8 @@
 const emailSettingsReducer = (state = [], action) => {
     switch (action.type) {
-        case 'SET_EMAILSETTINGS':
+        case 'SET_EMAIL_SETTINGS':
             return action.payload;
-        case 'CLEAR_EMAILSETTINGS':
+        case 'CLEAR_EMAIL_SETTINGS':
             return [];
         default:
             return state;

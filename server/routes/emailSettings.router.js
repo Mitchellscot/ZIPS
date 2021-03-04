@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     const query = `SELECT * FROM "email_settings";`
-    pool.query(queryText).then((result) => {
+    pool.query(query).then((result) => {
         res.send(result.rows);
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE EMAIL SETTINGS ${error}`);
