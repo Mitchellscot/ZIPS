@@ -18,7 +18,7 @@ function Admin() {
                 <Row>
                     <AdminSideBar />
                     <Col md={10} lg={11} className="ml-sm-auto px-md-5 py-3">
-                        <main className="d-flex flex-wrap flex-md-nowrap pt-4 pb-2 mb-3 border border-bottom-0 rounded-top">
+                        <main className="d-flex flex-wrap flex-md-nowrap pt-4 border border-bottom-0 rounded-top">
                         <Switch>
                         <Route path="/Admin/orders">
                             <OrdersTable />

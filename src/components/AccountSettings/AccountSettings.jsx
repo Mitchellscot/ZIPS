@@ -3,19 +3,59 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Table from 'react-bootstrap/Table';
+import {Pencil, PencilFill} from 'react-bootstrap-icons'
 
 function AccountSettings() {
     return (
-        <Container fluid>
-                <Form>
-                    <h4>Email Settings</h4>
-                <Form.Group controlId="exampleForm.ControlInput1" className="d-flex justify-content-between">
-                        <Form.Label className="fluid">
+        <Container>
+            <Col className="">
+            <h4>Email Settings</h4>
+            <Table bordered>
+                <tbody>
+                    <tr >
+                    <td width="20%" class="font-weight-bold">
                         Sending Email
-                        </Form.Label>
-                        <Form.Control className="mx-auto" type="email" placeHolder="bztinfo@ziplinemn.com" />
-                    </Form.Group>
-                </Form>
+                    </td>
+                    <td >
+                        bztinfo@ziplinemn.com
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" class="font-weight-bold">
+                        Reply to Email
+                    </td>
+                    <td>
+                        mscott@ziplinemn.com
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" class="font-weight-bold">
+                        Subject
+                    </td>
+                    <td>
+                        Thank you for your order!
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" class="font-weight-bold">
+                        Body
+                    </td>
+                    <td>
+                        Here is the body of the email
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+
+                </tbody>
+            </Table>
+            </Col>
+            <Col>
+            
+            </Col>
         </Container >
     );
 }
