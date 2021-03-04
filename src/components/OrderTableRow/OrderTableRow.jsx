@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './OrderTableRow.css';
-import { PencilSquare, Images, Trash, ZoomIn, Envelope, Check2Circle } from 'react-bootstrap-icons';
+import { PencilSquare, Images, Trash, Envelope, Check2Circle } from 'react-bootstrap-icons';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -10,14 +10,11 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge'
 
 
 //RENAME TO OrderTableRow
-function AdminTableRow({ order }) {
-
+function OrderTableRow({ order }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -40,8 +37,7 @@ function AdminTableRow({ order }) {
                 if (willDelete) {
                     axios.delete(`/api/order/delete/${order.id}`)
                         .then((response) => {
-                            
-                            dispatch({ type: 'FETCH_ORDERS' })
+                            dispatch({ type: 'FETCH_ALL_ORDERS' })
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE ORDER: ${error}`);
@@ -71,7 +67,7 @@ function AdminTableRow({ order }) {
                 }
                 dispatch({type: 'SEND_EMAIL', payload: newEmail});
                 axios.put(`/api/order/completed/${order.id}`).then((response)=>{
-                    dispatch({ type: 'FETCH_ORDERS' });
+                    dispatch({ type: 'FETCH_ALL_ORDERS' });
                 }).catch((error) => {
                     console.log(`HEY MITCH - CAN'T SET ORDER AS COMPLETED: ${error}`);
                 });
@@ -92,13 +88,18 @@ function AdminTableRow({ order }) {
             setToggleName(!toggleName);
             axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_ORDERS' });
+                    dispatch({ type: 'FETCH_ALL_ORDERS' });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE NAME OR EMAIL: ${error}`);
                 })
         }
     }
+
+/*     React.useEffect(()=>{
+        dispatch({ type: 'FETCH_ALL_ORDERS' });
+    }, []) */
+
     //for editing the name and email fields 
     //completes the edit by pressing the enter key
     const handleKeypress = e => {
@@ -205,4 +206,4 @@ function AdminTableRow({ order }) {
     );
 }
 
-export default AdminTableRow;
+export default OrderTableRow;

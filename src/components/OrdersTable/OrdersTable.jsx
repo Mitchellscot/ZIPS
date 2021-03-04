@@ -44,7 +44,6 @@ function OrdersTable() {
             dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
         }
     }
-
     return (
         <Col className="align-items-center justify-content-center">
             {/*ORDERS SEARCH */}
@@ -74,7 +73,11 @@ function OrdersTable() {
              {/* *************** */}
 
             <Tabs 
-            onSelect={(t) => setTab(t)}
+            onSelect={(t) => {
+                setTab(t);
+                dispatch({ type: 'FETCH_ALL_ORDERS' });
+                dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+            }}
             activeKey={tab} id="tabz">
                 <Tab eventKey="orders" title="Orders">
                     <Table striped bordered hover>

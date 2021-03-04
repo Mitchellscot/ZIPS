@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './EmailTableRow.css';
 import EmailTablePhotos from '../EmailTablePhotos/EmailTablePhotos';
 import EmailTableEmail from '../EmailTableEmail/EmailTableEmail';
@@ -9,6 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 function EmailTableRow({ email }) {
+    const dispatch = useDispatch();
     const [photoModal, setPhotoModal] = useState(false);
     const [emailModal, setEmailModal] = useState(false);
 
@@ -25,6 +27,11 @@ function EmailTableRow({ email }) {
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }
+
+    React.useEffect(()=>{
+        dispatch({ type: 'FETCH_EMAIL_HISTORY' });
+    }, []);
+
     return (
         <>
             <Modal

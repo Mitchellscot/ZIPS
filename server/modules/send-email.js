@@ -11,8 +11,8 @@ var params = {
         /* more items */
       ]
     },
-    Message: { /* required */
-      Body: { /* required */
+    Message: { 
+      Body: { 
         Html: {
          Charset: "UTF-8",
          Data: emailBody
@@ -27,10 +27,10 @@ var params = {
         Data: `Thank you for zipping with us ${name}!`
        }
       },
-    Source: 'bztinfo@ziplinemn.com', /* required */
+    Source: 'bztinfo@ziplinemn.com', 
     ReplyToAddresses: [
        'mscott@ziplinemn.com',
-      /* more items */
+      
     ],
   };
   
