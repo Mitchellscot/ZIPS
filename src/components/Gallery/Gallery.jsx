@@ -28,7 +28,7 @@ const options = {
 
 function Gallery() {
   const dispatch = useDispatch();
-  const gallery = useSelector(store => store.gallery);
+  const gallery = useSelector(store => store.gallery.galleryReducer);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_GALLERY' })

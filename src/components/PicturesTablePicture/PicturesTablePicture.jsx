@@ -21,7 +21,7 @@ function PicturesTablePicture({ image, dateQuery }) {
             else {
                 dispatch({ type: 'RESET_IMAGES' });
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                dispatch({ type: 'FETCH_GALLERY' })
+                dispatch({ type: 'FETCH_TODAYS_IMAGES' })
             }
         }).catch((error) => {
             console.log(`HEY MITCH - CAN'T SHOW THE IMAGE: ${error}`);
@@ -48,7 +48,7 @@ function PicturesTablePicture({ image, dateQuery }) {
                             else {
                                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
                                 dispatch({ type: 'RESET_IMAGES' });
-                                dispatch({ type: 'FETCH_GALLERY' })
+                                dispatch({ type: 'FETCH_TODAYS_IMAGES' })
                             }
                         })
                         .catch((error) => {

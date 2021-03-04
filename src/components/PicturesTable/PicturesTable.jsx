@@ -27,12 +27,11 @@ function PicturesTable() {
 
     const setShownImagesToFalse = () => {
         shownImages.map(image => {
-            axios.put(`/api/image/show/${image.id}`, {show: !image.show}).then((response)=>{
+            axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
                 dispatch({ type: 'RESET_IMAGES' });
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' });
                 setShowMode(false);
-                console.log(`image with ${image.id} is not showing anymore`);
-            }).catch(error=>{console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`)});
+            }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
         })
     }
 
@@ -54,7 +53,7 @@ function PicturesTable() {
 
     const getTodaysImages = () => {
         setDateQuery(false);
-        dispatch({ type: 'FETCH_GALLERY' })
+        dispatch({ type: 'FETCH_TODAYS_IMAGES' })
     };
 
     useEffect(() => {
@@ -89,19 +88,22 @@ function PicturesTable() {
                             variant="outline-dark">Today</Button>
                     </Col>
                     <Col className="text-center d-flex justify-content-around">
-                        <h4>{"You are showing " + getNumberOfShown(shownImages) + " images in the Gallery"}</h4>
+                        <h4
+                        className={getNumberOfShown(shownImages) === 0 ? "invisible" : "visible"}
+                        >{"You are showing " + getNumberOfShown(shownImages) + " images in the Gallery"}</h4>
                     </Col>
-                    <Col className="text-center d-flex justify-content-around">
-                        <ButtonGroup size={"sm"}>
+                    <Col className="text-center d-flex justify-content-end">
+                        <ButtonGroup size={"sm"} className="mr-5">
                             <Button
                                 onClick={toggleShowMode}
                                 variant={showMode ? "dark" : "outline-dark"}
-                                >All Shown</Button>
-                            <Button 
+                            >All Shown</Button>
+                            <Button
                                 onClick={setShownImagesToFalse}
                                 variant="outline-dark">Hide All</Button>
                         </ButtonGroup>
                         <QuestionCircle
+                        className="ml-5 mr-4"
                             type="button"
                             onClick={() => { alert() }}
                             fontSize="2rem"

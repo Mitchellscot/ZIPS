@@ -169,7 +169,7 @@ function AdminTableRow({ order }) {
                         value={email}
                     ></Form.Control> : order.email}
                 </td>
-                <td>
+                <td className="text-center align-middle">
                     {order.total}
                 </td>
                 <td>

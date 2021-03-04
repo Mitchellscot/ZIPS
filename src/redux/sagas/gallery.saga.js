@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
+//gets all images that are marked as show=true
 function* fetchShownImages(){
     try{
         const allShownImages = yield axios.get(`/api/image/shown`);
@@ -11,6 +12,7 @@ function* fetchShownImages(){
     }
 }
 
+//gets all images that match a given date
 function* fetchImagesByDate(action){
     try{
         const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload}`);
@@ -21,8 +23,17 @@ function* fetchImagesByDate(action){
     }
 }
 
-//TODO - Get all images from the last 5 hours, plus all images where "show" = true
-//Need another as well that gets all images from the current day
+//Gets all images that were created today
+function* fetchTodaysImages() {
+    try {
+        const galleryResponse = yield axios.get('/api/image/today');
+        yield put({type: 'SET_IMAGES', payload: galleryResponse.data});
+    }
+    catch (error){
+        console.log(`HEY MITCH - COULDN'T GET THE PICTURES ${error}`);
+    }
+}
+
 function* fetchGallery() {
     try {
         const galleryResponse = yield axios.get('/api/image');
@@ -37,6 +48,7 @@ function* gallerySaga() {
     yield takeLatest('FETCH_GALLERY', fetchGallery);
     yield takeLatest('SEARCH_IMAGE_DATES', fetchImagesByDate);
     yield takeLatest('FETCH_SHOWN_IMAGES', fetchShownImages);
+    yield takeLatest('FETCH_TODAYS_IMAGES', fetchTodaysImages)
   }
 
 export default gallerySaga;
