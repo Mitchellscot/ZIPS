@@ -30,7 +30,6 @@ var params = {
     Source: 'bztinfo@ziplinemn.com', 
     ReplyToAddresses: [
        'mscott@ziplinemn.com',
-      
     ],
   };
   

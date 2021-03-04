@@ -60,6 +60,9 @@ router.post('/', (req, res) => {
     let total = req.body.total;
     let name = req.body.name;
     let emailAddress = req.body.email;
+
+    
+
     let email = EmailTemplate.createEmailTemplate(images, name);
     let plainTextEmail = EmailTemplate.createPlainTextEmail(images, name);
     try {
