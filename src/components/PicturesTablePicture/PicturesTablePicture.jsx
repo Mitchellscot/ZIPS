@@ -71,7 +71,7 @@ function PicturesTablePicture({ image, dateQuery }) {
             <a href={image.url}>
                 <Card.Img variant="top" src={image.url} alt={formatTime(image.created)} min-height="256px" min-width="320px" />
             </a>
-            <Card.Body className="d-flex justify-content-between align-items-center">
+            <Card.Body className="d-flex justify-content-around align-items-center px-0">
                 <Card.Subtitle className="mb-2 text-muted align-self-end"><b>{formatTime(image.created)}</b></Card.Subtitle>
                 <ButtonGroup size="sm">
                     <Button

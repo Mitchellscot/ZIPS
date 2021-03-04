@@ -57,6 +57,8 @@ function PicturesTable() {
     }
 
     const getTodaysImages = () => {
+        let day = new Date();
+        document.getElementById('picture-search-date').value = "2021-03-03"
         setDateQuery(false);
         setShowMode(false);
         dispatch({ type: 'FETCH_TODAYS_IMAGES' })
