@@ -6,8 +6,6 @@ const router = express.Router();
 
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
-  console.log(req.body.show);
-  console.log(req.params.id);
   const query = `UPDATE "images" SET "show"=$1 WHERE "id"=$2;`;
   pool.query(query, [req.body.show, req.params.id])
       .then((result) => {

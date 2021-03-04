@@ -1,4 +1,5 @@
 import './PicturesTable.css';
+import PictureTableInstructions from '../PictureTableInstructions/PictureTableInstructions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -18,6 +19,9 @@ function PicturesTable() {
     const [dateQuery, setDateQuery] = useState(false);
     const gallery = useSelector(store => store.gallery.galleryReducer);
     const shownImages = useSelector(store => store.gallery.shownImagesReducer);
+    const [showModal, setShowModal] = useState(false);
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
     //"show mode" means it's showing all images where show=true, instead of the standard gallery
     const [showMode, setShowMode] = useState(false);
 
@@ -36,6 +40,7 @@ function PicturesTable() {
     }
 
     const handleSearch = () => {
+        setShowMode(false);
         let dateQ = document.getElementById("picture-search-date").value;
         setDateQuery(true);
         if (dateQ === '') {
@@ -53,6 +58,7 @@ function PicturesTable() {
 
     const getTodaysImages = () => {
         setDateQuery(false);
+        setShowMode(false);
         dispatch({ type: 'FETCH_TODAYS_IMAGES' })
     };
 
@@ -60,9 +66,12 @@ function PicturesTable() {
         dispatch({ type: 'FETCH_SHOWN_IMAGES' })
     }, []);
 
-
     return (
         <>
+            <PictureTableInstructions 
+            showModal={showModal}
+            handleCloseModal={handleCloseModal}
+            />
             <Container fluid>
                 <Row className="pb-3">
                     <Col className="d-flex flex-nowrap align-items-center justify-content-around">
@@ -89,23 +98,22 @@ function PicturesTable() {
                     </Col>
                     <Col className="text-center d-flex justify-content-around">
                         <h4
-                        className={getNumberOfShown(shownImages) === 0 ? "invisible" : "visible"}
-                        >{"You are showing " + getNumberOfShown(shownImages) + " images in the Gallery"}</h4>
+                            className={getNumberOfShown(shownImages) === 0 ? "invisible" : "visible"}
+                        >{ "Images added to the gallery: " + getNumberOfShown(shownImages)}</h4>
                     </Col>
                     <Col className="text-center d-flex justify-content-end">
-                        <ButtonGroup size={"sm"} className="mr-5">
                             <Button
+                                className="mr-3"
                                 onClick={toggleShowMode}
                                 variant={showMode ? "dark" : "outline-dark"}
                             >All Shown</Button>
                             <Button
                                 onClick={setShownImagesToFalse}
                                 variant="outline-dark">Hide All</Button>
-                        </ButtonGroup>
                         <QuestionCircle
-                        className="ml-5 mr-4"
+                            className="ml-5 mr-4"
                             type="button"
-                            onClick={() => { alert() }}
+                            onClick={handleShowModal}
                             fontSize="2rem"
                             variant="outline-dark"></QuestionCircle>
                     </Col>
