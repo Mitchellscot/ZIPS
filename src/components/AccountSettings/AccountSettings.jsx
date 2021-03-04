@@ -20,9 +20,9 @@ function AccountSettings() {
             <Col className="">
             <h4>Email Settings</h4>
             <Table bordered>
-                <tbody>
+                <tbody className="text-left">
                     <tr >
-                    <td width="20%" class="font-weight-bold">
+                    <td width="20%" className="font-weight-bold">
                         Sending Email
                     </td>
                     <td >
@@ -31,33 +31,77 @@ function AccountSettings() {
                     </td>
                     </tr>
                     <tr >
-                    <td width="20%" class="font-weight-bold">
+                    <td width="20%" className="font-weight-bold">
                         Reply to Email
                     </td>
                     <td>
-                        mscott@ziplinemn.com
+                    {emailSettings.reply_to_email}
                         &nbsp;&nbsp;<Pencil />
                     </td>
                     </tr>
                     <tr >
-                    <td width="20%" class="font-weight-bold">
+                    <td width="20%" className="font-weight-bold">
                         Subject
                     </td>
                     <td>
-                        Thank you for your order!
+                    {emailSettings.subject}
                         &nbsp;&nbsp;<Pencil />
                     </td>
                     </tr>
                     <tr >
-                    <td width="20%" class="font-weight-bold">
-                        Body
+                    <td width="20%" className="font-weight-bold">
+                        Header
                     </td>
                     <td>
-                        Here is the body of the email
+                    {emailSettings.header}
                         &nbsp;&nbsp;<Pencil />
                     </td>
                     </tr>
-
+                    <tr >
+                    <td width="20%" className="font-weight-bold">
+                        Body
+                    </td>
+                    <td>
+                    {emailSettings.body}
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" className="font-weight-bold">
+                        Business Name
+                    </td>
+                    <td>
+                    {emailSettings.business_name}
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" className="font-weight-bold">
+                        Business Email
+                    </td>
+                    <td>
+                    {emailSettings.business_email}
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" className="font-weight-bold">
+                        Business Website
+                    </td>
+                    <td>
+                    {emailSettings.business_website}
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
+                    <tr >
+                    <td width="20%" className="font-weight-bold">
+                        Business Phone
+                    </td>
+                    <td>
+                    {emailSettings.business_website}
+                        &nbsp;&nbsp;<Pencil />
+                    </td>
+                    </tr>
                 </tbody>
             </Table>
             </Col>

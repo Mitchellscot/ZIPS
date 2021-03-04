@@ -14,12 +14,10 @@ function PicturesTablePicture({ image, dateQuery }) {
         axios.put(`/api/image/show/${image.id}`, {show: !image.show}).then((response)=>{
             if (dateQuery === true) {
                 let dateQ = document.getElementById("picture-search-date").value;
-                dispatch({ type: 'RESET_IMAGES' });
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
                 dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
             }
             else {
-                dispatch({ type: 'RESET_IMAGES' });
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
                 dispatch({ type: 'FETCH_TODAYS_IMAGES' })
             }

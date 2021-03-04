@@ -33,7 +33,7 @@ function* fetchTodaysImages() {
         console.log(`HEY MITCH - COULDN'T GET THE PICTURES ${error}`);
     }
 }
-
+// gets all images that are 5 hours old
 function* fetchGallery() {
     try {
         const galleryResponse = yield axios.get('/api/image');
