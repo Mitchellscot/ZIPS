@@ -3,12 +3,11 @@ var AWS = require('aws-sdk');
 // Set the region 
 AWS.config.update({region: 'us-east-2'});
 
-function sendEmail(emailBody, plainTextEmail, sendToAddress, name){
+function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyEmail, subject){
     // Create sendEmail params 
 var params = {
     Destination: {
-      ToAddresses: [ sendToAddress,
-        /* more items */
+      ToAddresses: [ sendToAddress
       ]
     },
     Message: { 
@@ -24,12 +23,12 @@ var params = {
        },
        Subject: {
         Charset: 'UTF-8',
-        Data: `Thank you for zipping with us ${name}!`
+        Data: subject
        }
       },
-    Source: 'bztinfo@ziplinemn.com', 
+    Source: sourceEmail, 
     ReplyToAddresses: [
-       'mscott@ziplinemn.com',
+      replyEmail
     ],
   };
   

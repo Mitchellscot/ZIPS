@@ -1,4 +1,6 @@
 import './AccountSettings.css';
+import {useEffect, useSelector} from 'react';
+import {useDispatch} from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,6 +9,12 @@ import Table from 'react-bootstrap/Table';
 import {Pencil, PencilFill} from 'react-bootstrap-icons'
 
 function AccountSettings() {
+    const dispatch = useDispatch();
+
+    useEffect({
+        
+    },[]);
+
     return (
         <Container>
             <Col className="">
