@@ -80,7 +80,7 @@ function OrdersTable() {
             }}
             activeKey={tab} id="tabz">
                 <Tab eventKey="orders" title="Orders">
-                    <Table striped bordered hover>
+                    <Table bordered hover className="orderTable">
                         <thead>
                             <tr>
                             <th width="10%">
@@ -113,7 +113,7 @@ function OrdersTable() {
                     </Table>
                 </Tab>
                 <Tab eventKey="emails" title="Emails">
-                    <Table striped bordered hover>
+                    <Table bordered hover>
                         <thead>
                             <tr>
                                 <th width="15%">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './OrderTableRow.css';
 import { PencilSquare, Images, Trash, Envelope, Check2Circle } from 'react-bootstrap-icons';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -95,10 +95,6 @@ function OrderTableRow({ order }) {
                 })
         }
     }
-
-/*     React.useEffect(()=>{
-        dispatch({ type: 'FETCH_ALL_ORDERS' });
-    }, []) */
 
     //for editing the name and email fields 
     //completes the edit by pressing the enter key
