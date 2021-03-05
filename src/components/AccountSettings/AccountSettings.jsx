@@ -255,7 +255,7 @@ function AccountSettings() {
                     </thead>
                     <tbody>
                         <tr className="text-left">
-                            <td colSpan="2">
+                            <td colSpan="2" className="px-5">
                                 <h4>{emailSettings.header}</h4>
                                 <p className="text-left">{emailSettings.body}</p>
                                 <ul>
@@ -264,7 +264,7 @@ function AccountSettings() {
                             </td>
                         </tr>
                         <tr>
-                            <td colSpan="2">
+                            <td colSpan="2" className="pl-5">
                                 <p className="text-left">{emailSettings.business_name}</p>
                                 <p className="text-left">{emailSettings.business_email}</p>
                                 <p className="text-left">{emailSettings.business_website}</p>

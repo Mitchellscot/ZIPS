@@ -58,7 +58,17 @@ function PicturesTable() {
 
     const getTodaysImages = () => {
         let day = new Date();
-        document.getElementById('picture-search-date').value = "2021-03-03"
+        let dd = day.getDate()
+        let mm = day.getMonth()+1;
+        let yyyy = day.getFullYear();
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+        if(mm<10) {
+            mm = '0'+mm
+        }
+        let todaysDate = yyyy + "-" + mm + "-" + dd;
+        document.getElementById('picture-search-date').value = todaysDate.toString();
         setDateQuery(false);
         setShowMode(false);
         dispatch({ type: 'FETCH_TODAYS_IMAGES' })

@@ -20,10 +20,10 @@ function Admin() {
                     <Col md={10} lg={11} className="ml-sm-auto px-md-5 py-3">
                         <main className="d-flex flex-wrap flex-md-nowrap pt-4 border border-bottom-0 rounded-top">
                         <Switch>
-                        <Route path="/Admin/orders">
+                        <Route path="/Admin/Orders">
                             <OrdersTable />
                             </Route>
-                        <Route path="/Admin/pictures">
+                        <Route path="/Admin/Pictures">
                             <PicturesTable />
                             </Route>
                         <Route path="/Admin/Camera">

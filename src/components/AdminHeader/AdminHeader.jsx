@@ -8,8 +8,8 @@ function AdminHeader(){
     const history = useHistory();
     return(
         <Navbar sticky="top" bg="dark" expand="lg" className="d-flex justify-content-between flex-md-nowrap p-0 shadow">
-            <a className="navbar-brand col-md-2 col-lg-1 md-0 px-2 py-2" onClick={history.go}>
-                <img src="zips_50x200.png" height="50px" width="200px" alt="logo" /></a>
+            <a className="d-flex justify-content-center navbar-brand col-md-2 col-lg-1 md-0 px-2 py-2" onClick={history.go}>
+                <img src="zips_50x200.png" height="40px" width="200px" alt="logo" /></a>
             <ul className="navbar-nav px-3">
                 <li className="nav-item text-nowrap">
                     <BoxArrowRight 
@@ -17,7 +17,6 @@ function AdminHeader(){
                     fontSize="2rem"
                     color="white"
                     />
-                   {/*  <Button size={"sm"} variant="light" className="nav-link">Sign Out</Button> */}
                 </li>
             </ul>
         </Navbar>
