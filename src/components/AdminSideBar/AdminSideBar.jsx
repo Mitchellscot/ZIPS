@@ -13,30 +13,30 @@ import {
 function AdminSideBar() {
     let match = useRouteMatch();
     return (
-        <Nav className="sidebar col-md-2 col-lg-1 d-md-block bg-light collapse position-sticky pt-3" >
-            <Nav defaultActiveKey="Orders" as="ul" className="nav flex-column">
+        <Nav className="sidebar col-md-2 col-lg-2 d-md-block bg-light collapse position-sticky pt-3" >
+            <Nav defaultActiveKey="Orders" as="ul" className="nav flex-column align-items-center">
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Orders`}>
+                        Orders&nbsp;&nbsp;&nbsp;
                         <InboxFill />
-                        &nbsp;Orders
                         </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Pictures`}>
+                        Pictures&nbsp;
                         <Image />
-                        &nbsp;Pictures
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Camera`}>
+                        Camera&nbsp;&nbsp;&nbsp;
                         <CameraFill />
-                        &nbsp;Camera
                         </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Account`}>
+                        Account&nbsp;
                         <GearFill />
-                        &nbsp;Account
                         </Link>
                 </Nav.Item>
             </Nav>

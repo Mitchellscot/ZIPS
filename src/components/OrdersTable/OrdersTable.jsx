@@ -25,22 +25,22 @@ function OrdersTable() {
 
     const handleInputChange = (event)=> {
         if (tab === 'orders'){
-            dispatch({type: 'CLEAR_ORDERS'});
+            /* dispatch({type: 'CLEAR_ORDERS'}); */
             dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
         }
         else if (tab === 'emails'){
-            dispatch({type: 'CLEAR_EMAILS'});
+            /* dispatch({type: 'CLEAR_EMAILS'}); */
             dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
         }
     }
 
     const handleDateSearch = () => {
         if (tab === 'orders'){
-            dispatch({type: 'CLEAR_ORDERS'});
+            /* dispatch({type: 'CLEAR_ORDERS'}); */
             dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
         }
         else if (tab === 'emails'){
-            dispatch({type: 'CLEAR_EMAILS'});
+            /* dispatch({type: 'CLEAR_EMAILS'}); */
             dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
         }
     }
@@ -60,12 +60,18 @@ function OrdersTable() {
               <span>Or date</span>
               </InputGroup.Text>
               <FormControl
+                    id="search-dates-orders-emails"
                     onChange={() => setDateQuery(event.target.value)}
                     type="date"
                 />
                     <InputGroup.Append>          
                     <Button
-                        onClick={handleDateSearch}
+                        onClick={()=>{
+                            let input = document.getElementById("search-dates-orders-emails").value;
+                            if (input === ''){
+                                alert("Please enter a date to search");
+                            }
+                            handleDateSearch();}}
                         variant="outline-dark"
                     >GO</Button>
                 </InputGroup.Append>
