@@ -9,6 +9,8 @@ import Table from 'react-bootstrap/Table';
 import { Pencil, PencilFill } from 'react-bootstrap-icons'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 
 function AccountSettings() {
     const dispatch = useDispatch();
@@ -26,7 +28,7 @@ function AccountSettings() {
     //If this works delete all comments at end of file.
     const [editMode, setEditMode] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
-    const toggleShowEmail = ()=>{
+    const toggleShowEmail = () => {
         setShowEmail(!showEmail);
     }
     const editEmailMode = () => {
@@ -79,147 +81,151 @@ function AccountSettings() {
     return (
         <>
             <Col className="" lg={6} md={6}>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th colSpan="2" className="justify-content-around">
-                            <div><h4>Email Settings</h4></div><div><Button
-                    onClick={editEmailMode}
-                    variant={editMode ? "dark" : "outline-dark"}
-                >Edit</Button>
-                <Button
-                    onClick={toggleShowEmail}
-                    variant={showEmail ? "dark" : "outline-dark"}
-                >Preview Email</Button></div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-left">
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Sending Email
+                <Tabs defaultActiveKey="accountSettings">
+                    <Tab eventKey="accountSettings" title="Account">
+                        <h1>Hi</h1>
+                    </Tab>
+                    <Tab eventKey="emailSettings" title="Email">
+                        <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
+                            <h4 className="mr-auto">Email Settings</h4><Button
+                                onClick={editEmailMode}
+                                variant={editMode ? "dark" : "outline-dark"}
+                            >Edit</Button>
+                            <Button
+                                onClick={toggleShowEmail}
+                                variant={showEmail ? "dark" : "outline-dark"}
+                            >Preview</Button>
+                        </Row>
+                        <Table striped bordered hover>
+                            <tbody className="text-left">
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middlepy-4">
+                                        Sending Email
                     </td>
-                            <td >
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setSendingEmail(e.target.value) })}
-                                    value={sendingEmail}
-                                ></Form.Control> : emailSettings.source_email} <span className={
-                                    emailSettings.source_email === '' ? "required visible" : "required invisible"}>(required)</span>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Reply to Email
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+
+                                            className="text-left w-75"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setSendingEmail(e.target.value) })}
+                                            value={sendingEmail}
+                                            required
+                                        ></Form.Control> : emailSettings.source_email}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Reply to Email
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setReplyToEmail(e.target.value) })}
-                                    value={replyToEmail}
-                                ></Form.Control> : emailSettings.reply_to_email} <span className={
-                                    emailSettings.reply_to_email === '' ? "required visible" : "required invisible"}>(required)</span>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Subject
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+
+                                            className="text-left align-center w-75"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setReplyToEmail(e.target.value) })}
+                                            value={replyToEmail}
+                                        ></Form.Control> : emailSettings.reply_to_email}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Subject
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setSubject(e.target.value) })}
-                                    value={subject}
-                                ></Form.Control> : emailSettings.subject} <span className={
-                                    emailSettings.subject === '' ? "required visible" : "required invisible"}>(required)</span>
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Header
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+
+                                            className="text-left align-center align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setSubject(e.target.value) })}
+                                            value={subject}
+                                        ></Form.Control> : emailSettings.subject}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Header
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setHeader(e.target.value) })}
-                                    value={header}
-                                ></Form.Control> : emailSettings.header}
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Body
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+                                            className="text-left align-center w-75"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setHeader(e.target.value) })}
+                                            value={header}
+                                        ></Form.Control> : emailSettings.header}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-5">
+                                        Body
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    as="textarea"
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setBody(e.target.value) })}
-                                    value={body}
-                                ></Form.Control> : emailSettings.body}
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Business Name
+                                    <td>
+                                        {editMode ? <Form.Control
+                                            as="textarea"
+                                            className="text-left align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setBody(e.target.value) })}
+                                            value={body}
+                                        ></Form.Control> : emailSettings.body}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Business Name
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setBusinessName(e.target.value) })}
-                                    value={businessName}
-                                ></Form.Control> : emailSettings.business_name}
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Business Email
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+                                            className="text-left align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setBusinessName(e.target.value) })}
+                                            value={businessName}
+                                        ></Form.Control> : emailSettings.business_name}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Business Email
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setBusinessEmail(e.target.value) })}
-                                    value={businessEmail}
-                                ></Form.Control> : emailSettings.business_email}
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Business Website
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+                                            className="text-left align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setBusinessEmail(e.target.value) })}
+                                            value={businessEmail}
+                                        ></Form.Control> : emailSettings.business_email}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Business Website
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setBusinessWebsite(e.target.value) })}
-                                    value={businessWebsite}
-                                ></Form.Control> : emailSettings.business_website}
-                            </td>
-                        </tr>
-                        <tr >
-                            <td width="20%" className="font-weight-bold">
-                                Business Phone
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+                                            className="text-left align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setBusinessWebsite(e.target.value) })}
+                                            value={businessWebsite}
+                                        ></Form.Control> : emailSettings.business_website}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
+                                        Business Phone
                     </td>
-                            <td>
-                                {editMode ? <Form.Control
-                                    className="text-left align-center"
-                                    onKeyPress={handleKeypress}
-                                    onChange={((e) => { setBusinessPhone(e.target.value) })}
-                                    value={businessPhone}
-                                ></Form.Control> : emailSettings.business_phone}
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
+                                    <td className="align-middle">
+                                        {editMode ? <Form.Control
+                                            className="text-left align-middle"
+                                            onKeyPress={handleKeypress}
+                                            onChange={((e) => { setBusinessPhone(e.target.value) })}
+                                            value={businessPhone}
+                                        ></Form.Control> : emailSettings.business_phone}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Tab>
+                </Tabs>
             </Col>
-            <Col lg={6} md={4} className="d-flex justify-content-center">
+            <Col lg={6} md={4} className="d-flex justify-content-center mt-5">
                 <Table className={showEmail ? "visible border" : "invisible"}>
                     <thead>
                         <tr>
