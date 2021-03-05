@@ -5,6 +5,7 @@ import gallery from './gallery.reducer.js';
 import cart from './cart.reducer';
 import orders from './order.reducer';
 import emails from './email.reducer';
+import emailSettings from './emailSettings.reducer';
 
 const rootReducer = combineReducers({
   errors,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   gallery,
   cart,
   orders,
-  emails
+  emails,
+  emailSettings
 });
 
 export default rootReducer;

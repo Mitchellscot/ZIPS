@@ -18,25 +18,25 @@ function AdminSideBar() {
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/orders`}>
                         <InboxFill />
-                        &nbsp;&nbsp;Orders
+                        &nbsp;Orders
                         </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/pictures`}>
                         <Image />
-                        &nbsp;&nbsp;Pictures
+                        &nbsp;Pictures
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Camera`}>
                         <CameraFill />
-                        &nbsp;&nbsp;Camera
+                        &nbsp;Camera
                         </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/Account`}>
                         <GearFill />
-                        &nbsp;&nbsp;Account
+                        &nbsp;Account
                         </Link>
                 </Nav.Item>
             </Nav>
