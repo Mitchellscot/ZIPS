@@ -6,6 +6,7 @@ import gallerySaga from './gallery.saga';
 import orderSaga from './order.saga';
 import emailSaga from './email.saga';
 import emailSettingsSaga from './emailSettings.saga.js';
+import costSaga from './cost.saga.js';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     registrationSaga(),
     userSaga(),
     emailSaga(),
-    emailSettingsSaga()
+    emailSettingsSaga(),
+    costSaga()
   ]);
 }

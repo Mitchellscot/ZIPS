@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import { Pencil, PencilFill } from 'react-bootstrap-icons'
+import { Pencil, PencilFill, Image, ImageFill } from 'react-bootstrap-icons'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Tabs from 'react-bootstrap/Tabs';
@@ -15,6 +15,18 @@ import Tab from 'react-bootstrap/Tab';
 function AccountSettings() {
     const dispatch = useDispatch();
     const emailSettings = useSelector(store => store.emailSettings);
+    const cost = useSelector(store => store.cost);
+    //cost and tax state
+    const [photoCost, setPhotoCost] = useState(0);
+    const [tax, setTax] = useState(0);
+    const [editCostMode, setEditCostMode] = useState(false);
+    const toggleEditCostMode = () => {
+        setEditCostMode(!editCostMode);
+    }
+    const [editTaxMode, setEditTaxMode] = useState(false);
+    const toggleEditTaxMode = () => {
+        setEditTaxMode(!editTaxMode);
+    }
     //all the state to hold the changes
     const [sendingEmail, setSendingEmail] = useState('');
     const [replyToEmail, setReplyToEmail] = useState('');
@@ -25,12 +37,52 @@ function AccountSettings() {
     const [businessEmail, setBusinessEmail] = useState('');
     const [businessWebsite, setBusinessWebsite] = useState('');
     const [businessPhone, setBusinessPhone] = useState('');
-    //If this works delete all comments at end of file.
+    //handle edit mode for email settings
     const [editMode, setEditMode] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
     const toggleShowEmail = () => {
         setShowEmail(!showEmail);
     }
+
+    const handleEditCostMode = () =>{
+        setPhotoCost(cost[0].cost);
+        if (editCostMode === false){
+            setEditCostMode(!editCostMode);
+        }
+        else{
+            setEditCostMode(!editCostMode);
+            axios.put(`/api/cost/updateCost`, {
+                cost: photoCost
+            })
+            .then((response) => {
+                dispatch({ type: 'FETCH_COST' });
+            })
+            .catch((error) => {
+                console.log(`HEY MITCH - CAN'T CHANGE THE COST OF THE PICTURES: ${error}`);
+            })
+        }
+    }
+
+    //change the tax when pencil is clicked
+    const handleEditTaxMode = () =>{
+        setTax(cost[0].tax);
+        if (editTaxMode === false){
+            setEditTaxMode(!editTaxMode);
+        }
+        else{
+            setEditTaxMode(!editTaxMode);
+            axios.put(`/api/cost/updateTax`, {
+                tax: tax
+            })
+            .then((response) => {
+                dispatch({ type: 'FETCH_COST' });
+            })
+            .catch((error) => {
+                console.log(`HEY MITCH - CAN'T CHANGE THE TAX: ${error}`);
+            })
+        }
+    }
+
     const editEmailMode = () => {
         //take out if it causes bugs
         setSendingEmail(emailSettings.source_email);
@@ -67,7 +119,21 @@ function AccountSettings() {
         }
     }
 
-    const handleKeypress = e => {
+    const handleKeyPressTax = e => {
+        //it triggers by pressing the enter key
+        if (e.key === 'Enter') {
+            handleEditTaxMode();
+        }
+    };
+
+    const handleKeyPressCost = e => {
+        //it triggers by pressing the enter key
+        if (e.key === 'Enter') {
+            handleEditCostMode();
+        }
+    };
+
+    const handleKeyPressEmail = e => {
         //it triggers by pressing the enter key
         if (e.key === 'Enter') {
             editEmailMode();
@@ -75,7 +141,8 @@ function AccountSettings() {
     };
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_EMAIL_SETTINGS' })
+        dispatch({type: 'FETCH_COST'});
+        dispatch({ type: 'FETCH_EMAIL_SETTINGS' });
     }, []);
 
     return (
@@ -83,8 +150,57 @@ function AccountSettings() {
             <Col className="" lg={6} md={6}>
                 <Tabs defaultActiveKey="accountSettings">
                     <Tab eventKey="accountSettings" title="Account">
-                        <h1>Hi</h1>
+                        <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
+                            <h4>Account Settings</h4>
+                        </Row>
+                        <Table striped bordered hover>
+                            <tbody>
+                                <tr>
+                                <td width="20%" className="font-weight-bold align-middle">
+                                    Picture Price
+                                </td>
+                                <td className="d-flex align-middle justify-content-between">
+                                    {editCostMode ? <> <Form.Control
+                                        className="text-left w-25"
+                                        onKeyPress={handleKeyPressCost}
+                                        onChange={((e) => { setPhotoCost(e.target.value) })}
+                                        value={photoCost}
+                                        required
+                                    ></Form.Control> <PencilFill
+                                    onClick={handleEditCostMode}
+                                    fontSize="1.3rem"
+                                    /> </>: <> {"$" + cost[0].cost} <Pencil
+                                    onClick={handleEditCostMode}
+                                    fontSize="1.3rem"
+                                    /></>
+                                    }
+                                </td>
+                                </tr>
+                                <tr>
+                                <td width="20%" className="font-weight-bold align-middle">
+                                    Tax Percentage
+                                </td>
+                                <td className="align-middle d-flex justify-content-between">
+                                    {editTaxMode ? <> <Form.Control
+                                        className="text-left w-25"
+                                        onKeyPress={handleKeyPressTax}
+                                        onChange={((e) => { setTax(e.target.value) })}
+                                        value={tax}
+                                        required
+                                    ></Form.Control> <PencilFill
+                                    onClick={handleEditTaxMode}
+                                    fontSize="1.3rem"
+                                    /></>:<> {cost[0].tax} <Pencil
+                                    onClick={handleEditTaxMode}
+                                    fontSize="1.3rem"
+                                    /></>}
+                                </td>
+                                </tr>
+                            </tbody>
+                        </Table>
                     </Tab>
+
+                    {/* EMAIL SETTINGS BELOW - PLACE IN OWN COMPONENT */}
                     <Tab eventKey="emailSettings" title="Email">
                         <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
                             <h4 className="mr-auto">Email Settings</h4><Button
@@ -99,14 +215,14 @@ function AccountSettings() {
                         <Table striped bordered hover>
                             <tbody className="text-left">
                                 <tr >
-                                    <td width="20%" className="font-weight-bold align-middlepy-4">
+                                    <td width="20%" className="font-weight-bold align-middle py-4">
                                         Sending Email
                     </td>
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
 
                                             className="text-left w-75"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setSendingEmail(e.target.value) })}
                                             value={sendingEmail}
                                             required
@@ -121,7 +237,7 @@ function AccountSettings() {
                                         {editMode ? <Form.Control
 
                                             className="text-left align-center w-75"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setReplyToEmail(e.target.value) })}
                                             value={replyToEmail}
                                         ></Form.Control> : emailSettings.reply_to_email}
@@ -135,7 +251,7 @@ function AccountSettings() {
                                         {editMode ? <Form.Control
 
                                             className="text-left align-center align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setSubject(e.target.value) })}
                                             value={subject}
                                         ></Form.Control> : emailSettings.subject}
@@ -148,7 +264,7 @@ function AccountSettings() {
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
                                             className="text-left align-center w-75"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setHeader(e.target.value) })}
                                             value={header}
                                         ></Form.Control> : emailSettings.header}
@@ -162,7 +278,7 @@ function AccountSettings() {
                                         {editMode ? <Form.Control
                                             as="textarea"
                                             className="text-left align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setBody(e.target.value) })}
                                             value={body}
                                         ></Form.Control> : emailSettings.body}
@@ -175,7 +291,7 @@ function AccountSettings() {
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
                                             className="text-left align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setBusinessName(e.target.value) })}
                                             value={businessName}
                                         ></Form.Control> : emailSettings.business_name}
@@ -188,7 +304,7 @@ function AccountSettings() {
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
                                             className="text-left align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setBusinessEmail(e.target.value) })}
                                             value={businessEmail}
                                         ></Form.Control> : emailSettings.business_email}
@@ -201,7 +317,7 @@ function AccountSettings() {
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
                                             className="text-left align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setBusinessWebsite(e.target.value) })}
                                             value={businessWebsite}
                                         ></Form.Control> : emailSettings.business_website}
@@ -214,7 +330,7 @@ function AccountSettings() {
                                     <td className="align-middle">
                                         {editMode ? <Form.Control
                                             className="text-left align-middle"
-                                            onKeyPress={handleKeypress}
+                                            onKeyPress={handleKeyPressEmail}
                                             onChange={((e) => { setBusinessPhone(e.target.value) })}
                                             value={businessPhone}
                                         ></Form.Control> : emailSettings.business_phone}

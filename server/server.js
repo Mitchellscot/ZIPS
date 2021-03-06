@@ -13,6 +13,7 @@ const imageRouter = require('./routes/image.router');
 const orderRouter = require('./routes/order.router');
 const emailRouter = require('./routes/email.router');
 const emailSettingsRouter = require('./routes/emailSettings.router');
+const costRouter = require('./routes/costs.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -31,6 +32,7 @@ app.use('/api/image', imageRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/emailSettings', emailSettingsRouter);
+app.use('/api/cost', costRouter);
 
 // Serve static files
 app.use(express.static('build'));

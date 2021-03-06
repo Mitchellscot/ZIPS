@@ -6,6 +6,7 @@ import cart from './cart.reducer';
 import orders from './order.reducer';
 import emails from './email.reducer';
 import emailSettings from './emailSettings.reducer';
+import cost from './cost.reducer';
 
 const rootReducer = combineReducers({
   errors,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   cart,
   orders,
   emails,
-  emailSettings
+  emailSettings,
+  cost
 });
 
 export default rootReducer;
