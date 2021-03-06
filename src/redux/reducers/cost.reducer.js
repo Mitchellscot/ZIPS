@@ -1,4 +1,4 @@
-const costReducer = (state = [], action) => {
+const costReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_COST':
             return action.payload;
