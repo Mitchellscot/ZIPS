@@ -12,10 +12,20 @@ router.get('/', (req, res) => {
 })
 });
 
+router.put('/updateCost', (req, res) => {
+  const query=`UPDATE "costs" SET "cost"=$1 WHERE "id"=$2;`;
+  pool.query(query, [req.body.cost, 1])
+    .then((result) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T CHANGE THE PRICE! ${error}`);
+        res.sendStatus(500);
+    }) 
+});
 
-router.put('/', (req, res) => {
-  const query=`UPDATE "costs" SET "cost"=$1, "tax"=$2 WHERE "id"=$3;`;
-  pool.query(query, [req.body.costs, req.body.tax, 1])
+router.put('/updateTax', (req, res) => {
+  const query=`UPDATE "costs" SET "tax"=$1 WHERE "id"=$2;`;
+  pool.query(query, [req.body.tax, 1])
     .then((result) => {
         res.sendStatus(200);
     }).catch((error) => {

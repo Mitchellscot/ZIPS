@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './GalleryHeader.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,8 @@ import Checkout from '../Checkout/Checkout';
 function GalleryHeader() {
   const history = useHistory();
   const cart = useSelector(store => store.cart);
-  const [modal, setModal] = React.useState(false);
+  const cost = useSelector(store => store.cost);
+  const [modal, setModal] = useState(false);
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
 
@@ -18,19 +19,24 @@ function GalleryHeader() {
     setModal(true);
   }
 
-
   const addUpCart = (cart) => {
     let sum = 0;
+    let tax = Number(cost[0].cost * cost[0].tax);
+    let price = Number(cost[0].cost);
     for (const image of cart) {
-      sum += 5
+      sum += price + tax;
+      console.log(sum);
     }
-
     return sum.toFixed(2);
   }
 
   const resetCart = () => {
     dispatch({ type: 'CLEAR_CART' })
   }
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_COST' })
+  }, []);
 
   return (
     <>
@@ -46,7 +52,6 @@ function GalleryHeader() {
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
           onClick={history.go}
         />
-
         <div
           className="total-amount">
           <span

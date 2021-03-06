@@ -57,7 +57,7 @@ function Checkout({ modal, setModal, total }) {
         >
             <Modal.Header closeButton>
                 <Modal.Title className="w-100 text-center">
-                    <h1>{Object.keys(cart).length === 0 ? "You must first select your photos" : `$${total}`}</h1>
+                   {Object.keys(cart).length === 0 ?  <h1>You must first select your photos</h1> : <><h1>${total}</h1></>}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
