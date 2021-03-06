@@ -34,7 +34,7 @@ function AccountSettings() {
     }
 
     const handleEditCostMode = () => {
-
+        setPhotoCost(cost.cost);
         if (editCostMode === false) {
             setEditCostMode(!editCostMode);
         }
@@ -54,7 +54,7 @@ function AccountSettings() {
 
     //change the tax when pencil is clicked
     const handleEditTaxMode = () => {
-
+        setTax(cost.tax);
         if (editTaxMode === false) {
             setEditTaxMode(!editTaxMode);
         }
@@ -86,84 +86,80 @@ function AccountSettings() {
         }
     };
 
-
     useEffect(() => {
         dispatch({ type: 'FETCH_COST' });
-        setTax(cost[0].tax);
-        setPhotoCost(cost[0].cost);
     }, []);
 
     return (
         <>
-
-                <Col className="" lg={6} md={6}>
-                    <Tabs defaultActiveKey="accountSettings">
-                        <Tab eventKey="accountSettings" title="Account">
-                            <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
-                                <h4>Account Settings</h4>
-                            </Row>
-                            <Table striped bordered hover>
-                                <tbody>
-                                    <tr>
-                                        <td width="20%" className="font-weight-bold align-middle">
-                                            Picture Price
+            <Col className="" lg={6} md={6}>
+                <Tabs defaultActiveKey="accountSettings">
+                    <Tab eventKey="accountSettings" title="Account">
+                        <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
+                            <h4>Account Settings</h4>
+                        </Row>
+                        <Table striped bordered hover>
+                            <tbody>
+                                <tr>
+                                    <td width="20%" className="font-weight-bold align-middle">
+                                        Picture Price
                                 </td>
-                                        <td className="d-flex align-middle justify-content-between">
-                                            {editCostMode ? <> <Form.Control
-                                                className="text-left w-25"
-                                                onKeyPress={handleKeyPressCost}
-                                                onChange={((e) => { setPhotoCost(e.target.value) })}
-                                                value={photoCost}
-                                                required
-                                            ></Form.Control> <PencilFill
-                                                    onClick={handleEditCostMode}
-                                                    fontSize="1.3rem"
-                                                /> </> : <> {"$" + photoCost} <Pencil
-                                                    onClick={handleEditCostMode}
-                                                    fontSize="1.3rem"
-                                                /></>
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%" className="font-weight-bold align-middle">
-                                            Tax Percentage
+                                    <td className="d-flex align-middle justify-content-between">
+                                        {editCostMode ? <><Form.Control
+                                            className="text-left w-25"
+                                            onKeyPress={handleKeyPressCost}
+                                            onChange={((e) => { setPhotoCost(e.target.value) })}
+                                            value={photoCost}
+                                            required
+                                        ></Form.Control> <PencilFill
+                                                onClick={handleEditCostMode}
+                                                fontSize="1.3rem"
+                                            /> </> : <> $ {cost.map(cost => cost.cost)} <Pencil
+                                                onClick={handleEditCostMode}
+                                                fontSize="1.3rem"
+                                            /></>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" className="font-weight-bold align-middle">
+                                        Tax Percentage
                                 </td>
-                                        <td className="align-middle d-flex justify-content-between">
-                                            {editTaxMode ? <> <Form.Control
-                                                className="text-left w-25"
-                                                onKeyPress={handleKeyPressTax}
-                                                onChange={((e) => { setTax(e.target.value) })}
-                                                value={tax}
-                                                required
-                                            ></Form.Control> <PencilFill
-                                                    onClick={handleEditTaxMode}
-                                                    fontSize="1.3rem"
-                                                /></> : <> {tax} <Pencil
-                                                    onClick={handleEditTaxMode}
-                                                    fontSize="1.3rem"
-                                                /></>}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </Tab>
-                        <Tab eventKey="emailSettings" title="Email">
-                            <EmailSettings
-                                emailSettings={emailSettings}
-                                showEmail={showEmail}
-                                setShowEmail={setShowEmail}
-                                toggleShowEmail={toggleShowEmail}
-                            />
-                        </Tab>
-                    </Tabs>
-                </Col>
-                <EmailPreview
-                    emailSettings={emailSettings}
-                    showEmail={showEmail}
-                    setShowEmail={setShowEmail}
-                    toggleShowEmail={toggleShowEmail}
-                />
+                                    <td className="align-middle d-flex justify-content-between">
+                                        {editTaxMode ? <> <Form.Control
+                                            className="text-left w-25"
+                                            onKeyPress={handleKeyPressTax}
+                                            onChange={((e) => { setTax(e.target.value) })}
+                                            value={tax}
+                                            required
+                                        ></Form.Control> <PencilFill
+                                                onClick={handleEditTaxMode}
+                                                fontSize="1.3rem"
+                                            /></> : <> {cost.map(cost => cost.tax)} <Pencil
+                                                onClick={handleEditTaxMode}
+                                                fontSize="1.3rem"
+                                            /></>}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Tab>
+                    <Tab eventKey="emailSettings" title="Email">
+                        <EmailSettings
+                            emailSettings={emailSettings}
+                            showEmail={showEmail}
+                            setShowEmail={setShowEmail}
+                            toggleShowEmail={toggleShowEmail}
+                        />
+                    </Tab>
+                </Tabs>
+            </Col>
+            <EmailPreview
+                emailSettings={emailSettings}
+                showEmail={showEmail}
+                setShowEmail={setShowEmail}
+                toggleShowEmail={toggleShowEmail}
+            />
 
         </>
     );
