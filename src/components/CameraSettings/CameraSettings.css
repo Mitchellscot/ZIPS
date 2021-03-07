@@ -4,8 +4,29 @@
 #the-circle{
     color: #252525;
     position: absolute;
+    cursor: pointer;
 }
 #the-div{
     position: relative;
     min-width: 1024px;
+}
+#the-flash-div{
+    position: relative;
+    min-width: 1024px;
+}
+#the-webcam{
+    position: absolute;
+}
+.the-flash{
+      z-index: 100;  
+/*     visibility: hidden; */
+    animation: flash-fade .50s ease-out;
+}
+
+@keyframes flash-fade{
+    0% {opacity: 1;}
+    25% {opacity: 0.75;}
+    50% {opacity: 0.5;}
+    75% {opacity: 0.25;}
+    100% {opacity: 0;}
 }
