@@ -84,7 +84,7 @@ function OrdersTable() {
                 dispatch({ type: 'FETCH_ALL_ORDERS' });
                 dispatch({ type: 'FETCH_EMAIL_HISTORY' })
             }}
-            activeKey={tab} id="tabz">
+            activeKey={tab}>
                 <Tab eventKey="orders" title="Orders">
                     <Table bordered hover className="Tables">
                         <thead>

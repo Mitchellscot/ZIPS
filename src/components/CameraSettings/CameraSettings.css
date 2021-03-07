@@ -1,0 +1,11 @@
+#the-camera{
+    color: #252525;
+}
+#the-circle{
+    color: #252525;
+    position: absolute;
+}
+#the-div{
+    position: relative;
+    min-width: 1024px;
+}

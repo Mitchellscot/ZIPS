@@ -40,12 +40,12 @@ function PicturesTablePicture({ image, dateQuery }) {
                             if (dateQuery === true) {
                                 let dateQ = document.getElementById("picture-search-date").value;
                                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                                dispatch({ type: 'RESET_IMAGES' });
+                                /* dispatch({ type: 'RESET_IMAGES' }); */
                                 dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
                             }
                             else {
                                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                                dispatch({ type: 'RESET_IMAGES' });
+                                /* dispatch({ type: 'RESET_IMAGES' }); */
                                 dispatch({ type: 'FETCH_TODAYS_IMAGES' })
                             }
                         })
