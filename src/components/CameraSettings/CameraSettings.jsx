@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 function CameraSettings() {
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
+    //threshold max: 2147483647
     const [threshold, setThreshold] = useState(0);
     const [editSensitivity, setEditSensitivity] = useState(false);
     const toggleEditSensitivity = () => {
@@ -59,6 +60,38 @@ function CameraSettings() {
             }, 4000);
 
         }).catch(error => console.log(error));
+    }
+
+    const handleKeyPressThreshold = e => {
+        //it triggers by pressing the enter key
+        if (e.key === 'Enter') {
+            handleEditThreshold();
+        }
+    };
+
+    const handleEditThreshold = () => {
+        //setThreshold(); ?
+        if (editSensitivity === false) {
+            setEditSensitivity(!editSensitivity);
+        }
+        else {
+            setEditSensitivity(!editSensitivity);
+            axios.get(`http://192.168.0.82:8080/0/config/set?threshold=${threshold}`)
+                .then((response) => {
+                    axios.get('http://192.168.0.82:8080/0/config/get?query=threshold').then((result) => {
+                        let string = result.data;
+                        let donePosition = string.indexOf('Done');
+                        let answer = Number(string.substring(22, donePosition));
+                        console.log(answer);
+                        setThreshold(answer);
+                    }).catch(error => console.log(error));
+                    axios.get(`http://192.168.0.82:8080/0/config/write`).then((result) => {
+                    }).catch(error => console.log(error));
+                })
+                .catch((error) => {
+                    console.log(`HEY MITCH - CAN'T CHANGE THE THRESHOLD: ${error}`);
+                })
+        }
     }
 
     useEffect(() => {
@@ -132,10 +165,12 @@ function CameraSettings() {
 
                     <h5 className="camera-settings-text mt-4">SENSITIVITY </h5>
                     {editSensitivity ?
-                        <div className="d-flex justify-content-between"
+                        <div className="d-flex justify-content-between mx-4"
                         ><Form.Control
+                            onChange={(e) => setThreshold(e.target.value)}
                             className="text-center w-75"
                             value={threshold}
+                            onKeyPress={handleKeyPressThreshold}
                         ></Form.Control><PencilFill 
                         id="edit-sensitivity"
                         onClick={toggleEditSensitivity}
@@ -143,7 +178,7 @@ function CameraSettings() {
                         as="button"
                         fontSize="2rem"
                         /></div> :
-                        <div className="d-flex justify-content-between"><Form.Control
+                        <div className="d-flex justify-content-between mx-4"><Form.Control
                             className="text-center w-75"
                             disabled
                             value={threshold}
