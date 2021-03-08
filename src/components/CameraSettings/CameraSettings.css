@@ -38,7 +38,7 @@
 }
 
 .spin-restart{
-    animation: spin 1s;
+    animation: spin 4s linear;
 }
 
 @keyframes flash-fade{

@@ -110,8 +110,8 @@ function PicturesTable() {
                     </Col>
                     <Col className="text-center d-flex justify-content-around">
                         <h4
-                            className={getNumberOfShown(shownImages) === 0 ? "invisible" : "visible"}
-                        >{ "Images added to the gallery: " + getNumberOfShown(shownImages)}</h4>
+                            className={getNumberOfShown(shownImages) === 0 ? "invisible gallery-image-count-text" : "visible gallery-image-count-text"}
+                        >{ "IMAGES IN GALLERY: " + getNumberOfShown(shownImages)}</h4>
                     </Col>
                     <Col className="text-center d-flex justify-content-end">
                             <Button
