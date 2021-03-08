@@ -5,16 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import { Camera, Circle, PlayCircle, PlayCircleFill, PauseCircle, PauseCircleFill, ArrowCounterclockwise } from 'react-bootstrap-icons';
+import { Pencil, PencilFill, Camera, Circle, PlayCircle, PlayCircleFill, PauseCircle, PauseCircleFill, ArrowCounterclockwise } from 'react-bootstrap-icons';
 import axios from 'axios';
-import swal from 'sweetalert';
+import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-    const toggleRefresh = () => {
-        setRefresh(!refresh);
+    const [threshold, setThreshold] = useState(0);
+    const [editSensitivity, setEditSensitivity] = useState(false);
+    const toggleEditSensitivity = () => {
+        setEditSensitivity(!editSensitivity);
     }
     const toggleMotionStarted = () => {
         setMotionStarted(!motionStarted);
@@ -56,12 +57,12 @@ function CameraSettings() {
             setTimeout(() => {
                 location.reload();
             }, 4000);
-            
+
         }).catch(error => console.log(error));
     }
 
     useEffect(() => {
-        //dispatch({ type: '?' });
+        //gets the status of the webcam
         axios.get('http://192.168.0.82:8080/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
@@ -70,13 +71,21 @@ function CameraSettings() {
                 setMotionStarted(false);
             }
         }).catch(error => console.log(error));
+        //gets the value of the threshold
+        axios.get('http://192.168.0.82:8080/0/config/get?query=threshold').then((result) => {
+            let string = result.data;
+            let donePosition = string.indexOf('Done');
+            let answer = Number(string.substring(22, donePosition));
+            console.log(answer);
+            setThreshold(answer);
+        }).catch(error => console.log(error));
     }, []);
 
     return (
         <Container fluid>
             <Row className="d-flex justify-content-center">
                 <Col lg={2} md={2} className="d-flex-inline text-center">
-                    <div className="border shadow mb-4"><h4 className="camera-settings-text">Motion Detection Settings{motionStarted ?
+                    <div className="border shadow mb-4"><h4 className="camera-settings-text">Motion Detection{motionStarted ?
                         <div
                             className="pt-2 active-sign"
                         >ACTIVE</div> :
@@ -117,9 +126,38 @@ function CameraSettings() {
                         onClick={restartMotion}
                         className="motion-buttons"
                         as="button"
-                        fontSize="2.9rem"
-                        variant="outline-dark"
+                        fontSize="2.8rem"
                     /></h5>
+                    <hr />
+
+                    <h5 className="camera-settings-text mt-4">SENSITIVITY </h5>
+                    {editSensitivity ?
+                        <div className="d-flex justify-content-between"
+                        ><Form.Control
+                            className="text-center w-75"
+                            value={threshold}
+                        ></Form.Control><PencilFill 
+                        id="edit-sensitivity"
+                        onClick={toggleEditSensitivity}
+                        className="motion-buttons"
+                        as="button"
+                        fontSize="2rem"
+                        /></div> :
+                        <div className="d-flex justify-content-between"><Form.Control
+                            className="text-center w-75"
+                            disabled
+                            value={threshold}
+                        ></Form.Control>
+                        <Pencil 
+                        id="edit-sensitivity"
+                        onClick={toggleEditSensitivity}
+                        className="motion-buttons"
+                        as="button"
+                        fontSize="2rem"
+                        />
+                        </div>
+                }
+
                 </Col>
                 <Col lg={8} md={8} className="d-flex-inline justify-content-center">
                     <div id="the-flash-div" className="d-flex justify-content-center">
@@ -129,7 +167,7 @@ function CameraSettings() {
                         <iframe
                             id="the-webcam"
                             className="" name="webcam" src='http://192.168.0.82:8081'
-                            width="1024" height="768" frameBorder="1" frameSpacing="" scrolling="no" border="0" ></iframe >
+                            width="1024" height="768" frameBorder="1" scrolling="no" ></iframe >
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
                         <Circle
