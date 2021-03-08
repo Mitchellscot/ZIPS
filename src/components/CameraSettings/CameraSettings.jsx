@@ -12,6 +12,10 @@ import swal from 'sweetalert';
 function CameraSettings() {
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const toggleRefresh = () => {
+        setRefresh(!refresh);
+    }
     const toggleMotionStarted = () => {
         setMotionStarted(!motionStarted);
     }
@@ -49,6 +53,10 @@ function CameraSettings() {
             setTimeout(() => {
                 element.classList.remove('spin-restart');
             }, 500);
+            setTimeout(() => {
+                location.reload();
+            }, 4000);
+            
         }).catch(error => console.log(error));
     }
 
