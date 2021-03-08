@@ -167,31 +167,37 @@ function CameraSettings() {
                     {editSensitivity ?
                         <div className="d-flex justify-content-between mx-4"
                         ><Form.Control
+                            type='range'
+                            min="100"
+                            max="100000"
                             onChange={(e) => setThreshold(e.target.value)}
                             className="text-center w-75"
                             value={threshold}
                             onKeyPress={handleKeyPressThreshold}
-                        ></Form.Control><PencilFill 
-                        id="edit-sensitivity"
-                        onClick={toggleEditSensitivity}
-                        className="motion-buttons"
-                        as="button"
-                        fontSize="2rem"
-                        /></div> :
+                        ></Form.Control><PencilFill
+                                id="edit-sensitivity"
+                                onClick={toggleEditSensitivity}
+                                className="motion-buttons"
+                                as="button"
+                                fontSize="2rem"
+                            /></div> :
                         <div className="d-flex justify-content-between mx-4"><Form.Control
+                            type='range'
+                            min="100"
+                            max="100000"
                             className="text-center w-75"
                             disabled
                             value={threshold}
                         ></Form.Control>
-                        <Pencil 
-                        id="edit-sensitivity"
-                        onClick={toggleEditSensitivity}
-                        className="motion-buttons"
-                        as="button"
-                        fontSize="2rem"
-                        />
+                            <Pencil
+                                id="edit-sensitivity"
+                                onClick={toggleEditSensitivity}
+                                className="motion-buttons"
+                                as="button"
+                                fontSize="2rem"
+                            />
                         </div>
-                }
+                    }
 
                 </Col>
                 <Col lg={8} md={8} className="d-flex-inline justify-content-center">
