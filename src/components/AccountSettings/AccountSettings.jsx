@@ -34,7 +34,7 @@ function AccountSettings() {
     }
 
     const handleEditCostMode = () => {
-        setPhotoCost(cost.cost);
+        setPhotoCost(cost[0].cost);
         if (editCostMode === false) {
             setEditCostMode(!editCostMode);
         }
@@ -54,7 +54,7 @@ function AccountSettings() {
 
     //change the tax when pencil is clicked
     const handleEditTaxMode = () => {
-        setTax(cost.tax);
+        setTax(cost[0].tax);
         if (editTaxMode === false) {
             setEditTaxMode(!editTaxMode);
         }

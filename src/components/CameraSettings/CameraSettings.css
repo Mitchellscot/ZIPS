@@ -1,3 +1,14 @@
+.active-sign{
+    color: red;
+    text-shadow: 0 1px 2px #222;
+}
+.pause-sign{
+    color: green;
+    text-shadow: 0 1px 2px #222;
+}
+.camera-settings-text{
+    font-family: 'Audiowide', cursive;
+}
 #the-camera{
     color: #252525;
 }
@@ -22,6 +33,13 @@
 /*     visibility: hidden; */
     animation: flash-fade .50s ease-out;
 }
+.motion-buttons{
+    cursor: pointer;
+}
+
+.spin-restart{
+    animation: spin 1s;
+}
 
 @keyframes flash-fade{
     0% {opacity: 1;}
@@ -29,4 +47,9 @@
     50% {opacity: 0.5;}
     75% {opacity: 0.25;}
     100% {opacity: 0;}
+}
+
+@keyframes spin {
+    from {transform:rotate(360deg);}
+    to {transform:rotate(0deg);}
 }
