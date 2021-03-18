@@ -22,10 +22,3 @@ module.exports = {
     createEmailTemplate,
     createPlainTextEmail
 }
-
-/* let header = "Thank you for your order!";
-let body = `To download the photos, click on the link and then right click and select "Save Image As". If you have any trouble downloading the pictures, please let us know by replying to this email address or by contacting as at the number below.</p><p>Thank you so much for choosing us for your outdoor adventure!`;
-let businessName = "Brainerd Zip Line Tour";
-let businessEmail = "bztinfo@ziplinemn.com";
-let businessWebsite = "www.ZipBrainerd.com";
-let businessPhone = "(218) 656-1111"; */
