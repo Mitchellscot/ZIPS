@@ -2,8 +2,6 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-
-
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
   const query = `UPDATE "images" SET "show"=$1 WHERE "id"=$2;`;

@@ -115,4 +115,4 @@ INSERT INTO "email_settings" ("source_email", "reply_to_email", "subject", "head
 VALUES 
 ('bztinfo@ziplinemn.com', 'mscott@ziplinemn.com', 'Thank you for zipping with us!', 'Thank you for your order!', 
  'To download the photos, click on the link and then right click and select "Save Image As". If you have any trouble downloading the pictures, please let us know by replying to this email address or by contacting as at the number below.</p><p>Thank you so much for choosing us for your outdoor adventure!',
- 'Brainerd Zip Line Tour', 'bztiinfo@ziplinemn.com', 'www.zipbrainerd.com', '(218) 656-1111');
+ 'Brainerd Zip Line Tour', 'bztinfo@ziplinemn.com', 'www.zipbrainerd.com', '(218) 656-1111');

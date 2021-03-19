@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+//deletes an image with a given id
 router.delete('/delete/:id', (req, res) => {
     pool.query('DELETE FROM "orders" WHERE id=$1;', [req.params.id])
         .then((result) => {
@@ -11,7 +12,7 @@ router.delete('/delete/:id', (req, res) => {
             res.sendStatus(500);
         })
 });
-
+//edits either a name or an email with a given id
 router.put('/update/:id', (req, res) => {
     const query = `UPDATE "orders" SET "name"=$1, "email"=$2 WHERE "id"=$3;`;
     pool.query(query, [req.body.name, req.body.email, req.params.id])
@@ -22,7 +23,7 @@ router.put('/update/:id', (req, res) => {
             res.sendStatus(500);
         })
 })
-
+//mark an order as being complete
 router.put('/completed/:id', (req, res) => {
     let id = req.params.id;
     const query = `UPDATE "orders" SET "complete"='true' WHERE "id"=$1;`;
@@ -34,7 +35,7 @@ router.put('/completed/:id', (req, res) => {
             res.sendStatus(500);
         })
 });
-
+//gets orders based on a given date
 router.get('/date', (req, res) =>{
     let query = req.query;
     let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
@@ -51,11 +52,11 @@ router.get('/date', (req, res) =>{
         res.sendStatus(500);
     })
 })
-
+//gets orders. If there is a query string, use it to search. If not, get them all
 router.get('/', (req, res) => {
     let queryText = '';
     let query = req.query;
-    //if there is no query string, get them all. If there is a query string, send a sql query with that name in it. (stretch goal)
+    //if there is no query string, get them all. If there is a query string, send a sql query with that name in it.
     if (Object.keys(query).length === 0) {
         //sends back a row with data from the orders table along with an array or URLs for the photos
         queryText = `
@@ -84,7 +85,7 @@ router.get('/', (req, res) => {
         res.sendStatus(500);
     })
 });
-
+//creates an order. After dat is submitted to orders table, associate the images with the order.
 router.post('/', (req, res) => {
     const newOrder = req.body;
     const ordersQuery = `INSERT INTO "orders" 
@@ -100,6 +101,7 @@ router.post('/', (req, res) => {
                 const joinTableQuery =
                     `INSERT INTO "order_ids" ("order_id", "image_id") VALUES ($1, $2);`
                 pool.query(joinTableQuery, [createdOrderId, image]).then(result => {
+                    res.sendStatus(201);
                 }).catch(error => {
                     console.log(`HEY MITCH - GOT AN ERROR WITH ORDER_IDS TABLE ${error}`);
                     res.sendStatus(500);
@@ -110,7 +112,5 @@ router.post('/', (req, res) => {
             console.log(`HEY MITCH - YOU GOT AN ERROR PLACING AN ORDER ${error}`);
             res.sendStatus(500);
         })
-    res.sendStatus(201);
 });
-
 module.exports = router;
