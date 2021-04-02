@@ -17,8 +17,6 @@ To view the other required software that runs on the Raspbery Pi, see [this repo
 
 ### Prerequisites
 
-Link to software that is required to install the app (e.g. node).
-
 - [Node.js](https://nodejs.org/en/)
 - [Motion](https://motion-project.github.io/)
 - [Postgres](https://www.postgresql.org/download/)
