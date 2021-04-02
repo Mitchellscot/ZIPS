@@ -50,7 +50,7 @@ Finally, there is a section to edit the email that gets sent out to the guests a
 - Sweetalerts
 
 ## Acknowledgement
-Thank you to [Emerging Digital Academy](https://www.emergingacademy.org/) who taught me how to do full stack Javascript 
+This was my solo project for [Emerging Digital Academy](https://www.emergingacademy.org/) 
 
 ## Support
 If you have suggestions or questions, please email me at Mitchellscott@me.com
