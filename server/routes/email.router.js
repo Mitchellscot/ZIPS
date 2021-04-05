@@ -44,14 +44,14 @@ router.get('/', (req, res) => {
         OR "emails"."email_address" ILIKE '%${query.q}%' 
         GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
         ORDER BY "date_sent" DESC;
-        `
+        `;
     }
         pool.query(queryText).then((result)=>{
             res.send(result.rows);
         }).catch((error)=>{
             console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
              res.sendStatus(500);
-            })
+            });
 });
 
 router.post('/', (req, res) => {
