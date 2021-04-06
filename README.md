@@ -12,7 +12,7 @@ This project was designed to be an alternative revenue stream for an existing ad
 - A computer running the gallery view in the gift shop or sign up area.
 - A computer for a staff member to send off the pictures after payment has been made.
 
-Because this project has a few mobing components, the best way to see the application in action is to [view this demo](https://www.youtube.com/watch?v=Ei-ZUtdrTKw)
+Because this project has a few moving components, the best way to see the application in action is to [view this demo](https://www.youtube.com/watch?v=Ei-ZUtdrTKw)
 To view the other required software that runs on the Raspbery Pi, see [this repo](https://github.com/Mitchellscot/zips-pi-server)
 
 ### Prerequisites
