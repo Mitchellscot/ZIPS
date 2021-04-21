@@ -1,121 +1,54 @@
+# Zipline Image Photo System (ZIPS)
 
-# EDA Project
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+## Description
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+_Development Duration: 2 Week Sprint_
 
-## Use the Template for This Repository (Don't Clone)
+This project was designed to be an alternative revenue stream for an existing adventure park. There are a number of required working parts in order for it to work in addition to this main repo:
 
-- Don't Fork or Clone. Instead, click the `Use this Template` button, and make a copy to your personal account.
+- A Raspberry Pi HQ Camera, Raspberry Pi computer with Node and Motion installed.
+- An Amazon Web Services account.
+- It is assumed that the camera would operate on the local network of the business, though the main website (this repo) would be deployed.
+- A computer running the gallery view in the gift shop or sign up area.
+- A computer for a staff member to send off the pictures after payment has been made.
 
+Because this project has a few moving components, the best way to see the application in action is to [view this demo](https://www.youtube.com/watch?v=Ei-ZUtdrTKw)
+To view the other required software that runs on the Raspbery Pi, see [this repo](https://github.com/Mitchellscot/zips-pi-server)
 
-## Prerequisites
-
-Before you get started, make sure you have the following software installed on your computer:
+### Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+- [Motion](https://motion-project.github.io/)
+- [Postgres](https://www.postgresql.org/download/)
 
-## Create database and table
+## Usage
+The critical component to this application is getting the R-Pi camera to activate on motion detection. This is done through the config file that the motion detection software uses. Every location would have different configuration requirements, so it's best to familiarize yourself with the documentation if you will be setting it up: [Motion docs](https://motion-project.github.io/motion_guide.html).
 
-Create a new database called `prime_app` and create a `user` table:
+After set up, the flow works as follows:
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
+1. Guests ride on the zip line and pictures are taken automatically
+2. After the tour, the guests view the gallery and chose their photos. They enter their contact information and place an order
+3. After an order is placed, payment would have to be made at the front desk or register. There is no way to accept payment through the application.
+4. The front desk person would then go to the admin page on a computer behind the front desk and confirm payment has been made, and an email would be sent that includes all of the photos from their order.
 
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
+There are seperate sections to manage and search through the orders and the pictures. There are additional instructions on managing the photos in the pictures section.
+There is also a tab to manage the camera and manually take a picture if needed.
+Finally, there is a section to edit the email that gets sent out to the guests as well.
 
-## Development Setup Instructions
+## Built With
 
-- Run `npm install`
-- Create a `.env` file at the root of the project and paste this line into the file:
-  ```
-  SERVER_SESSION_SECRET=superDuperSecret
-  ```
-  While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-- Start postgres if not running already by using `brew services start postgresql`
-- Run `npm run server`
-- Run `npm run client`
-- Navigate to `localhost:3000`
+- AWS Simple Email Storage
+- AWS S3 (for image storage)
+- Bootstrap
+- Node / Express
+- Postgres
+- React
+- Redux
+- Simple React Lightbox
+- Sweetalerts
 
-## Debugging
+## Acknowledgement
+This was my solo project for [Emerging Digital Academy](https://www.emergingacademy.org/) 
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
-
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
-
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
-
-## Testing Routes with Postman
-
-To use Postman with this repo, you will need to set up requests in Postman to register a user and login a user at a minimum.
-
-Keep in mind that once you using the login route, Postman will manage your session cookie for you just like a browser, ensuring it is sent with each subsequent request. If you delete the `localhost` cookie in Postman, it will effectively log you out.
-
-1. Start the server - `npm run server`
-2. [Import the sample routes JSON file](./PostmanPrimeSoloRoutes.json) by clicking `Import` in Postman. Select the file.
-3. Click `Collections` and `Send` the following three calls in order:
-   1. `POST /api/user/register` registers a new user, see body to change username/password
-   2. `POST /api/user/login` will login a user, see body to change username/password
-   3. `GET /api/user` will get user information, by default it's not very much
-
-After running the login route above, you can try any other route you've created that requires a logged in user!
-
-## Production Build
-
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
-
-- Start postgres if not running already by using `brew services start postgresql`
-- Run `npm start`
-- Navigate to `localhost:5000`
-
-## Lay of the Land
-
-There are a few videos linked below that show a walkthrough the client and sever setup to help acclimatize to the boilerplate. Please take some time to watch the videos in order to get a better understanding of what the boilerplate is like.
-
-- [Initial Set](https://vimeo.com/453297271)
-- [Server Walkthrough](https://vimeo.com/453297212)
-- [Client Walkthrough](https://vimeo.com/453297124)
-
-Directory Structure:
-
-- `src/` contains the React application
-- `public/` contains static assets for the client-side
-- `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-- `server/` contains the Express App
-
-This code is also heavily commented. We recommend reading through the comments, getting a lay of the land, and becoming comfortable with how the code works before you start making too many changes. If you're wondering where to start, consider reading through component file comments in the following order:
-
-- src/components
-  - App/App
-  - Footer/Footer
-  - Nav/Nav
-  - AboutPage/AboutPage
-  - InfoPage/InfoPage
-  - UserPage/UserPage
-  - LoginPage/LoginPage
-  - RegisterPage/RegisterPage
-  - LogOutButton/LogOutButton
-  - ProtectedRoute/ProtectedRoute
-
-## Deployment
-
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
-
-## Update Documentation
-
-Customize this ReadMe and the code comments in this project to read less like a starter repo and more like a project. Here is an example: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+## Support
+If you have suggestions or questions, please email me at Mitchellscott@me.com
