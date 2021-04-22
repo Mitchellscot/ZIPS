@@ -101,7 +101,7 @@ router.post('/', (req, res) => {
                 const joinTableQuery =
                     `INSERT INTO "order_ids" ("order_id", "image_id") VALUES ($1, $2);`
                 pool.query(joinTableQuery, [createdOrderId, image]).then(result => {
-                    res.sendStatus(201);
+                    
                 }).catch(error => {
                     console.log(`HEY MITCH - GOT AN ERROR WITH ORDER_IDS TABLE ${error}`);
                     res.sendStatus(500);
