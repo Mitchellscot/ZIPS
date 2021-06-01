@@ -19,7 +19,7 @@ function OrdersTable() {
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
 
-    const params = newURLSearchParams(location.search);
+    const params = new URLSearchParams(location.search);
     const page = parseInt(params.get('page')) || 1;
 
     React.useEffect(() => {
@@ -119,7 +119,7 @@ function OrdersTable() {
                             </tr>
                         </thead>
 
-                        {orders.map(order => {
+                        {Orders.map(order => {
                             return (
                                 <tbody key={order.id}>
                                     <OrderTableRow 

@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const paginate = require('jw-paginate');
 
 //deletes an image with a given id
 router.delete('/delete/:id', (req, res) => {
@@ -54,10 +55,11 @@ router.get('/date', (req, res) =>{
 })
 //gets orders. If there is a query string, use it to search. If not, get them all
 router.get('/', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
     let queryText = '';
     let query = req.query;
     //if there is no query string, get them all. If there is a query string, send a sql query with that name in it.
-    if (Object.keys(query).length === 0) {
+    if (req.query.q == undefined) {
         //sends back a row with data from the orders table along with an array or URLs for the photos
         queryText = `
         SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
@@ -68,6 +70,7 @@ router.get('/', (req, res) => {
         ORDER BY "complete" ASC, "orders"."order_date" DESC;`
     }
     else {
+        //searches by name or email
         queryText = `
         SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
         FROM "orders"
@@ -79,7 +82,11 @@ router.get('/', (req, res) => {
         ORDER BY "complete" ASC;`
     }
     pool.query(queryText).then((result) => {
-        res.send(result.rows);
+        const pager = paginate(result.rows.length, page, 8);
+        console.log(`this is pager: ${pager}`);
+        const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+        console.log(`this is pageOfOrders ${pageOfOrders}`);
+        res.send({pager, pageOfOrders});
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
         res.sendStatus(500);
