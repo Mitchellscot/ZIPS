@@ -10,6 +10,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
+    const ipAddress = "http://192.168.1.7:8080";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //threshold max: 2147483647
@@ -38,18 +39,18 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get('http://192.168.0.86:8080/0/detection/start').then((result) => {
+        axios.get(ipAddress+'/0/detection/start').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get('http://192.168.0.86:8080/0/detection/pause').then((result) => {
+        axios.get(ipAddress+'/0/detection/pause').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get('http://192.168.0.86:8080/0/action/restart').then((result) => {
+        axios.get(ipAddress+'/0/action/restart').then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -76,16 +77,16 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(`http://192.168.0.86:8080/0/config/set?threshold=${threshold}`)
+            axios.get(ipAddress+`/0/config/set?threshold=${threshold}`)
                 .then((response) => {
-                    axios.get('http://192.168.0.86:8080/0/config/get?query=threshold').then((result) => {
+                    axios.get(ipAddress+'/0/config/get?query=threshold').then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setThreshold(answer);
                     }).catch(error => console.log(error));
-                    axios.get(`http://192.168.0.86:8080/0/config/write`).then((result) => {
+                    axios.get(ipAddress+`/0/config/write`).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -96,7 +97,7 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get('http://192.168.0.86:8080/0/detection/status').then((result) => {
+        axios.get(ipAddress+'/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -105,7 +106,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the threshold
-        axios.get('http://192.168.0.86:8080/0/config/get?query=threshold').then((result) => {
+        axios.get(ipAddress+'/0/config/get?query=threshold').then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
@@ -207,7 +208,7 @@ function CameraSettings() {
                             src="flash.jpg" alt="flash"></img>
                         <iframe
                             id="the-webcam"
-                            className="" name="webcam" src='http://192.168.0.86:8081'
+                            className="" name="webcam" src='http://192.168.1.7:8081'
                             width="1024" height="768" frameBorder="1" scrolling="no" ></iframe >
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
