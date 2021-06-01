@@ -23,12 +23,15 @@ function* fetchSearchedOrders(action) {
 
 function* fetchAllOrders(action) {
     try {
+        const page = action.payload.page;
+        console.log(`page in saga: ${page}`);
         const orderResponse = yield axios.get(`/api/order?page=${page}`, {
            pager: action.payload.pager,
            pageOfOrders: action.payload.pageOfOrders 
         });
-        //todo: set this up for reducer success 
-        yield put({type: 'SET_ORDERS', payload: orderResponse.data});
+        yield put({type: 'SET_ORDERS', payload: {
+            pager: orderResponse.data.pager, 
+            pageOfOrders: orderResponse.data.pageOfOrders}});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);

@@ -83,14 +83,12 @@ router.get('/', (req, res) => {
     }
     pool.query(queryText).then((result) => {
         const pager = paginate(result.rows.length, page, 8);
-        console.log(`this is pager: ${pager}`);
         const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        console.log(`this is pageOfOrders ${pageOfOrders}`);
         res.send({pager, pageOfOrders});
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
         res.sendStatus(500);
-    })
+    });
 });
 //creates an order. After dat is submitted to orders table, associate the images with the order.
 router.post('/', (req, res) => {

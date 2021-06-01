@@ -13,92 +13,94 @@ import Button from 'react-bootstrap/Button';
 
 function OrdersTable() {
     const dispatch = useDispatch();
-    const Orders = useSelector(store => store.pageOfOrders);
-    const Pager = useSelector(store => store.pager)
+    const Orders = useSelector(store => store.orders.pageOfOrders);
+    const Pager = useSelector(store => store.orders.pager)
     const emails = useSelector(store => store.emails);
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
-
-    const params = new URLSearchParams(location.search);
-    const page = parseInt(params.get('page')) || 1;
-
+    
     React.useEffect(() => {
-    getOrders();
-    dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+        getOrders();
+        dispatch({ type: 'FETCH_EMAIL_HISTORY' })
     }, []);
 
     const getOrders = () => {
-        if (page !== Pager.currentPage){
-            dispatch({ type: 'FETCH_ALL_ORDERS', payload: {
-                pager: Pager, 
-                pageOfOrders: Orders
-            } });
-        }
+        const params = new URLSearchParams(document.location.search);
+        const page = parseInt(params.get('page'));
+        console.log(`params ${params} and page ${page}`);
+            dispatch({
+                type: 'FETCH_ALL_ORDERS', payload: {
+                    page: page,
+                    pager: Pager,
+                    pageOfOrders: Orders
+                }
+            });
     }
 
-    const handleInputChange = (event)=> {
-        if (tab === 'orders'){
-            dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
+    const handleInputChange = (event) => {
+        if (tab === 'orders') {
+            dispatch({ type: 'SEARCH_ORDERS', payload: event.target.value });
         }
-        else if (tab === 'emails'){
-            dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
+        else if (tab === 'emails') {
+            dispatch({ type: 'SEARCH_EMAILS', payload: event.target.value });
         }
     }
 
     const handleDateSearch = () => {
-        if (tab === 'orders'){
-            dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
+        if (tab === 'orders') {
+            dispatch({ type: 'SEARCH_ORDER_DATES', payload: dateQuery });
         }
-        else if (tab === 'emails'){
-            dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
+        else if (tab === 'emails') {
+            dispatch({ type: 'SEARCH_EMAIL_DATES', payload: dateQuery });
         }
     }
     return (
         <Col className="align-items-center justify-content-center">
             {/*ORDERS SEARCH */}
-          <InputGroup className="mb-3">
-          <InputGroup.Text id="input-name-text">
-              <span>Search</span>
-              </InputGroup.Text>
-              <FormControl
+            <InputGroup className="mb-3">
+                <InputGroup.Text id="input-name-text">
+                    <span>Search</span>
+                </InputGroup.Text>
+                <FormControl
                     onChange={handleInputChange}
                     placeholder="Name or email..."
                     type="text"
                 />
-              <InputGroup.Text id="input-group-text">
-              <span>Or date</span>
-              </InputGroup.Text>
-              <FormControl
+                <InputGroup.Text id="input-group-text">
+                    <span>Or date</span>
+                </InputGroup.Text>
+                <FormControl
                     id="search-dates-orders-emails"
                     onChange={() => setDateQuery(event.target.value)}
                     type="date"
                 />
-                    <InputGroup.Append>          
+                <InputGroup.Append>
                     <Button
-                        onClick={()=>{
+                        onClick={() => {
                             let input = document.getElementById("search-dates-orders-emails").value;
-                            if (input === ''){
+                            if (input === '') {
                                 alert("Please enter a date to search");
                             }
-                            handleDateSearch();}}
+                            handleDateSearch();
+                        }}
                         variant="outline-dark"
                     >GO</Button>
                 </InputGroup.Append>
             </InputGroup>
-             {/* *************** */}
+            {/* *************** */}
 
-            <Tabs 
-            onSelect={(t) => {
-                setTab(t);
-                getOrders();
-                dispatch({ type: 'FETCH_EMAIL_HISTORY' })
-            }}
-            activeKey={tab}>
+            <Tabs
+                onSelect={(t) => {
+                    setTab(t);
+                    getOrders();
+                    dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+                }}
+                activeKey={tab}>
                 <Tab eventKey="orders" title="Orders">
                     <Table bordered hover className="Tables">
                         <thead>
                             <tr>
-                            <th width="10%">
+                                <th width="10%">
                                     Status
                                 </th>
                                 <th width="10%">
@@ -119,17 +121,17 @@ function OrdersTable() {
                             </tr>
                         </thead>
 
-                        {Orders.map(order => {
+                       {Orders !== undefined ? Orders.map(order => {
                             return (
                                 <tbody key={order.id}>
-                                    <OrderTableRow 
-                                    Pager={Pager}
-                                    Orders={Orders}
-                                    getOrders={getOrders}
+                                    <OrderTableRow
+                                        order={order}
+                                        Pager={Pager}
+                                        getOrders={getOrders}
                                     />
                                 </tbody>
                             )
-                        })}
+                        }) : JSON.stringify(Orders)}
                     </Table>
                 </Tab>
                 <Tab eventKey="emails" title="Emails" className="Tables">
