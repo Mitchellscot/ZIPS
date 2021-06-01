@@ -13,8 +13,7 @@ import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
 
-//RENAME TO OrderTableRow
-function OrderTableRow({ order }) {
+function OrderTableRow({ Orders, Pager, getOrders }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -29,15 +28,15 @@ function OrderTableRow({ order }) {
     const deleteOrder = () => {
         swal({
             title: "Are you sure?",
-            text: `You are about to delete ${order.name}'s order... u sho 'bout dat? `,
+            text: `You are about to delete ${Orders.name}'s order... u sho 'bout dat? `,
             icon: "error",
             dangerMode: true,
             button: "DELETE IT"
         }).then(willDelete => {
                 if (willDelete) {
-                    axios.delete(`/api/order/delete/${order.id}`)
+                    axios.delete(`/api/order/delete/${Orders.id}`)
                         .then((response) => {
-                            dispatch({ type: 'FETCH_ALL_ORDERS' })
+                            getOrders();
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE ORDER: ${error}`);
@@ -49,8 +48,8 @@ function OrderTableRow({ order }) {
 
     const sendEmails = () => {
         swal({
-            title: `Email ${order.name}?`,
-            text: `You are about to send an email to ${order.email} - Are you sure about that?`,
+            title: `Email ${Orders.name}?`,
+            text: `You are about to send an email to ${Orders.email} - Are you sure about that?`,
             icon: "info",
             dangerMode: false,
             buttons: true
@@ -59,15 +58,15 @@ function OrderTableRow({ order }) {
         .then(willSend=> {
             if (willSend){
                 let newEmail = {
-                    name: order.name,
-                    email: order.email,
-                    images: order.array_agg,
-                    total: order.total,
-                    orderId: order.id
+                    name: Orders.name,
+                    email: Orders.email,
+                    images: Orders.array_agg,
+                    total: Orders.total,
+                    orderId: Orders.id
                 }
                 dispatch({type: 'SEND_EMAIL', payload: newEmail});
-                axios.put(`/api/order/completed/${order.id}`).then((response)=>{
-                    dispatch({ type: 'FETCH_ALL_ORDERS' });
+                axios.put(`/api/order/completed/${Orders.id}`).then((response)=>{
+                    getOrders();
                 }).catch((error) => {
                     console.log(`HEY MITCH - CAN'T SET ORDER AS COMPLETED: ${error}`);
                 });
@@ -77,8 +76,8 @@ function OrderTableRow({ order }) {
     }
 
     const editMode = () => {
-        setName(order.name);
-        setEmail(order.email);
+        setName(Orders.name);
+        setEmail(Orders.email);
         if (toggleName && toggleEmail === false) {
             setToggleEmail(!toggleEmail);
             setToggleName(!toggleName);
@@ -86,9 +85,9 @@ function OrderTableRow({ order }) {
         else {
             setToggleEmail(!toggleEmail);
             setToggleName(!toggleName);
-            axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
+            axios.put(`/api/order/update/${Orders.id}`, { name: name, email: email })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_ALL_ORDERS' });
+                    getOrders();
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE NAME OR EMAIL: ${error}`);
@@ -122,12 +121,12 @@ function OrderTableRow({ order }) {
             >
                 <Modal.Header closeButton>
                     <Modal.Title className="w-100 text-center">
-                        <h1>Pictures From {order.name}'s Order</h1>
+                        <h1>Pictures From {Orders.name}'s Order</h1>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modalTitle">
                     <Carousel>
-                        {order.array_agg.map((image, i) => {
+                        {Orders.array_agg.map((image, i) => {
                             return (
                                 <Carousel.Item key={i}>
                                     <OrderTablePhotos image={image} />
@@ -139,7 +138,7 @@ function OrderTableRow({ order }) {
             </Modal>
             <tr>
             <td className="align-middle text-center">
-                    {order.complete ? 
+                    {Orders.complete ? 
                     <Badge pill variant="success">
                         Sent    <Check2Circle />
                     </Badge>
@@ -148,7 +147,7 @@ function OrderTableRow({ order }) {
                 </Badge>}
                 </td>
                 <td className="align-middle text-center">
-                    {formatDate(order.order_date)}
+                    {formatDate(Orders.order_date)}
                 </td>
                 <td className="align-middle text-center">
                     {toggleName ? <Form.Control
@@ -156,7 +155,7 @@ function OrderTableRow({ order }) {
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setName(e.target.value) })}
                         value={name}
-                    ></Form.Control> : order.name}
+                    ></Form.Control> : Orders.name}
                 </td>
                 <td className="text-center align-middle">
                     {toggleEmail ? <Form.Control
@@ -164,17 +163,17 @@ function OrderTableRow({ order }) {
                         onKeyPress={handleKeypress}
                         onChange={((e) => { setEmail(e.target.value) })}
                         value={email}
-                    ></Form.Control> : order.email}
+                    ></Form.Control> : Orders.email}
                 </td>
                 <td className="text-center align-middle">
-                    {order.total}
+                    {Orders.total}
                 </td>
                 <td>
                     <ButtonGroup>
                         <Button variant="outline-dark">
                             <Envelope
                             onClick={sendEmails}
-                            variant={order.complete ? "outline-dark" : "secondary"}
+                            variant={Orders.complete ? "outline-dark" : "secondary"}
                             fontSize="2rem" />
                         </Button>
                         <Button

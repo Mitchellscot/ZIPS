@@ -21,9 +21,13 @@ function* fetchSearchedOrders(action) {
     }
 }
 
-function* fetchAllOrders() {
+function* fetchAllOrders(action) {
     try {
-        const orderResponse = yield axios.get('/api/order');
+        const orderResponse = yield axios.get(`/api/order?page=${page}`, {
+           pager: action.payload.pager,
+           pageOfOrders: action.payload.pageOfOrders 
+        });
+        //todo: set this up for reducer success 
         yield put({type: 'SET_ORDERS', payload: orderResponse.data});
     }
     catch (error){

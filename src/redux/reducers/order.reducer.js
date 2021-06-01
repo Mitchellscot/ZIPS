@@ -1,9 +1,17 @@
-const orderReducer = (state = [], action) => {
+const initialState = {pager: {}, pageOfOrders: []};
+
+const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_ORDERS':
-            return action.payload;
+            return {
+                pager: action.pager,
+                pageOfOrders: action.pageOfOrders
+            }
         case 'CLEAR_ORDERS':
-            return [];
+            return {
+                pager: {},
+                pageOfOrders: []
+            };
         default:
             return state;
     }

@@ -13,34 +13,43 @@ import Button from 'react-bootstrap/Button';
 
 function OrdersTable() {
     const dispatch = useDispatch();
-    const orders = useSelector(store => store.orders);
+    const Orders = useSelector(store => store.pageOfOrders);
+    const Pager = useSelector(store => store.pager)
     const emails = useSelector(store => store.emails);
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
 
+    const params = newURLSearchParams(location.search);
+    const page = parseInt(params.get('page')) || 1;
+
     React.useEffect(() => {
-        dispatch({ type: 'FETCH_ALL_ORDERS' });
-        dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+    getOrders();
+    dispatch({ type: 'FETCH_EMAIL_HISTORY' })
     }, []);
+
+    const getOrders = () => {
+        if (page !== Pager.currentPage){
+            dispatch({ type: 'FETCH_ALL_ORDERS', payload: {
+                pager: Pager, 
+                pageOfOrders: Orders
+            } });
+        }
+    }
 
     const handleInputChange = (event)=> {
         if (tab === 'orders'){
-            /* dispatch({type: 'CLEAR_ORDERS'}); */
             dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
         }
         else if (tab === 'emails'){
-            /* dispatch({type: 'CLEAR_EMAILS'}); */
             dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
         }
     }
 
     const handleDateSearch = () => {
         if (tab === 'orders'){
-            /* dispatch({type: 'CLEAR_ORDERS'}); */
             dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
         }
         else if (tab === 'emails'){
-            /* dispatch({type: 'CLEAR_EMAILS'}); */
             dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
         }
     }
@@ -81,7 +90,7 @@ function OrdersTable() {
             <Tabs 
             onSelect={(t) => {
                 setTab(t);
-                dispatch({ type: 'FETCH_ALL_ORDERS' });
+                getOrders();
                 dispatch({ type: 'FETCH_EMAIL_HISTORY' })
             }}
             activeKey={tab}>
@@ -109,10 +118,15 @@ function OrdersTable() {
                                 </th>
                             </tr>
                         </thead>
+
                         {orders.map(order => {
                             return (
                                 <tbody key={order.id}>
-                                    <OrderTableRow order={order} />
+                                    <OrderTableRow 
+                                    Pager={Pager}
+                                    Orders={Orders}
+                                    getOrders={getOrders}
+                                    />
                                 </tbody>
                             )
                         })}
