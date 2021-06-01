@@ -3,8 +3,13 @@ import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function* fetchEmailsByDate(action){
     try{
-        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${action.payload}`);
-        yield put({type: 'SET_EMAILS', payload: searchedEmailsByDateResponse.data});
+        const q = action.payload.q;
+        const page = action.payload.page;
+        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${q}&page=${page}`);
+        yield put({type: 'SET_EMAILS', payload: {
+            pageOfEmails: searchedEmailsByDateResponse.data.pageOfEmails, 
+            pager: searchedEmailsByDateResponse.data.pager
+        }});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY EMAILS BY DATE ${error}`);
@@ -13,8 +18,14 @@ function* fetchEmailsByDate(action){
 
 function* fetchSearchedEmails(action) {
     try {
-        const searchedEmailsResponse = yield axios.get(`/api/email?q=${action.payload}`);
-        yield put({type: 'SET_EMAILS', payload: searchedEmailsResponse.data});
+        const q = action.payload.q;
+        const page = action.payload.page;
+        const searchedEmailsResponse = yield axios.get(`/api/email?q=${q}&page=${page}`);
+        yield put({type: 'SET_EMAILS', payload: {
+            pageOfEmails: searchedEmailsResponse.data.pageOfEmails,
+            pager: searchedEmailsResponse.data.pager
+        }
+    });
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
@@ -37,10 +48,15 @@ function* sendEmail(action){
     }
 }
 
-function* fetchEmails() {
+function* fetchEmails(action) {
     try {
-        const emailsResponse = yield axios.get('/api/email');
-        yield put({type: 'SET_EMAILS', payload: emailsResponse.data});
+        const page = action.payload.page;
+        const emailsResponse = yield axios.get(`/api/email?page=${page}`);
+        console.log(emailsResponse.data.pager.totalPages);
+        yield put({type: 'SET_EMAILS', payload: {
+            pager: emailsResponse.data.pager,
+            pageOfEmails: emailsResponse.data.pageOfEmails
+        }});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE EMAILS ${error}`);

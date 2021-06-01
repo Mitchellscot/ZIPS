@@ -12,9 +12,7 @@ import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
-
-//RENAME TO OrderTableRow
-function OrderTableRow({ order }) {
+function OrderTableRow({ order, Pager, getOrders }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -37,7 +35,7 @@ function OrderTableRow({ order }) {
                 if (willDelete) {
                     axios.delete(`/api/order/delete/${order.id}`)
                         .then((response) => {
-                            dispatch({ type: 'FETCH_ALL_ORDERS' })
+                            getOrders();
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE ORDER: ${error}`);
@@ -67,7 +65,7 @@ function OrderTableRow({ order }) {
                 }
                 dispatch({type: 'SEND_EMAIL', payload: newEmail});
                 axios.put(`/api/order/completed/${order.id}`).then((response)=>{
-                    dispatch({ type: 'FETCH_ALL_ORDERS' });
+                    getOrders();
                 }).catch((error) => {
                     console.log(`HEY MITCH - CAN'T SET ORDER AS COMPLETED: ${error}`);
                 });
@@ -88,7 +86,7 @@ function OrderTableRow({ order }) {
             setToggleName(!toggleName);
             axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_ALL_ORDERS' });
+                    getOrders();
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE NAME OR EMAIL: ${error}`);
@@ -110,7 +108,6 @@ function OrderTableRow({ order }) {
         const fd = new Intl.DateTimeFormat('en-us', options).format(date);
         return fd.toString();
     }
-//TODO: put the modal in it's own component
     return (
         <>
             <Modal
@@ -127,13 +124,13 @@ function OrderTableRow({ order }) {
                 </Modal.Header>
                 <Modal.Body className="modalTitle">
                     <Carousel>
-                        {order.array_agg.map((image, i) => {
+                        {order.array_agg !== undefined ? order.array_agg.map((image, i) => {
                             return (
                                 <Carousel.Item key={i}>
                                     <OrderTablePhotos image={image} />
                                 </Carousel.Item>
                             )
-                        })}
+                        }) : <span>loading...</span>}
                     </Carousel>
                 </Modal.Body>
             </Modal>
@@ -148,7 +145,7 @@ function OrderTableRow({ order }) {
                 </Badge>}
                 </td>
                 <td className="align-middle text-center">
-                    {formatDate(order.order_date)}
+                    {order.order_date !== undefined ? formatDate(order.order_date) : <span>loading...</span>}
                 </td>
                 <td className="align-middle text-center">
                     {toggleName ? <Form.Control

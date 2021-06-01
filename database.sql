@@ -61,20 +61,20 @@ SELECT * FROM "email_settings";
 
 --dummy data
 INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES
-('Jonathan Edwards', 'johnedw@yale.com', 15, '2021-03-01 13:55:18.4216589-06'), --
-('Richard Baxter', 'rbaxter@kidderminster.com', 25, '2021-03-02 11:35:18.4216589-06'), --
-('Charles Spurgeon', 'chspurgeon@beardsncigars.com', 10, '2021-03-02 12:25:18.4216589-06'),--
-('Isaac Watts', 'Iwatts@joytotheworld.com', 30, '2021-03-02 14:44:18.4216589-06'),--
-('William Wilberforce', 'wwforce@abolitionist.com', 25, '2021-03-03 09:47:18.4216589-06'),--
-('John Owens', 'jowens@oxford.com', 25, '2021-03-03 10:35:18.4216589-06'),--
-('John Newton', 'jnewtz@wretched.com', 5, '2021-03-03 09:21:18.4216589-06'),--
-('John Bunyon', 'pilgrim@progress.com', 15, '2021-03-04 11:56:18.4216589-06'),--
-('Matthew Henry', 'matthenry@commentaries.com', 35, '2021-03-04 10:36:18.4216589-06'),--
-('Henry Thomas', 'airplaneguy@legos.com', 10, '2021-03-04 14:45:18.4216589-06'),--
-('Edward Mitchell', 'alwaysmoving@seeds.com', 5, '2021-03-04 14:05:18.4216589-06'),--
-('Lydia Lynn', 'elsa@ballerina.com', 30, '2021-03-01 13:06:18.4216589-06'),--
-('Arthur Norman', 'zeezee@dish.com', 25, '2021-03-01 15:26:18.4216589-06'),--
-('Sarah Leighann', 'sarahlscott@me.com', 10, '2021-03-02 16:16:18.4216589-06')--
+('Jonathan Edwards', 'johnedw@yale.com', 15, '2021-05-31 13:55:18.4216589-06'), --
+('Richard Baxter', 'rbaxter@kidderminster.com', 25, '2021-05-31 11:35:18.4216589-06'), --
+('Charles Spurgeon', 'chspurgeon@beardsncigars.com', 10, '2021-05-30 12:25:18.4216589-06'),--
+('Isaac Watts', 'Iwatts@joytotheworld.com', 30, '2021-05-30 14:44:18.4216589-06'),--
+('William Wilberforce', 'wwforce@abolitionist.com', 25, '2021-06-01 09:47:18.4216589-06'),--
+('John Owens', 'jowens@oxford.com', 25, '2021-06-01 10:35:18.4216589-06'),--
+('John Newton', 'jnewtz@wretched.com', 5, '2021-06-01 09:21:18.4216589-06'),--
+('John Bunyon', 'pilgrim@progress.com', 15, '2021-06-01 11:56:18.4216589-06'),--
+('Matthew Henry', 'matthenry@commentaries.com', 35, '2021-06-01 10:36:18.4216589-06'),--
+('Henry Thomas', 'airplaneguy@legos.com', 10, '2021-06-01 14:45:18.4216589-06'),--
+('Edward Mitchell', 'alwaysmoving@seeds.com', 5, '2021-06-01 14:05:18.4216589-06'),--
+('Lydia Lynn', 'elsa@ballerina.com', 30, '2021-06-01 13:06:18.4216589-06'),--
+('Arthur Norman', 'zeezee@dish.com', 25, '2021-06-01 15:26:18.4216589-06'),--
+('Sarah Leighann', 'sarahlscott@me.com', 10, '2021-06-01 16:16:18.4216589-06')--
 INSERT INTO "order_ids" ("order_id", "image_id") VALUES
 (1, 11), (1, 13), (1, 11), 
 (2, 2), (2, 4), (2, 5), (2, 11), (2, 12), 
@@ -91,25 +91,25 @@ INSERT INTO "order_ids" ("order_id", "image_id") VALUES
 (13, 2), (13, 4), (13, 6), (13, 8), (13, 15), 
 (14, 4), (14, 14)
 INSERT INTO "images" ("url", "created") VALUES
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/BlackCouple.jpg', '2021-03-01 13:55:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-03-02 11:35:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/CloudyWomanZip.jpg', '2021-03-02 12:25:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/CloudyZip.jpg', '2021-03-02 14:44:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallCouple.jpg', '2021-03-03 09:47:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallZip2.jpg', '2021-03-03 10:35:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallZipper.jpg', '2021-03-03 09:21:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupKids.jpg', '2021-03-04 11:56:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupOf4.jpg', '2021-03-04 10:36:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupOf5.jpg', '2021-03-04 14:45:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/KidZip.jpg', '2021-03-04 14:05:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/LilBoyZip.jpg', '2021-03-01 13:06:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/LilGirlZip.jpg', '2021-03-01 15:26:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManCloseUp.jpg', '2021-03-02 16:16:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-03-03 10:06:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManZip.jpg', '2021-03-04 09:23:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/SnowyZip.jpg', '2021-03-04 14:48:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/WOmanZip.jpg', '2021-03-03 13:59:18.4216589-06'),
-('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/YoungWomanZip.jpg', '2021-03-01 14:19:18.4216589-06')
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/BlackCouple.jpg', '2021-05-30 13:55:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-05-30 11:35:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/CloudyWomanZip.jpg', '2021-05-30 12:25:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/CloudyZip.jpg', '2021-05-31 14:44:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallCouple.jpg', '2021-05-31 09:47:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallZip2.jpg', '2021-05-31 10:35:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/FallZipper.jpg', '2021-06-01 09:21:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupKids.jpg', '2021-06-01 11:56:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupOf4.jpg', '2021-06-01 10:36:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/GroupOf5.jpg', '2021-06-01 14:45:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/KidZip.jpg', '2021-06-01 14:05:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/LilBoyZip.jpg', '2021-06-01 13:06:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/LilGirlZip.jpg', '2021-06-01 15:26:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManCloseUp.jpg', '2021-06-01 16:16:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-06-01 10:06:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManZip.jpg', '2021-06-01 09:23:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/SnowyZip.jpg', '2021-06-01 14:48:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/WOmanZip.jpg', '2021-03-06-01:59:18.4216589-06'),
+('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/YoungWomanZip.jpg', '2021-06-01 14:19:18.4216589-06')
 
 INSERT INTO "email_settings" ("source_email", "reply_to_email", "subject", "header", "body", "business_name", "business_email", "business_website", "business_phone") 
 VALUES 

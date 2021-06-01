@@ -3,18 +3,24 @@ const EmailTemplate = require('../modules/email-template');
 const sendEmail = require('../modules/send-email');
 const router = express.Router();
 const pool = require('../modules/pool');
+const paginate = require('jw-paginate');
 
+
+//gets emails for a given date
 router.get('/date', (req, res) =>{
-    let query = req.query;
+    const page = parseInt(req.query.page) || 1;
+    let query = req.query.q;
     let queryText = `SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
     FROM "emails"
     JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
-    WHERE CAST("emails"."date_sent" as date) = date '${query.q}'
+    WHERE CAST("emails"."date_sent" as date) = date '${query}'
     GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
     ORDER BY "date_sent" DESC;`
     pool.query(queryText).then((result) => {
-        res.send(result.rows);
+        const pager = paginate(result.rows.length, page, 8);
+        const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+        res.send({pager, pageOfEmails});
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
         res.sendStatus(500);
@@ -22,9 +28,10 @@ router.get('/date', (req, res) =>{
 })
 
 router.get('/', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
     let queryText = '';
-    let query = req.query;
-    if (Object.keys(query).length === 0) {
+    let query = req.query.q;
+    if (query === undefined) {
         queryText = `
         SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
         FROM "emails"
@@ -40,14 +47,17 @@ router.get('/', (req, res) => {
         FROM "emails"
         JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
         JOIN "images" ON "order_ids"."image_id"="images"."id"
-        WHERE "emails"."name" ILIKE '%${query.q}%' 
-        OR "emails"."email_address" ILIKE '%${query.q}%' 
+        WHERE "emails"."name" ILIKE '%${query}%' 
+        OR "emails"."email_address" ILIKE '%${query}%' 
         GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
         ORDER BY "date_sent" DESC;
         `;
     }
         pool.query(queryText).then((result)=>{
-            res.send(result.rows);
+            const pager = paginate(result.rows.length, page, 8);
+            const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+            res.send({pager, pageOfEmails});
+            console.log(pageOfEmails);
         }).catch((error)=>{
             console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
              res.sendStatus(500);

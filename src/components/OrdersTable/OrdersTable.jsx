@@ -10,86 +10,118 @@ import EmailTableRow from '../EmailTableRow/EmailTableRow';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import Pagination from '../Pagination/Pagination';
 
 function OrdersTable() {
     const dispatch = useDispatch();
-    const orders = useSelector(store => store.orders);
-    const emails = useSelector(store => store.emails);
+    const Orders = useSelector(store => store.orders.pageOfOrders);
+    const orderPager = useSelector(store => store.orders.pager)
+    const emails = useSelector(store => store.emails.pageOfEmails);
+    const emailPager = useSelector(store => store.emails.pager)
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
-
+    const params = new URLSearchParams(document.location.search);
+    const page = parseInt(params.get('page'));
+    
     React.useEffect(() => {
-        dispatch({ type: 'FETCH_ALL_ORDERS' });
-        dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+        getOrders();
+        getEmails();
     }, []);
 
-    const handleInputChange = (event)=> {
-        if (tab === 'orders'){
-            /* dispatch({type: 'CLEAR_ORDERS'}); */
-            dispatch({type: 'SEARCH_ORDERS', payload: event.target.value});
+    const getEmails = () => {
+        dispatch({
+            type: 'FETCH_EMAIL_HISTORY', payload: {
+                page: page
+            }
+        });
+    }
+
+    const getOrders = () => {
+            dispatch({
+                type: 'FETCH_ALL_ORDERS', payload: {
+                    page: page
+                }
+            });
+    }
+
+    const handleInputChange = (event) => {
+
+        if (tab === 'orders') {
+            dispatch({ type: 'SEARCH_ORDERS', payload: {
+                q: event.target.value,
+                page: page
+            }});
         }
-        else if (tab === 'emails'){
-            /* dispatch({type: 'CLEAR_EMAILS'}); */
-            dispatch({type: 'SEARCH_EMAILS', payload: event.target.value});
+        else if (tab === 'emails') {
+            dispatch({ type: 'SEARCH_EMAILS', payload: {
+                q: event.target.value,
+                page: page
+             }});
         }
     }
 
     const handleDateSearch = () => {
-        if (tab === 'orders'){
-            /* dispatch({type: 'CLEAR_ORDERS'}); */
-            dispatch({type: 'SEARCH_ORDER_DATES', payload: dateQuery});
+        if (tab === 'orders') {
+            dispatch({ type: 'SEARCH_ORDER_DATES', payload: {
+                q: dateQuery,
+                page: page
+            }});
         }
-        else if (tab === 'emails'){
-            /* dispatch({type: 'CLEAR_EMAILS'}); */
-            dispatch({type: 'SEARCH_EMAIL_DATES', payload: dateQuery});
+        else if (tab === 'emails') {
+            dispatch({ type: 'SEARCH_EMAIL_DATES', payload: {
+                q: dateQuery,
+                page: page
+            }});
         }
     }
+
     return (
         <Col className="align-items-center justify-content-center">
             {/*ORDERS SEARCH */}
-          <InputGroup className="mb-3">
-          <InputGroup.Text id="input-name-text">
-              <span>Search</span>
-              </InputGroup.Text>
-              <FormControl
+            <InputGroup className="mb-3">
+                <InputGroup.Text id="input-name-text">
+                    <span>Search</span>
+                </InputGroup.Text>
+                <FormControl
                     onChange={handleInputChange}
                     placeholder="Name or email..."
                     type="text"
                 />
-              <InputGroup.Text id="input-group-text">
-              <span>Or date</span>
-              </InputGroup.Text>
-              <FormControl
+                <InputGroup.Text id="input-group-text">
+                    <span>Or date</span>
+                </InputGroup.Text>
+                <FormControl
                     id="search-dates-orders-emails"
                     onChange={() => setDateQuery(event.target.value)}
                     type="date"
                 />
-                    <InputGroup.Append>          
+                <InputGroup.Append>
                     <Button
-                        onClick={()=>{
+                        onClick={() => {
                             let input = document.getElementById("search-dates-orders-emails").value;
-                            if (input === ''){
+                            if (input === '') {
                                 alert("Please enter a date to search");
                             }
-                            handleDateSearch();}}
+                            handleDateSearch();
+                        }}
                         variant="outline-dark"
                     >GO</Button>
                 </InputGroup.Append>
             </InputGroup>
-             {/* *************** */}
+            {/* *************** */}
 
-            <Tabs 
-            onSelect={(t) => {
-                setTab(t);
-                dispatch({ type: 'FETCH_ALL_ORDERS' });
-                dispatch({ type: 'FETCH_EMAIL_HISTORY' })
-            }}
-            activeKey={tab}>
+            <Tabs
+                onSelect={(t) => {
+                    setTab(t);
+                    getOrders();
+                    getEmails();
+                }}
+                activeKey={tab}>
                 <Tab eventKey="orders" title="Orders">
                     <Table bordered hover className="Tables">
                         <thead>
                             <tr>
-                            <th width="10%">
+                                <th width="10%">
                                     Status
                                 </th>
                                 <th width="10%">
@@ -109,15 +141,24 @@ function OrdersTable() {
                                 </th>
                             </tr>
                         </thead>
-                        {orders.map(order => {
+
+                       {Orders !== undefined ? Orders.map(order => {
                             return (
                                 <tbody key={order.id}>
-                                    <OrderTableRow order={order} />
+                                    <OrderTableRow
+                                        order={order}
+                                        Pager={orderPager}
+                                        getOrders={getOrders}
+                                    />
                                 </tbody>
                             )
-                        })}
+                        }) : <tbody><tr className="d-flex justify-content-center">
+                            <td colSpan='6'>No orders to view</td>
+                            </tr></tbody>}
                     </Table>
+                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
                 </Tab>
+
                 <Tab eventKey="emails" title="Emails" className="Tables">
                     <Table bordered hover>
                         <thead>
@@ -139,14 +180,18 @@ function OrdersTable() {
                                 </th>
                             </tr>
                         </thead>
-                        {emails.map(email => {
+                        {emails !== undefined ? emails.map(email => {
                             return (
                                 <tbody key={email.id}>
-                                    <EmailTableRow email={email} />
+                                    <EmailTableRow email={email} 
+                                    />
                                 </tbody>
-                            )
-                        })}
+                            ) 
+                        }) : <tbody><tr className="d-flex justify-content-center">
+                        <td colSpan='6'>No Emails to view</td>
+                        </tr></tbody>}
                     </Table>
+                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
                 </Tab>
             </Tabs>
         </Col>

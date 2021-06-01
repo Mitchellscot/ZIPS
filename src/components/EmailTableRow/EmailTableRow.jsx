@@ -28,10 +28,6 @@ function EmailTableRow({ email }) {
         return fd.toString();
     }
 
-    React.useEffect(()=>{
-        dispatch({ type: 'FETCH_EMAIL_HISTORY' });
-    }, []);
-
     return (
         <>
             <Modal
