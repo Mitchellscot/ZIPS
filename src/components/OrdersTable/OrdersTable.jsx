@@ -10,6 +10,7 @@ import EmailTableRow from '../EmailTableRow/EmailTableRow';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import Pagination from '../Pagination/Pagination';
 
 function OrdersTable() {
     const dispatch = useDispatch();
@@ -18,6 +19,8 @@ function OrdersTable() {
     const emails = useSelector(store => store.emails);
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
+    const params = new URLSearchParams(document.location.search);
+    const page = parseInt(params.get('page'));
     
     React.useEffect(() => {
         getOrders();
@@ -25,21 +28,20 @@ function OrdersTable() {
     }, []);
 
     const getOrders = () => {
-        const params = new URLSearchParams(document.location.search);
-        const page = parseInt(params.get('page'));
-        console.log(`params ${params} and page ${page}`);
             dispatch({
                 type: 'FETCH_ALL_ORDERS', payload: {
-                    page: page,
-                    pager: Pager,
-                    pageOfOrders: Orders
+                    page: page
                 }
             });
     }
 
     const handleInputChange = (event) => {
+
         if (tab === 'orders') {
-            dispatch({ type: 'SEARCH_ORDERS', payload: event.target.value });
+            dispatch({ type: 'SEARCH_ORDERS', payload: {
+                q: event.target.value,
+                page: page
+            }});
         }
         else if (tab === 'emails') {
             dispatch({ type: 'SEARCH_EMAILS', payload: event.target.value });
@@ -48,12 +50,16 @@ function OrdersTable() {
 
     const handleDateSearch = () => {
         if (tab === 'orders') {
-            dispatch({ type: 'SEARCH_ORDER_DATES', payload: dateQuery });
+            dispatch({ type: 'SEARCH_ORDER_DATES', payload: {
+                q: dateQuery,
+                page: page
+            }});
         }
         else if (tab === 'emails') {
             dispatch({ type: 'SEARCH_EMAIL_DATES', payload: dateQuery });
         }
     }
+
     return (
         <Col className="align-items-center justify-content-center">
             {/*ORDERS SEARCH */}
@@ -131,8 +137,11 @@ function OrdersTable() {
                                     />
                                 </tbody>
                             )
-                        }) : JSON.stringify(Orders)}
+                        }) : <tbody><tr className="d-flex justify-content-center">
+                            <td colSpan='6'>No orders to view</td>
+                            </tr></tbody>}
                     </Table>
+                    {Pager.totalPages > 1 ? <Pagination Pager={Pager}/> : <> </>}
                 </Tab>
                 <Tab eventKey="emails" title="Emails" className="Tables">
                     <Table bordered hover>

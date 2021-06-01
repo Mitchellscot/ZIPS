@@ -3,8 +3,12 @@ import { put, takeEvery } from 'redux-saga/effects';
 
 function* fetchOrdersByDate(action){
     try{
-        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload}`);
-        yield put({type: 'SET_ORDERS', payload: searchedOrdersByDateResponse.data});
+        const page = action.payload.page;
+        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload}&page=${page}`);
+        yield put({type: 'SET_ORDERS', payload: {
+            pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
+            pager: searchedOrdersByDateResponse.data.pager
+        }});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY DATE ${error}`);
@@ -13,8 +17,12 @@ function* fetchOrdersByDate(action){
 
 function* fetchSearchedOrders(action) {
     try {
-        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload}`);
-        yield put({type: 'SET_ORDERS', payload: searchedOrdersResponse.data});
+        const page = action.payload.page;
+        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload.q}&page=${page}`);
+        yield put({type: 'SET_ORDERS', payload: {
+            pageOfOrders: searchedOrdersResponse.data.pageOfOrders,
+            pager: searchedOrdersResponse.data.pager
+        }});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE SEARCHED ORDERS ${error}`);
@@ -24,7 +32,6 @@ function* fetchSearchedOrders(action) {
 function* fetchAllOrders(action) {
     try {
         const page = action.payload.page;
-        console.log(`page in saga: ${page}`);
         const orderResponse = yield axios.get(`/api/order?page=${page}`, {
            pager: action.payload.pager,
            pageOfOrders: action.payload.pageOfOrders 
