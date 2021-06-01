@@ -1,9 +1,18 @@
-const emailReducer = (state = [], action) => {
+const initialState = {pager: {}, pageOfEmails: []};
+
+const emailReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_EMAILS':
-            return action.payload;
+            return {
+                ...state,
+                pager: action.payload.pager,
+                pageOfEmails: action.payload.pageOfEmails
+            }
         case 'CLEAR_EMAILS':
-            return [];
+            return {
+                pager: {},
+                pageOfEmails: []
+            };
         default:
             return state;
     }

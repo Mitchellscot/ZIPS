@@ -32,10 +32,7 @@ function* fetchSearchedOrders(action) {
 function* fetchAllOrders(action) {
     try {
         const page = action.payload.page;
-        const orderResponse = yield axios.get(`/api/order?page=${page}`, {
-           pager: action.payload.pager,
-           pageOfOrders: action.payload.pageOfOrders 
-        });
+        const orderResponse = yield axios.get(`/api/order?page=${page}`);
         yield put({type: 'SET_ORDERS', payload: {
             pager: orderResponse.data.pager, 
             pageOfOrders: orderResponse.data.pageOfOrders}});

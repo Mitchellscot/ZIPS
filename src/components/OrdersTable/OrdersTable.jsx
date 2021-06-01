@@ -15,8 +15,9 @@ import Pagination from '../Pagination/Pagination';
 function OrdersTable() {
     const dispatch = useDispatch();
     const Orders = useSelector(store => store.orders.pageOfOrders);
-    const Pager = useSelector(store => store.orders.pager)
-    const emails = useSelector(store => store.emails);
+    const orderPager = useSelector(store => store.orders.pager)
+    const emails = useSelector(store => store.emails.pageOfEmails);
+    const emailPager = useSelector(store => store.emails.pager)
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
     const params = new URLSearchParams(document.location.search);
@@ -24,8 +25,16 @@ function OrdersTable() {
     
     React.useEffect(() => {
         getOrders();
-        dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+        getEmails();
     }, []);
+
+    const getEmails = () => {
+        dispatch({
+            type: 'FETCH_EMAIL_HISTORY', payload: {
+                page: page
+            }
+        });
+    }
 
     const getOrders = () => {
             dispatch({
@@ -44,7 +53,10 @@ function OrdersTable() {
             }});
         }
         else if (tab === 'emails') {
-            dispatch({ type: 'SEARCH_EMAILS', payload: event.target.value });
+            dispatch({ type: 'SEARCH_EMAILS', payload: {
+                q: event.target.value,
+                page: page
+             }});
         }
     }
 
@@ -56,7 +68,10 @@ function OrdersTable() {
             }});
         }
         else if (tab === 'emails') {
-            dispatch({ type: 'SEARCH_EMAIL_DATES', payload: dateQuery });
+            dispatch({ type: 'SEARCH_EMAIL_DATES', payload: {
+                q: dateQuery,
+                page: page
+            }});
         }
     }
 
@@ -99,7 +114,7 @@ function OrdersTable() {
                 onSelect={(t) => {
                     setTab(t);
                     getOrders();
-                    dispatch({ type: 'FETCH_EMAIL_HISTORY' })
+                    getEmails();
                 }}
                 activeKey={tab}>
                 <Tab eventKey="orders" title="Orders">
@@ -132,7 +147,7 @@ function OrdersTable() {
                                 <tbody key={order.id}>
                                     <OrderTableRow
                                         order={order}
-                                        Pager={Pager}
+                                        Pager={orderPager}
                                         getOrders={getOrders}
                                     />
                                 </tbody>
@@ -141,8 +156,9 @@ function OrdersTable() {
                             <td colSpan='6'>No orders to view</td>
                             </tr></tbody>}
                     </Table>
-                    {Pager.totalPages > 1 ? <Pagination Pager={Pager}/> : <> </>}
+                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
                 </Tab>
+
                 <Tab eventKey="emails" title="Emails" className="Tables">
                     <Table bordered hover>
                         <thead>
@@ -164,14 +180,18 @@ function OrdersTable() {
                                 </th>
                             </tr>
                         </thead>
-                        {emails.map(email => {
+                        {emails !== undefined ? emails.map(email => {
                             return (
                                 <tbody key={email.id}>
-                                    <EmailTableRow email={email} />
+                                    <EmailTableRow email={email} 
+                                    />
                                 </tbody>
-                            )
-                        })}
+                            ) 
+                        }) : <tbody><tr className="d-flex justify-content-center">
+                        <td colSpan='6'>No Emails to view</td>
+                        </tr></tbody>}
                     </Table>
+                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
                 </Tab>
             </Tabs>
         </Col>
