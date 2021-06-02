@@ -39,7 +39,6 @@ router.post('/logout', (req, res) => {
 router.put('/:id', rejectUnauthenticated, (req, res) => {
   const userId = req.params.id;
   const newPassword = encryptLib.encryptPassword(req.body.password);
-  console.log(newPassword);
   try {
     const query = `UPDATE "user" SET "password"=$1 WHERE "id"=$2;`;
     pool.query(query, [newPassword, userId]).then(res.sendStatus(200));
