@@ -11,6 +11,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import EmailSettings from '../EmailSettings/EmailSettings';
 import EmailPreview from '../EmailPreview/EmailPreview';
+import AccountPassword from '../AccountPassword/AccountPassword';
+
 
 function AccountSettings() {
     const dispatch = useDispatch();
@@ -20,6 +22,7 @@ function AccountSettings() {
     const [photoCost, setPhotoCost] = useState(0);
     const [tax, setTax] = useState(0);
     const [editCostMode, setEditCostMode] = useState(false);
+
     const toggleEditCostMode = () => {
         setEditCostMode(!editCostMode);
     }
@@ -86,6 +89,8 @@ function AccountSettings() {
         }
     };
 
+
+
     useEffect(() => {
         dispatch({ type: 'FETCH_COST' });
     }, []);
@@ -143,7 +148,7 @@ function AccountSettings() {
                                 </tr>
                             </tbody>
                         </Table>
-                        {/* TODO: make a row to change account passwords */}
+                        <AccountPassword />
                     </Tab>
                     <Tab eventKey="emailSettings" title="Email">
                         <EmailSettings
@@ -160,7 +165,7 @@ function AccountSettings() {
                 showEmail={showEmail}
                 setShowEmail={setShowEmail}
                 toggleShowEmail={toggleShowEmail}
-            /> : <></> }
+            /> : <></>}
         </>
     );
 }
