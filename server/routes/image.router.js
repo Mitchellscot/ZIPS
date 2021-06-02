@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const paginate = require('jw-paginate');
 
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
@@ -35,17 +36,21 @@ router.get('/shown', (req, res)=>{
     res.sendStatus(500);});
 })
 
-//selects all images that were created on a given date
+//selects all images that were created on a given date - pagination enabled
 router.get('/date', (req, res)=>{
+  const page = parseInt(req.query.page) || 1;
   let query = req.query;
   const queryText = `SELECT * FROM "images" WHERE CAST("created" as date) = date '${query.q}' 
   ORDER BY "created" ASC;`
   pool.query(queryText)
-  .then((result) => {res.send(result.rows);})
+  .then((result) => {
+    const pager = paginate(result.rows.length, page, 15);
+    const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+    res.send({pager, pageOfOrders});  })
   .catch((error)=>{
     console.log('HEY MITCH - COULDN\'T GET THE IMAGES BY DATE', error); 
     res.sendStatus(500);});
-})
+});
 
 //get all images created in the past 5 hours or if show=true
 router.get('/', (req, res) => {
@@ -59,12 +64,16 @@ router.get('/', (req, res) => {
     res.sendStatus(500);});
 });
 
-//get all images that were created TODAY
+//get all images that were created TODAY - pagination enabled
 router.get('/today', (req, res) => {
+  const page = parseInt(req.query.page) || 1;
   const query  = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now())
   ORDER BY "created" ASC;`;
   pool.query(query)
-  .then((result) => {res.send(result.rows);})
+  .then((result) => {
+    const pager = paginate(result.rows.length, page, 15);
+    const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+    res.send({pager, pageOfOrders});  })
   .catch((error)=>{
     console.log('HEY MITCH - COULDN\'T GET THE IMAGES', error); 
     res.sendStatus(500);});

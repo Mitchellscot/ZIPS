@@ -19,9 +19,14 @@ function PicturesTable() {
     const [dateQuery, setDateQuery] = useState(false);
     const gallery = useSelector(store => store.gallery.galleryReducer);
     const shownImages = useSelector(store => store.gallery.shownImagesReducer);
+    //todo: add pictures where appropriate (replace "gallery" ? )
+    const pictures = useSelector(store => store.gallery.picturePageReducer.pageOfPictures);
+    const pager = useSelector(store => store.gallery.picturePageReducer.pager);
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const params = new URLSearchParams(document.location.search);
+    const page = parseInt(params.get('page'));
     //"show mode" means it's showing all images where show=true, instead of the standard gallery
     const [showMode, setShowMode] = useState(false);
 
@@ -48,7 +53,7 @@ function PicturesTable() {
         }
         else {
             dispatch({ type: 'RESET_IMAGES' });
-            dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
+            dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
         }
     }
 
@@ -71,7 +76,7 @@ function PicturesTable() {
         document.getElementById('picture-search-date').value = todaysDate.toString();
         setDateQuery(false);
         setShowMode(false);
-        dispatch({ type: 'FETCH_TODAYS_IMAGES' })
+        dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page }});
     };
 
     useEffect(() => {

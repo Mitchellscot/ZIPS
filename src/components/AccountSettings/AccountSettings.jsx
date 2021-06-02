@@ -109,7 +109,7 @@ function AccountSettings() {
                                             className="text-left w-25"
                                             onKeyPress={handleKeyPressCost}
                                             onChange={((e) => { setPhotoCost(e.target.value) })}
-                                            value={photoCost}
+                                            value={photoCost != undefined ? photocost : 0}
                                             required
                                         ></Form.Control> <PencilFill
                                                 onClick={handleEditCostMode}
@@ -130,7 +130,7 @@ function AccountSettings() {
                                             className="text-left w-25"
                                             onKeyPress={handleKeyPressTax}
                                             onChange={((e) => { setTax(e.target.value) })}
-                                            value={tax}
+                                            value={tax != undefined ? tax : 0}
                                             required
                                         ></Form.Control> <PencilFill
                                                 onClick={handleEditTaxMode}

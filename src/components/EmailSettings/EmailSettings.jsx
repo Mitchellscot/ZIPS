@@ -71,10 +71,17 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
     return (
         <>
             <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
-                <h4 className="mr-auto">Email Settings</h4><Button
+                <h4 className="mr-auto">Email Settings</h4>
+                {editMode ? <Button
                     onClick={editEmailMode}
-                    variant={editMode ? "dark" : "outline-dark"}
+                    variant="dark"
+                >Save</Button> : 
+                <Button
+                    onClick={editEmailMode}
+                    variant="outline-dark"
                 >Edit</Button>
+                }
+
                 <Button
                     onClick={toggleShowEmail}
                     variant={showEmail ? "dark" : "outline-dark"}

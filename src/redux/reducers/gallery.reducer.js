@@ -21,8 +21,23 @@ const shownImagesReducer = (state = [], action) => {
             return state;
     }
 }
+const initialState = {pager: {}, pageOfOrders: []};
+
+const picturePageReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'SET_PICTURES':
+            return {
+                ...state,
+                pager: action.payload.pager,
+                pageOfPictures: action.payload.pageOfPictures
+            }
+        default:
+            return state;
+    }
+}
 
 export default combineReducers({
     galleryReducer,
-    shownImagesReducer
+    shownImagesReducer,
+    picturePageReducer
 });

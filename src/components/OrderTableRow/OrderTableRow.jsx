@@ -12,7 +12,7 @@ import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
-function OrderTableRow({ order, Pager, getOrders }) {
+function OrderTableRow({ order, getOrders }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

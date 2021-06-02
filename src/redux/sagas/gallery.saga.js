@@ -12,22 +12,28 @@ function* fetchShownImages(){
     }
 }
 
-//gets all images that match a given date
+//gets all images that match a given date - able to paginate (that's why it's SET_PICTURES)
 function* fetchImagesByDate(action){
     try{
-        const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload}`);
-        yield put({type: 'SET_IMAGES', payload: searchedImagesByDateResponse.data});
+        const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload.q}&page=${action.payload.page}`);
+        yield put({type: 'SET_PICTURES', payload: {
+            pager: searchedImagesByDateResponse.data.pager,
+            pageOfPictures: searchedImagesByDateResponse.data.pageOfPictures
+        }});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T GET THE IMAGES BY DATE ${error}`);
     }
 }
 
-//Gets all images that were created today
-function* fetchTodaysImages() {
+//Gets all images that were created today - able to paginate
+function* fetchTodaysImages(action) {
     try {
-        const galleryResponse = yield axios.get('/api/image/today');
-        yield put({type: 'SET_IMAGES', payload: galleryResponse.data});
+        const galleryResponse = yield axios.get(`/api/image/today?page=${action.payload.page}`);
+        yield put({type: 'SET_PICTURES', payload: {
+            pager: galleryResponse.data.pager,
+            pageOfPictures: galleryResponse.data.pageOfPictures
+        }});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE PICTURES ${error}`);

@@ -147,7 +147,6 @@ function OrdersTable() {
                                 <tbody key={order.id}>
                                     <OrderTableRow
                                         order={order}
-                                        Pager={orderPager}
                                         getOrders={getOrders}
                                     />
                                 </tbody>
@@ -191,7 +190,7 @@ function OrdersTable() {
                         <td colSpan='6'>No Emails to view</td>
                         </tr></tbody>}
                     </Table>
-                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
+                    {emailPager.totalPages > 1 ? <Pagination Pager={emailpager}/> : <> </>}
                 </Tab>
             </Tabs>
         </Col>

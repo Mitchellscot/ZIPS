@@ -8,6 +8,9 @@ import swal from 'sweetalert';
 import axios from 'axios';
 
 function PicturesTablePicture({ image, dateQuery }) {
+
+    //might be some bugs here as there are two seperate reducers handling "shown" pictures and paginated pictures... might need to put them in the same reducer.
+
     const dispatch = useDispatch();
 
     const handleShowImage = () => {
@@ -15,10 +18,12 @@ function PicturesTablePicture({ image, dateQuery }) {
             if (dateQuery === true) {
                 let dateQ = document.getElementById("picture-search-date").value;
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
+                //todo: add page payload
                 dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
             }
             else {
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
+                //todo: add page payload
                 dispatch({ type: 'FETCH_TODAYS_IMAGES' })
             }
         }).catch((error) => {
@@ -39,19 +44,17 @@ function PicturesTablePicture({ image, dateQuery }) {
                         .then((response) => {
                             if (dateQuery === true) {
                                 let dateQ = document.getElementById("picture-search-date").value;
-                                dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                                /* dispatch({ type: 'RESET_IMAGES' }); */
-                                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
+                                dispatch({ type: 'FETCH_SHOWN_IMAGES'});
+                                dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
                             }
                             else {
-                                dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                                /* dispatch({ type: 'RESET_IMAGES' }); */
-                                dispatch({ type: 'FETCH_TODAYS_IMAGES' })
+                                dispatch({ type: 'FETCH_SHOWN_IMAGES' });
+                                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} });
                             }
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE IMAGE: ${error}`);
-                        })
+                        });
                 }
                 else return;
             });

@@ -4,7 +4,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 function* fetchOrdersByDate(action){
     try{
         const page = action.payload.page;
-        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload}&page=${page}`);
+        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload.q}&page=${page}`);
         yield put({type: 'SET_ORDERS', payload: {
             pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
             pager: searchedOrdersByDateResponse.data.pager
