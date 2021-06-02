@@ -31,6 +31,11 @@ const picturePageReducer = (state = initialState, action) => {
                 pager: action.payload.pager,
                 pageOfPictures: action.payload.pageOfPictures
             }
+            case 'RESET_PICTURES':
+                return {
+                    pager:{},
+                    pageOfPictures: []
+                };
         default:
             return state;
     }

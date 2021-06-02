@@ -11,17 +11,15 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import PicturesTablePicture from '../PicturesTablePicture/PicturesTablePicture';
 import { QuestionCircle } from "react-bootstrap-icons";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Pagination from "../PicturesPagination/PicturesPagination";
 import axios from 'axios';
 
 function PicturesTable() {
     const dispatch = useDispatch();
     const [dateQuery, setDateQuery] = useState(false);
-    const gallery = useSelector(store => store.gallery.galleryReducer);
     const shownImages = useSelector(store => store.gallery.shownImagesReducer);
-    //todo: add pictures where appropriate (replace "gallery" ? )
     const pictures = useSelector(store => store.gallery.picturePageReducer.pageOfPictures);
-    const pager = useSelector(store => store.gallery.picturePageReducer.pager);
+    const Pager = useSelector(store => store.gallery.picturePageReducer.pager);
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
@@ -37,8 +35,8 @@ function PicturesTable() {
     const setShownImagesToFalse = () => {
         shownImages.map(image => {
             axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
-                dispatch({ type: 'RESET_IMAGES' });
-                dispatch({ type: 'FETCH_SHOWN_IMAGES' });
+                dispatch({ type: 'RESET_SHOWN_IMAGES' });
+                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} });
                 setShowMode(false);
             }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
         })
@@ -79,9 +77,9 @@ function PicturesTable() {
         dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page }});
     };
 
-    useEffect(() => {
+     useEffect(() => {
         dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-    }, []);
+    }, []); 
 
     return (
         <>
@@ -139,7 +137,7 @@ function PicturesTable() {
                     <SRLWrapper>
                         <Row className="row-cols-6 row-cols-sm-3 row-cols-md-5 px-3">
                             {showMode ?
-                                shownImages.map(image => {
+                                 shownImages != undefined ? shownImages.map(image => {
                                     return (
                                         <Col key={image.id}>
                                             <PicturesTablePicture
@@ -147,19 +145,22 @@ function PicturesTable() {
                                                 image={image} />
                                         </Col>
                                     )
-                                })
+                                }) : <span> </span> 
                                 :
-                                gallery.map(image => {
+                                pictures != undefined ? pictures.map(image => {
                                     return (
                                         <Col key={image.id}>
                                             <PicturesTablePicture
                                                 dateQuery={dateQuery}
-                                                image={image} />
+                                                image={image} 
+                                                page={page}
+                                                />
                                         </Col>
                                     )
-                                })
+                                }) : <span> </span>
                             }
                         </Row>
+                        {Pager.totalPages > 1 && !showMode ? <Pagination Pager={Pager} dateQuery={dateQuery} page={page}/> : <> </>}
                     </SRLWrapper>
                 </Row>
             </Container>

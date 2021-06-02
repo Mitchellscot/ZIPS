@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Pagination.css';
+import './OrdersPagination.css';
 
-export default function Pagination({ Pager }) {
+export default function OrdersPagination({ Pager }) {
 
     return (
         <ul className="pagination">
