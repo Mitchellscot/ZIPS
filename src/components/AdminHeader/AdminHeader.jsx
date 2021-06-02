@@ -3,8 +3,11 @@ import { useHistory } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import {BoxArrowRight} from 'react-bootstrap-icons';
+import { useDispatch } from 'react-redux';
 
 function AdminHeader(){
+    const dispatch = useDispatch();
+
     const history = useHistory();
     return(
         <Navbar sticky="top" bg="dark" expand="lg" className="d-flex justify-content-between flex-md-nowrap p-0 shadow">
@@ -16,6 +19,7 @@ function AdminHeader(){
                     className="mr-4"
                     fontSize="2rem"
                     color="white"
+                    onClick={() => dispatch({ type: 'LOGOUT' })}
                     />
                 </li>
             </ul>

@@ -34,7 +34,7 @@ function AccountSettings() {
     }
 
     const handleEditCostMode = () => {
-        setPhotoCost(cost[0].cost);
+        setPhotoCost(cost.price);
         if (editCostMode === false) {
             setEditCostMode(!editCostMode);
         }
@@ -54,7 +54,7 @@ function AccountSettings() {
 
     //change the tax when pencil is clicked
     const handleEditTaxMode = () => {
-        setTax(cost[0].tax);
+        setTax(cost.tax);
         if (editTaxMode === false) {
             setEditTaxMode(!editTaxMode);
         }
@@ -104,17 +104,17 @@ function AccountSettings() {
                                     <td width="20%" className="font-weight-bold align-middle">
                                         Picture Price
                                 </td>
-                                    <td className="d-flex align-middle justify-content-between">
+                                    <td className="d-flex align-middle justify-content-between border-0">
                                         {editCostMode ? <><Form.Control
                                             className="text-left w-25"
                                             onKeyPress={handleKeyPressCost}
                                             onChange={((e) => { setPhotoCost(e.target.value) })}
-                                            value={photoCost != undefined ? photocost : 0}
+                                            value={photoCost}
                                             required
                                         ></Form.Control> <PencilFill
                                                 onClick={handleEditCostMode}
                                                 fontSize="1.3rem"
-                                            /> </> : <> $ {cost.map(cost => cost.cost)} <Pencil
+                                            /> </> : <> $ {cost.price} <Pencil
                                                 onClick={handleEditCostMode}
                                                 fontSize="1.3rem"
                                             /></>
@@ -125,17 +125,17 @@ function AccountSettings() {
                                     <td width="20%" className="font-weight-bold align-middle">
                                         Tax Percentage
                                 </td>
-                                    <td className="align-middle d-flex justify-content-between">
+                                    <td className="d-flex justify-content-between align-middle border-bottom-0 ">
                                         {editTaxMode ? <> <Form.Control
                                             className="text-left w-25"
                                             onKeyPress={handleKeyPressTax}
                                             onChange={((e) => { setTax(e.target.value) })}
-                                            value={tax != undefined ? tax : 0}
+                                            value={tax}
                                             required
                                         ></Form.Control> <PencilFill
                                                 onClick={handleEditTaxMode}
                                                 fontSize="1.3rem"
-                                            /></> : <> {cost.map(cost => cost.tax)} <Pencil
+                                            /></> : <> {cost.tax} <Pencil
                                                 onClick={handleEditTaxMode}
                                                 fontSize="1.3rem"
                                             /></>}
@@ -143,6 +143,7 @@ function AccountSettings() {
                                 </tr>
                             </tbody>
                         </Table>
+                        {/* TODO: make a row to change account passwords */}
                     </Tab>
                     <Tab eventKey="emailSettings" title="Email">
                         <EmailSettings
@@ -154,13 +155,12 @@ function AccountSettings() {
                     </Tab>
                 </Tabs>
             </Col>
-            <EmailPreview
+            {showEmail ? <EmailPreview
                 emailSettings={emailSettings}
                 showEmail={showEmail}
                 setShowEmail={setShowEmail}
                 toggleShowEmail={toggleShowEmail}
-            />
-
+            /> : <></> }
         </>
     );
 }
