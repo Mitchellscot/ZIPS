@@ -1,6 +1,6 @@
 import './AdminSideBar.css';
 import Nav from 'react-bootstrap/Nav';
-import { InboxFill, Image, CameraFill, GearFill } from 'react-bootstrap-icons';
+import { InboxFill, Image, CameraFill, GearFill, Images } from 'react-bootstrap-icons';
 import {
     HashRouter as Router,
     Switch,
@@ -37,6 +37,12 @@ function AdminSideBar() {
                     <Link className="nav-link" role="button" to={`${match.url}/account`}>
                         Account&nbsp;
                         <GearFill />
+                        </Link>
+                </Nav.Item>
+                <Nav.Item as="li">
+                    <Link className="nav-link" role="button" to={`/gallery`}>
+                        Gallery&nbsp;&nbsp;&nbsp;
+                        <Images />
                         </Link>
                 </Nav.Item>
             </Nav>

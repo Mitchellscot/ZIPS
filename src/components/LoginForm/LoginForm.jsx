@@ -26,13 +26,8 @@ function LoginForm() {
     }
   };
 
-
-
   return (
     <Form onSubmit={login} className="mt-3">
-
-
-
 
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
