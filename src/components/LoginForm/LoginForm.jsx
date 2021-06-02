@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -22,44 +24,48 @@ function LoginForm() {
     } else {
       dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
-  }; // end login
+  };
+
+
 
   return (
-    <form className="formPanel" onSubmit={login}>
-      <h2>Login</h2>
+    <Form onSubmit={login} className="mt-3">
+
+
+
+
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
         </h3>
       )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
+
+      <Form.Group>
+        <Form.Control
+        className="my-3 text-center"
+          placeholder="Username"
+          type="text"
+          name="username"
+          required
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
+        <Form.Control
+        className="my-3 text-center"
+          placeholder="Password"
+          type="password"
+          name="password"
+          required
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </Form.Group>
+
+      <div className="d-flex justify-content-center mb-3">
+        <Button variant="info" type="submit" name="submit">Log In</Button>
       </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
-      </div>
-    </form>
+
+    </Form>
   );
 }
 

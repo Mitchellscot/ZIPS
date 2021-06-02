@@ -155,7 +155,7 @@ function AccountSettings() {
                     </Tab>
                 </Tabs>
             </Col>
-            {showEmail ?<EmailPreview
+            {showEmail ? <EmailPreview
                 emailSettings={emailSettings}
                 showEmail={showEmail}
                 setShowEmail={setShowEmail}
