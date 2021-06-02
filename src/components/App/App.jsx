@@ -12,9 +12,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
-import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
 import './App.css';
 
 function App() {
@@ -28,12 +26,12 @@ function App() {
     <Router>
         <Switch>
           <Redirect exact from="/" to="/admin" />
-          <ProtectedRoute
+          <Route
             exact
             path="/gallery"
           >
             <Gallery />
-          </ProtectedRoute>
+          </Route>
           <ProtectedRoute
             path="/admin"
           >
@@ -46,7 +44,6 @@ function App() {
           >
             <LoginPage />
           </ProtectedRoute>
-            <LandingPage />
          <Route>
             <h1>404</h1>
           </Route> 
