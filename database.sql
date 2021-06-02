@@ -60,6 +60,10 @@ SELECT * FROM "costs";
 SELECT * FROM "email_settings";
 
 --dummy data
+INSERT INTO "costs" ("cost", "tax") VALUES
+(5, 0.0075)
+INSERT INTO "user" ("username", "password") VALUES
+('bztadmin', 'changeme');
 INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES
 ('Jonathan Edwards', 'johnedw@yale.com', 15, '2021-05-31 13:55:18.4216589-06'), --
 ('Richard Baxter', 'rbaxter@kidderminster.com', 25, '2021-05-31 11:35:18.4216589-06'), --
@@ -75,21 +79,6 @@ INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES
 ('Lydia Lynn', 'elsa@ballerina.com', 30, '2021-06-01 13:06:18.4216589-06'),--
 ('Arthur Norman', 'zeezee@dish.com', 25, '2021-06-01 15:26:18.4216589-06'),--
 ('Sarah Leighann', 'sarahlscott@me.com', 10, '2021-06-01 16:16:18.4216589-06')--
-INSERT INTO "order_ids" ("order_id", "image_id") VALUES
-(1, 11), (1, 13), (1, 11), 
-(2, 2), (2, 4), (2, 5), (2, 11), (2, 12), 
-(3, 18), (3, 19),
-(4, 2), (4, 3), (4, 9), (4, 18), (4, 16), (4, 14), 
-(5, 17), (5, 12), (5, 14), (5, 4), (5, 5), 
-(6, 16), (6, 6), (6, 4), (6, 8), (6, 14), 
-(7, 13),
-(8, 12), (8, 1), (8, 2), 
-(9, 1), (9, 4), (9, 6), (9, 8), (9, 9), (9, 18), (9, 14),
-(10, 6), (10, 3), 
-(11, 8), 
-(12, 7), (12, 14), (12, 2), (12, 17), (12, 1), (12, 19), 
-(13, 2), (13, 4), (13, 6), (13, 8), (13, 15), 
-(14, 4), (14, 14)
 INSERT INTO "images" ("url", "created") VALUES
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/BlackCouple.jpg', '2021-05-30 13:55:18.4216589-06'),
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-05-30 11:35:18.4216589-06'),
@@ -110,7 +99,21 @@ INSERT INTO "images" ("url", "created") VALUES
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/SnowyZip.jpg', '2021-06-01 14:48:18.4216589-06'),
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/WOmanZip.jpg', '2021-03-06-01:59:18.4216589-06'),
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/YoungWomanZip.jpg', '2021-06-01 14:19:18.4216589-06')
-
+INSERT INTO "order_ids" ("order_id", "image_id") VALUES
+(1, 11), (1, 13), (1, 11), 
+(2, 2), (2, 4), (2, 5), (2, 11), (2, 12), 
+(3, 18), (3, 19),
+(4, 2), (4, 3), (4, 9), (4, 18), (4, 16), (4, 14), 
+(5, 17), (5, 12), (5, 14), (5, 4), (5, 5), 
+(6, 16), (6, 6), (6, 4), (6, 8), (6, 14), 
+(7, 13),
+(8, 12), (8, 1), (8, 2), 
+(9, 1), (9, 4), (9, 6), (9, 8), (9, 9), (9, 18), (9, 14),
+(10, 6), (10, 3), 
+(11, 8), 
+(12, 7), (12, 14), (12, 2), (12, 17), (12, 1), (12, 19), 
+(13, 2), (13, 4), (13, 6), (13, 8), (13, 15), 
+(14, 4), (14, 14)
 INSERT INTO "email_settings" ("source_email", "reply_to_email", "subject", "header", "body", "business_name", "business_email", "business_website", "business_phone") 
 VALUES 
 ('bztinfo@ziplinemn.com', 'mscott@ziplinemn.com', 'Thank you for zipping with us!', 'Thank you for your order!', 

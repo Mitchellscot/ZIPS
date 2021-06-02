@@ -16,6 +16,7 @@ function AdminHeader(){
             <ul className="navbar-nav px-3">
                 <li className="nav-item text-nowrap">
                     <BoxArrowRight 
+                    id="logoutButton"
                     className="mr-4"
                     fontSize="2rem"
                     color="white"

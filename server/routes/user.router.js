@@ -36,4 +36,17 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+  const userId = req.params.id;
+  const newPassword = encryptLib.encryptPassword(req.body.password);
+  try {
+    const query = `UPDATE "user" SET "password"=$1 WHERE "id"=$2;`;
+    pool.query(query, [newPassword, userId]).then(res.sendStatus(200));
+  }
+  catch(e) {
+    console.log(`HEY MITCH - COULDN'T SET NEW PASSWORD ON SERVER ${e}`);
+    res.sendStatus(500);
+  }
+})
+
 module.exports = router;
