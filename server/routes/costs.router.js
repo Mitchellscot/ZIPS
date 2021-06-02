@@ -5,7 +5,9 @@ const router = express.Router();
 router.get('/', (req, res) => {
   const query=`SELECT * FROM "costs";`
   pool.query(query).then((result) => {
-    res.send(result.rows);
+    const price = result.rows[0].cost;
+    const tax = result.rows[0].tax;
+    res.send({price, tax});
 }).catch((error) => {
     console.log(`HEY MITCH - COULDN'T GET THE COSTS ${error}`);
     res.sendStatus(500);
