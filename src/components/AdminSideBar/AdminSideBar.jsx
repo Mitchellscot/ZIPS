@@ -16,10 +16,16 @@ function AdminSideBar() {
         <Nav className="sidebar col-md-2 col-lg-2 d-md-block bg-light collapse position-sticky pt-3" >
             <Nav defaultActiveKey="Orders" as="ul" className="nav flex-column align-items-center">
                 <Nav.Item as="li">
+                    <Link className="nav-link" role="button" to={`/gallery`}>
+                        Gallery&nbsp;&nbsp;&nbsp;
+                        <Images />
+                    </Link>
+                </Nav.Item>
+                <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/orders`}>
                         Orders&nbsp;&nbsp;&nbsp;
                         <InboxFill />
-                        </Link>
+                    </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/pictures`}>
@@ -31,20 +37,15 @@ function AdminSideBar() {
                     <Link className="nav-link" role="button" to={`${match.url}/camera`}>
                         Camera&nbsp;&nbsp;&nbsp;
                         <CameraFill />
-                        </Link>
+                    </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
                     <Link className="nav-link" role="button" to={`${match.url}/account`}>
                         Account&nbsp;
                         <GearFill />
-                        </Link>
+                    </Link>
                 </Nav.Item>
-                <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`/gallery`}>
-                        Gallery&nbsp;&nbsp;&nbsp;
-                        <Images />
-                        </Link>
-                </Nav.Item>
+
             </Nav>
         </Nav>
     );

@@ -10,7 +10,8 @@ import Checkout from '../Checkout/Checkout';
 function GalleryHeader() {
   const history = useHistory();
   const cart = useSelector(store => store.cart);
-  const cost = useSelector(store => store.cost);
+  const storePrice = useSelector(store => store.cost.price);
+  const storeTax = useSelector(store => store.cost.tax);
   const [modal, setModal] = useState(false);
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
@@ -21,8 +22,8 @@ function GalleryHeader() {
 
   const addUpCart = (cart) => {
     let sum = 0;
-    let tax = Number(cost[0].cost * cost[0].tax);
-    let price = Number(cost[0].cost);
+    let tax = Number(storePrice * storeTax);
+    let price = Number(storePrice);
     for (const image of cart) {
       sum += price + tax;
       console.log(sum);
@@ -68,7 +69,7 @@ function GalleryHeader() {
             <Button
               variant="secondary"
               type="button"
-              onClick={() =>{
+              onClick={() => {
                 handleShowModal();
                 setTotal(addUpCart(cart));
               }}
