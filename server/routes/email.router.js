@@ -57,7 +57,6 @@ router.get('/', (req, res) => {
             const pager = paginate(result.rows.length, page, 8);
             const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
             res.send({pager, pageOfEmails});
-            console.log(pageOfEmails);
         }).catch((error)=>{
             console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
              res.sendStatus(500);

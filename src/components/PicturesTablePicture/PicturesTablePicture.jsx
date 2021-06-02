@@ -1,16 +1,13 @@
 import "./PicturesTablePicture.css";
 import {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import swal from 'sweetalert';
 import axios from 'axios';
 
-function PicturesTablePicture({ image, dateQuery }) {
-
-    //might be some bugs here as there are two seperate reducers handling "shown" pictures and paginated pictures... might need to put them in the same reducer.
-
+function PicturesTablePicture({ image, dateQuery, page }) {
     const dispatch = useDispatch();
 
     const handleShowImage = () => {
@@ -18,13 +15,11 @@ function PicturesTablePicture({ image, dateQuery }) {
             if (dateQuery === true) {
                 let dateQ = document.getElementById("picture-search-date").value;
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                //todo: add page payload
-                dispatch({ type: "SEARCH_IMAGE_DATES", payload: dateQ });
+                dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
             }
             else {
                 dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                //todo: add page payload
-                dispatch({ type: 'FETCH_TODAYS_IMAGES' })
+                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} })
             }
         }).catch((error) => {
             console.log(`HEY MITCH - CAN'T SHOW THE IMAGE: ${error}`);

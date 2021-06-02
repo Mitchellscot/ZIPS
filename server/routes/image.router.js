@@ -45,8 +45,8 @@ router.get('/date', (req, res)=>{
   pool.query(queryText)
   .then((result) => {
     const pager = paginate(result.rows.length, page, 15);
-    const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-    res.send({pager, pageOfOrders});  })
+    const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+    res.send({pager, pageOfPictures});  })
   .catch((error)=>{
     console.log('HEY MITCH - COULDN\'T GET THE IMAGES BY DATE', error); 
     res.sendStatus(500);});
@@ -72,8 +72,8 @@ router.get('/today', (req, res) => {
   pool.query(query)
   .then((result) => {
     const pager = paginate(result.rows.length, page, 15);
-    const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-    res.send({pager, pageOfOrders});  })
+    const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+    res.send({pager, pageOfPictures});  })
   .catch((error)=>{
     console.log('HEY MITCH - COULDN\'T GET THE IMAGES', error); 
     res.sendStatus(500);});

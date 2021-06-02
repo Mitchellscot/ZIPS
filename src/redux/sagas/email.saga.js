@@ -52,7 +52,6 @@ function* fetchEmails(action) {
     try {
         const page = action.payload.page;
         const emailsResponse = yield axios.get(`/api/email?page=${page}`);
-        console.log(emailsResponse.data.pager.totalPages);
         yield put({type: 'SET_EMAILS', payload: {
             pager: emailsResponse.data.pager,
             pageOfEmails: emailsResponse.data.pageOfEmails
