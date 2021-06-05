@@ -153,7 +153,6 @@ function PicturesTable() {
                                             <PicturesTablePicture
                                                 dateQuery={dateQuery}
                                                 image={image} 
-                                                page={page}
                                                 />
                                         </Col>
                                     )

@@ -9,6 +9,7 @@ import Checkout from '../Checkout/Checkout';
 
 function GalleryHeader() {
   const history = useHistory();
+  const user = useSelector(store => store.user);
   const cart = useSelector(store => store.cart);
   const storePrice = useSelector(store => store.cost.price);
   const storeTax = useSelector(store => store.cost.tax);
@@ -50,8 +51,16 @@ function GalleryHeader() {
       <div className="gallery-header shadow bg-primary d-flex justify-content-around align-items-center">
 
         <img
+        id="galleryLogo"
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
-          onClick={history.go}
+          onClick={() =>{
+            if (user.id) {
+              history.push('admin/orders');
+            }
+            else{
+              history.go
+            }
+          }}
         />
         <div
           className="total-amount">

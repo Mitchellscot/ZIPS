@@ -4,7 +4,9 @@ import './PicturesPagination.css';
 import { useDispatch } from 'react-redux';
 
 
-export default function PicturesPagination({ Pager, dateQuery, page}) {
+export default function PicturesPagination({ Pager, dateQuery}) {
+    const params = new URLSearchParams(document.location.search);
+    const page = parseInt(params.get('page'));
     const dispatch = useDispatch();
 
     const handlePageChange = (dateQuery) => {
