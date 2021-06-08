@@ -2,6 +2,8 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
+var cors = require('cors')
+
 
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
@@ -80,7 +82,7 @@ router.get('/today', (req, res) => {
 });
 
 //accepts an image posted from raspberry pi
-router.post('/', (req, res) => {
+router.post('/', cors(), (req, res) => {
   const newImage = req.body.url;
   console.log(`adding newImage ${newImage}`);
   const query = `INSERT INTO "images" ("url") VALUES ($1);`;

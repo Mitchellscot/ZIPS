@@ -119,7 +119,7 @@ function AccountSettings() {
                                         ></Form.Control> <PencilFill
                                                 onClick={handleEditCostMode}
                                                 fontSize="1.3rem"
-                                            /> </> : <> $ {cost.price} <Pencil
+                                            /> </> : <> {cost.price} <Pencil
                                                 onClick={handleEditCostMode}
                                                 fontSize="1.3rem"
                                             /></>
