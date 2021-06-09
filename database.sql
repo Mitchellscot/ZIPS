@@ -7,6 +7,8 @@ CREATE TABLE "user" (
 CREATE TABLE "images" (
 	"id" SERIAL PRIMARY KEY,
 	"url" VARCHAR(250) NOT NULL,
+	"th_url" VARCHAR(250),
+	"wm_url" VARCHAR(250),
 	"created" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	"show" BOOLEAN DEFAULT FALSE
 );
