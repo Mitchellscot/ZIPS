@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+var cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');

@@ -10,7 +10,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
-    const ipAddress = "http://192.168.1.7:8080";
+    const ipAddress = "http://192.168.1.51:8080";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //threshold max: 2147483647
@@ -24,7 +24,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get('http://192.168.1.7:5000/photos').then((result) => {
+        axios.get('http://192.168.1.51:5000/photos').then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
