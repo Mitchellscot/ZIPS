@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+/* const AWS = require('aws-sdk');
 const fs = require('fs');
 
 async function awsUpload(bucketName, path, table) {
@@ -52,4 +52,4 @@ async function awsUpload(bucketName, path, table) {
 }
 
 
-module.exports = awsUpload;
+module.exports = awsUpload; */

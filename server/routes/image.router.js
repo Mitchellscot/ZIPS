@@ -92,7 +92,7 @@ router.get('/today', (req, res) => {
 //accepts an image posted from raspberry pi
 router.post('/', (req, res) => {
   const newImage = req.body.url;
-  const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
+/*   const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
   console.log('this is fileName', filename);
   const path = Path.resolve("/home/mitch/Pictures/watermark/", filename);
   //download the image to disk
@@ -106,7 +106,7 @@ router.post('/', (req, res) => {
       console.log(error);
     }
     
-  })
+  }) */
   console.log(`adding newImage ${newImage}`);
   const query = `INSERT INTO "images" ("url") VALUES ($1);`;
   pool.query(query, [newImage])
