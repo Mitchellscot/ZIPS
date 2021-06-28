@@ -10,7 +10,8 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
-    const ipAddress = "http://192.168.1.7:8080";
+    const ipAddress = "http://192.168.1.3:8080";
+    const iframeAddress = 'http://192.168.1.3:8081';
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //threshold max: 2147483647
@@ -24,7 +25,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get('http://192.168.1.51:5000/photos').then((result) => {
+        axios.get('http://192.168.1.3:5000/photos').then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -208,8 +209,8 @@ function CameraSettings() {
                             src="../../flash.jpg" alt="flash"></img>
                         <iframe
                             id="the-webcam"
-                            className="" name="webcam" src={ipAddress+':8081'}
-                            width="1024" height="768" frameBorder="1" scrolling="no" ></iframe >
+                            className="" name="webcam" src={iframeAddress}
+                            width="100%" height="100%" border="0" frameBorder="1" scrolling="no" ></iframe >
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
                         <Circle
