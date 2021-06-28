@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
-function awsUpload(bucketName, path, imageType) {
+function awsUpload(bucketName, path) {
     const s3 = new AWS.S3({
         accessKeyId: process.env.ACCESS_KEY_ID,
         secretAccessKey: process.env.SECRET_ACCESS_KEY,
@@ -32,7 +32,7 @@ function awsUpload(bucketName, path, imageType) {
 
                         //finish the query!!!!!!!!!!!!!!!!!!!!!!!!
                         //SET the image type: image, thumb, watermark depending on input parameter!
-                        const query = `INSERT INTO ${table} AND FINISH THIS QUERY SET TYPE=${imageType}`;
+                        const query = `INSERT INTO ${table} AND FINISH THIS QUERY SET WATERMARK OR THUMB URL`;
 
                         await axios.post("http://localhost:5000/api/image", { url: data.Location })
                             .then((response) => {

@@ -101,7 +101,7 @@ router.post('/', (req, res) => {
     thumbImage(path, filename);
     const thumbnailPath = `${path.substring(0, path.lastIndexOf('/') + 1)}th-${filename.slice(0, -4)}.gif`;
     try {
-      const thumbUrl = await upload(thumbnailPath, process.env.BUCKET_NAME_THUMBS, 'thumb');
+      const thumbUrl = await upload(thumbnailPath, process.env.BUCKET_NAME_THUMBS);
     } catch (error) {
       console.log(error);
     }
@@ -111,7 +111,7 @@ router.post('/', (req, res) => {
     watermarkImage(path, filename);
     const watermarkedPath = `${path.substring(0, path.lastIndexOf('/') + 1)}wm-${filename.slice(0, -4)}.jpg`;
     try {
-      const watermarkUrl = await upload(watermarkedPath, process.env.BUCKET_NAME_WATERMARKS, 'watermark');
+      const watermarkUrl = await upload(watermarkedPath, process.env.BUCKET_NAME_WATERMARKS);
     } catch (error) {
       
     }
