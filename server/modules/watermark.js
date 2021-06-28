@@ -45,4 +45,4 @@ function thumbImage(path, fileName) {
   });
 }
 
-module.exports = {downloadFile, thumbImage};
+module.exports = {downloadFile, thumbImage, watermarkImage};

@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
-const {downloadFile, thumbImage} = require('../modules/watermark');
+const {downloadFile, thumbImage, watermarkImage} = require('../modules/watermark');
 const Path = require('path');
 const upload = require('../modules/aws-upload');
 
@@ -92,21 +92,30 @@ router.get('/today', (req, res) => {
 //accepts an image posted from raspberry pi
 router.post('/', (req, res) => {
   const newImage = req.body.url;
-/*   const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
+   const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
   console.log('this is fileName', filename);
   const path = Path.resolve("/home/mitch/Pictures/watermark/", filename);
   //download the image to disk
   downloadFile(newImage, path).then(async () => {
-    //create a thumbnail
+    //create a thumbnail TODO: finish testing thumb method
     thumbImage(path, filename);
     const thumbnailPath = `${path.substring(0, path.lastIndexOf('/') + 1)}th-${filename.slice(0, -4)}.gif`;
     try {
-      const thumbUrl = await upload(thumbnailPath, process.env.BUCKET_NAME_THUMBS, '');
+      const thumbUrl = await upload(thumbnailPath, process.env.BUCKET_NAME_THUMBS, 'thumb');
     } catch (error) {
       console.log(error);
     }
     
-  }) */
+  }).then(async () => {
+    //watermark the image TODO: finish testing watermark method
+    watermarkImage(path, filename);
+    const watermarkedPath = `${path.substring(0, path.lastIndexOf('/') + 1)}wm-${filename.slice(0, -4)}.jpg`;
+    try {
+      const watermarkUrl = await upload(watermarkedPath, process.env.BUCKET_NAME_WATERMARKS, 'watermark');
+    } catch (error) {
+      
+    }
+  })
   console.log(`adding newImage ${newImage}`);
   const query = `INSERT INTO "images" ("url") VALUES ($1);`;
   pool.query(query, [newImage])
