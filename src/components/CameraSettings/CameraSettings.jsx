@@ -10,7 +10,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
-    const ipAddress = "http://192.168.1.51:8080";
+    const ipAddress = "http://64.90.71.74";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //threshold max: 2147483647
@@ -24,7 +24,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get('http://192.168.1.51:5000/photos').then((result) => {
+        axios.get(`${ipAddress}:8080/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -39,18 +39,18 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress+'/0/detection/start').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/start').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get(ipAddress+'/0/detection/pause').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/pause').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress+'/0/action/restart').then((result) => {
+        axios.get(ipAddress+':8080/0/action/restart').then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -77,16 +77,16 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress+`/0/config/set?threshold=${threshold}`)
+            axios.get(ipAddress+`:8080/0/config/set?threshold=${threshold}`)
                 .then((response) => {
-                    axios.get(ipAddress+'/0/config/get?query=threshold').then((result) => {
+                    axios.get(ipAddress+':8080/0/config/get?query=threshold').then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setThreshold(answer);
                     }).catch(error => console.log(error));
-                    axios.get(ipAddress+`/0/config/write`).then((result) => {
+                    axios.get(ipAddress+`:8080/0/config/write`).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -97,7 +97,7 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get(ipAddress+'/0/detection/status').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -106,7 +106,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the threshold
-        axios.get(ipAddress+'/0/config/get?query=threshold').then((result) => {
+        axios.get(ipAddress+':8080/0/config/get?query=threshold').then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
@@ -118,7 +118,7 @@ function CameraSettings() {
     return (
         <Container fluid>
             <Row className="d-flex justify-content-center">
-                <Col lg={2} md={2} className="d-flex-inline text-center">
+                <Col lg={2} md={1} className="d-flex-inline text-center">
                     <div className="border shadow mb-4"><h4 className="camera-settings-text">Motion Detection{motionStarted ?
                         <div
                             className="pt-2 active-sign"
@@ -169,8 +169,8 @@ function CameraSettings() {
                         <div className="d-flex justify-content-between mx-4"
                         ><Form.Control
                             type='range'
-                            min="100"
-                            max="100000"
+                            min="1"
+                            max="100"
                             onChange={(e) => setThreshold(e.target.value)}
                             className="text-center w-75"
                             value={threshold}
@@ -184,8 +184,8 @@ function CameraSettings() {
                             /></div> :
                         <div className="d-flex justify-content-between mx-4"><Form.Control
                             type='range'
-                            min="100"
-                            max="100000"
+                            min="1"
+                            max="100"
                             className="text-center w-75"
                             disabled
                             value={threshold}
@@ -201,15 +201,15 @@ function CameraSettings() {
                     }
 
                 </Col>
-                <Col lg={8} md={8} className="d-flex-inline justify-content-center">
+                <Col lg={8} md={10} className="d-flex-inline justify-content-center">
                     <div id="the-flash-div" className="d-flex justify-content-center">
                         <img
                             id="the-flash"
-                            src="../../flash.jpg" alt="flash"></img>
-                        <iframe
+                            src="../../flash-640x480.jpg" alt="flash"></img>
+                        <img
                             id="the-webcam"
-                            className="" name="webcam" src='http://192.168.1.51:8081'
-                            width="1024" height="768" frameBorder="1" scrolling="no" ></iframe >
+                            className="" name="webcam" src={`${ipAddress}` + `:8081`}
+                            width="640" height="480" frameBorder="1" scrolling="no" />
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
                         <Circle
@@ -227,7 +227,7 @@ function CameraSettings() {
                     </div>
 
                 </Col>
-                <Col lg={2} md={2} className="d-flex-inline justify-content-center">
+                <Col lg={2} md={1} className="d-flex-inline justify-content-center">
                     <div></div>
                 </Col>
             </Row>

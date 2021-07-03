@@ -12,11 +12,11 @@ export default function PicturesPagination({ Pager, dateQuery}) {
     const handlePageChange = (dateQuery) => {
     if (dateQuery === true) {
         let dateQ = document.getElementById("picture-search-date").value;
-        dispatch({type: "RESET_IMAGES"});
+        //dispatch({type: "RESET_IMAGES"});
         dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
     }
     else {
-        dispatch({type: "RESET_IMAGES"});
+        //dispatch({type: "RESET_IMAGES"});
         dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} })
     }
 }
