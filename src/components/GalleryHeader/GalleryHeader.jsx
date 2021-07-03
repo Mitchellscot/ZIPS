@@ -27,11 +27,7 @@ function GalleryHeader() {
     let price = Number(storePrice);
     for (const image of cart) {
       sum += price + tax;
-      console.log(sum);
     }
-    console.log(`Here is storePrice ${storePrice} and Numbered ${Number(storePrice)}`);
-    console.log(`Here is the price ${price} and the tax: ${tax} and the sum ${sum} and to fixed ${sum.toFixed(2)}`);
-
     return sum.toFixed(2);
   }
 
