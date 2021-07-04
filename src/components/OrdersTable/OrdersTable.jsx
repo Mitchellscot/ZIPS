@@ -17,8 +17,8 @@ function OrdersTable() {
     const Orders = useSelector(store => store.orders.pageOfOrders);
     const orderPager = useSelector(store => store.orders.pager)
     const emails = useSelector(store => store.emails.pageOfEmails);
-    const emailPager = useSelector(store => store.emails.pager)
-    const [tab, setTab] = useState('orders');
+/*     const emailPager = useSelector(store => store.emails.pager)
+ */    const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
@@ -190,8 +190,8 @@ function OrdersTable() {
                         <td colSpan='6'>No Emails to view</td>
                         </tr></tbody>}
                     </Table>
-                    {emailPager.totalPages === undefined ? <Pagination Pager={emailpager}/> : <> </>}
-                </Tab>
+{/*                     {emailPager.totalPages > 1 ? <Pagination Pager={emailpager}/> : <> </>}
+ */}                </Tab>
             </Tabs>
         </Col>
 
