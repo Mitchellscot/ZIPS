@@ -46,7 +46,7 @@ router.get('/date', (req, res)=>{
   ORDER BY "created" ASC;`
   pool.query(queryText)
   .then((result) => {
-    const pager = paginate(result.rows.length, page, 15);
+    const pager = paginate(result.rows.length, page, 12);
     const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
     res.send({pager, pageOfPictures});  })
   .catch((error)=>{
