@@ -10,6 +10,13 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
+    const username = process.env.WEBAUTHU;
+    const password = process.env.WEBAUTHP;
+    const auth = {
+        username: username,
+        password: password
+    };
+    const webcamp = process.env.WEBCAMP;
     const ipAddress = "https://64.90.71.74";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
@@ -24,7 +31,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`${ipAddress}:8080/photos`).then((result) => {
+        axios.get(`${ipAddress}:8082/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -106,7 +113,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the threshold
-        axios.get(ipAddress+':8080/0/config/get?query=threshold').then((result) => {
+        axios.get(ipAddress+':8080/0/config/get?query=threshold', auth).then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
@@ -208,7 +215,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash"></img>
                         <iframe
                             id="the-webcam"
-                            className="" name="webcam" src={`${ipAddress}` + `:8081`}
+                            className="" name="webcam" src={`https://${webcamp}${ipAddress}:8081`}
                             width="640" height="480" frameBorder="1" scrolling="no" />
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
