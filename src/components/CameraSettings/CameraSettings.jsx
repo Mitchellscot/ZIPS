@@ -10,7 +10,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 
 function CameraSettings() {
-    const ipAddress = "http://64.90.71.74";
+    const ipAddress = "https://64.90.71.74";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //threshold max: 2147483647
