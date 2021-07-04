@@ -1,38 +1,45 @@
-// Load the AWS SDK for Node.js
+require('dotenv').config();
 var AWS = require('aws-sdk');
-// Set the region 
-AWS.config.update({region: 'us-east-2'});
+
 
 function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyEmail, subject){
-  console.log('sending email');
-    // Create sendEmail params 
-var params = {
-    Destination: {
-      ToAddresses: [ sendToAddress
-      ]
-    },
-    Message: { 
-      Body: { 
-        Html: {
-         Charset: "UTF-8",
-         Data: emailBody
-        },
-        Text: {
-         Charset: "UTF-8",
-         Data: plainTextEmail
-        }
-       },
-       Subject: {
-        Charset: 'UTF-8',
-        Data: subject
-       }
+
+  const SESConfig = {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    accessSecretKey: process.env.SECRET_ACCESS_KEY,
+    region: "us-east-2"
+  }
+  AWS.config.update(SESConfig);
+
+    var params = {
+      Destination: {
+        ToAddresses: [
+          sendToAddress
+        ]
       },
-    Source: sourceEmail, 
-    ReplyToAddresses: [
-      replyEmail
-    ],
-  };
-  
+      Message: { 
+        Body: {
+          Html: {
+           Charset: "UTF-8",
+           Data: emailBody
+          },
+          Text: {
+           Charset: "UTF-8",
+           Data: plainTextEmail
+          }
+         },
+         Subject: {
+          Charset: 'UTF-8',
+          Data: subject
+         }
+        },
+      Source: sourceEmail,
+      ReplyToAddresses: [
+        replyEmail
+      ],
+    };
+
+  console.log(`params ${params}`);  
   // Create the promise and SES service object
   var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
   
