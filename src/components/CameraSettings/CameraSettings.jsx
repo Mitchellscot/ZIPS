@@ -12,10 +12,6 @@ import Form from 'react-bootstrap/Form';
 function CameraSettings() {
     const username = process.env.WEBAUTHU;
     const password = process.env.WEBAUTHP;
-    const auth = {
-        username: username,
-        password: password
-    };
     const ipAddress = "https://64.90.71.74";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
@@ -45,18 +41,18 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress+':8080/0/detection/start', auth).then((result) => {
+        axios.get(ipAddress+':8080/0/detection/start', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get(ipAddress+':8080/0/detection/pause', auth).then((result) => {
+        axios.get(ipAddress+':8080/0/detection/pause', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress+':8080/0/action/restart', auth).then((result) => {
+        axios.get(ipAddress+':8080/0/action/restart', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -83,16 +79,16 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress+`:8080/0/config/set?threshold=${threshold}`, auth)
+            axios.get(ipAddress+`:8080/0/config/set?threshold=${threshold}`, {headers: {'Authorization': `Basic ${username}:${password}`}})
                 .then((response) => {
-                    axios.get(ipAddress+':8080/0/config/get?query=threshold', auth).then((result) => {
+                    axios.get(ipAddress+':8080/0/config/get?query=threshold', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setThreshold(answer);
                     }).catch(error => console.log(error));
-                    axios.get(ipAddress+`:8080/0/config/write`, auth).then((result) => {
+                    axios.get(ipAddress+`:8080/0/config/write`, {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -103,7 +99,7 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get(ipAddress+':8080/0/detection/status', auth).then((result) => {
+        axios.get(ipAddress+':8080/0/detection/status', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -112,7 +108,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the threshold
-        axios.get(ipAddress+':8080/0/config/get?query=threshold', auth).then((result) => {
+        axios.get(ipAddress+':8080/0/config/get?query=threshold', {headers: {'Authorization': `Basic ${username}:${password}`}}).then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
