@@ -206,7 +206,7 @@ function CameraSettings() {
                         <img
                             id="the-flash"
                             src="../../flash-640x480.jpg" alt="flash"></img>
-                        <img
+                        <iframe
                             id="the-webcam"
                             className="" name="webcam" src={`${ipAddress}` + `:8081`}
                             width="640" height="480" frameBorder="1" scrolling="no" />
