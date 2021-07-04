@@ -46,18 +46,18 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress+':8080/0/detection/start').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/start', auth).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get(ipAddress+':8080/0/detection/pause').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/pause', auth).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress+':8080/0/action/restart').then((result) => {
+        axios.get(ipAddress+':8080/0/action/restart', auth).then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -84,16 +84,16 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress+`:8080/0/config/set?threshold=${threshold}`)
+            axios.get(ipAddress+`:8080/0/config/set?threshold=${threshold}`, auth)
                 .then((response) => {
-                    axios.get(ipAddress+':8080/0/config/get?query=threshold').then((result) => {
+                    axios.get(ipAddress+':8080/0/config/get?query=threshold', auth).then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setThreshold(answer);
                     }).catch(error => console.log(error));
-                    axios.get(ipAddress+`:8080/0/config/write`).then((result) => {
+                    axios.get(ipAddress+`:8080/0/config/write`, auth).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -104,7 +104,7 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get(ipAddress+':8080/0/detection/status').then((result) => {
+        axios.get(ipAddress+':8080/0/detection/status', auth).then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
