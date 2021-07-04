@@ -16,7 +16,6 @@ function CameraSettings() {
         username: username,
         password: password
     };
-    const webcamp = process.env.WEBCAMP;
     const ipAddress = "https://64.90.71.74";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
@@ -215,7 +214,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash"></img>
                         <iframe
                             id="the-webcam"
-                            className="" name="webcam" src={`https://${webcamp}${ipAddress}:8081`}
+                            className="" name="webcam" src={`https://${ipAddress}:8081`}
                             width="640" height="480" frameBorder="1" scrolling="no" />
                     </div>
                     <div id="the-div" className="d-flex justify-content-center pt-3">
