@@ -68,8 +68,9 @@ router.get('/', (req, res) => {
 
 //get all images that were created TODAY - pagination enabled
 router.get('/today', (req, res) => {
+
   const page = parseInt(req.query.page) || 1;
-  const query  = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now())
+  const query  = `SELECT * FROM "images" WHERE cast(created as date)=current_date
   ORDER BY "created" ASC;`;
   pool.query(query)
   .then((result) => {

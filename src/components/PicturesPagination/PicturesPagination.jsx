@@ -36,8 +36,8 @@ export default function PicturesPagination({ Pager, dateQuery }) {
             <li className={`page-item next-item ${Pager.currentPage === Pager.totalPages ? 'disabled' : ''}`}>
                 <Link onClick={handlePageChange(dateQuery)} to={{ search: `?page=${Pager.currentPage + 1}` }} className="page-link">Next</Link>
             </li>
-            <li className={`page-item last-item ${Pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
-                <Link onClick={handlePageChange(dateQuery)} to={{ search: `?page=${pager.totalPages}` }} className="page-link">Last</Link>
+            <li className={`page-item last-item ${Pager.currentPage === Pager.totalPages ? 'disabled' : ''}`}>
+                <Link onClick={handlePageChange(dateQuery)} to={{ search: `?page=${Pager.totalPages}` }} className="page-link">Last</Link>
             </li>
         </ul>
     );

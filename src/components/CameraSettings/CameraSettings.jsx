@@ -27,7 +27,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`${ipAddress}:8082/photos`).then((result) => {
+        axios.get(`https://64.90.71.74:8082/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -42,18 +42,18 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/start', { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+        axios.get(ipAddress + ':8080/0/detection/start').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/pause', { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+        axios.get(ipAddress + ':8080/0/detection/pause').then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress + ':8080/0/action/restart', { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+        axios.get(ipAddress + ':8080/0/action/restart').then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -80,16 +80,16 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress + `:8080/0/config/set?noise_level=${Sensitivity}`, { headers: { 'Authorization': `Basic ${token}:${password}` } })
+            axios.get(ipAddress + `:8080/0/config/set?noise_level=${Sensitivity}`)
                 .then((response) => {
-                    axios.get(ipAddress + ':8080/0/config/get?query=noise_level', { headers: { 'Authorization': `Basic ${token}:${password}` } }).then((result) => {
+                    axios.get(ipAddress + ':8080/0/config/get?query=noise_level').then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setSensitivity(answer);
                     }).catch(error => console.log(error));
-                    axios.get(ipAddress + `:8080/0/config/write`, { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+                    axios.get(ipAddress + `:8080/0/config/write`).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -100,7 +100,7 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get(ipAddress + ':8080/0/detection/status', { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+        axios.get(ipAddress + ':8080/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -109,7 +109,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the Sensitivity
-        axios.get(ipAddress + ':8080/0/config/get?query=noise_level', { headers: { 'Authorization': `Basic ${token}` } }).then((result) => {
+        axios.get(ipAddress + ':8080/0/config/get?query=noise_level').then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
