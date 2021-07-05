@@ -167,30 +167,31 @@ function OrderTableRow({ order, getOrders }) {
                     {order.total}
                 </td>
                 <td>
-                    <ButtonGroup>
+                    <ButtonGroup >
                         <Button variant="outline-dark">
                             <Envelope
                             onClick={sendEmails}
                             variant={order.complete ? "outline-dark" : "secondary"}
-                            fontSize="2rem" />
+                            fontSize="1.5rem" 
+                            />
                         </Button>
                         <Button
                             onClick={editMode}
                             variant={toggleEmail ? "dark" : "outline-dark"}
                         >
-                            <PencilSquare fontSize="2rem" />
+                            <PencilSquare fontSize="1.5rem" />
                         </Button>
                         <Button variant={modal ? "dark" : "outline-dark"}>
                             <Images
                                 onClick={() => {
                                     handleShowModal()
                                 }}
-                                fontSize="2rem" />
+                                fontSize="1.5rem" />
                         </Button>
                         <Button
                             onClick={deleteOrder}
                             variant="outline-dark">
-                            <Trash fontSize="2rem" />
+                            <Trash fontSize="1.5rem" />
                         </Button>
                     </ButtonGroup>
                 </td>

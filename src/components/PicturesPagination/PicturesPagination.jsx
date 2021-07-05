@@ -4,24 +4,27 @@ import './PicturesPagination.css';
 import { useDispatch } from 'react-redux';
 
 
-export default function PicturesPagination({ Pager, dateQuery}) {
+export default function PicturesPagination({ Pager, dateQuery }) {
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
     const dispatch = useDispatch();
 
     const handlePageChange = (dateQuery) => {
-    if (dateQuery === true) {
-        let dateQ = document.getElementById("picture-search-date").value;
-        //dispatch({type: "RESET_IMAGES"});
-        dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
+        if (dateQuery === true) {
+            let dateQ = document.getElementById("picture-search-date").value;
+            //dispatch({type: "RESET_IMAGES"});
+            dispatch({ type: "SEARCH_IMAGE_DATES", payload: { q: dateQ, page: page } });
+        }
+        else {
+            //dispatch({type: "RESET_IMAGES"});
+            dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: { page: page } })
+        }
     }
-    else {
-        //dispatch({type: "RESET_IMAGES"});
-        dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} })
-    }
-}
     return (
         <ul className="pagination">
+            <li className={`page-item first-item ${pager.currentPage === 1 ? 'disabled' : ''}`}>
+                <Link to={{ search: `?page=1` }} className="page-link" onClick={handlePageChange(dateQuery)}>First</Link>
+            </li>
             <li className={`page-item previous-item ${Pager.currentPage === 1 ? 'disabled' : ''}`}>
                 <Link to={{ search: `?page=${Pager.currentPage - 1}` }} className="page-link" onClick={handlePageChange(dateQuery)}>Previous</Link>
             </li>
@@ -32,6 +35,9 @@ export default function PicturesPagination({ Pager, dateQuery}) {
             )}
             <li className={`page-item next-item ${Pager.currentPage === Pager.totalPages ? 'disabled' : ''}`}>
                 <Link onClick={handlePageChange(dateQuery)} to={{ search: `?page=${Pager.currentPage + 1}` }} className="page-link">Next</Link>
+            </li>
+            <li className={`page-item last-item ${pager.currentPage === pager.totalPages ? 'disabled' : ''}`}>
+                <Link onClick={handlePageChange(dateQuery)} to={{ search: `?page=${pager.totalPages}` }} className="page-link">Last</Link>
             </li>
         </ul>
     );
