@@ -56,7 +56,6 @@ router.get('/date', (req, res)=>{
 
 //get all images created in the past 5 hours or if show=true
 router.get('/', (req, res) => {
-  //fix this !
   const query  = `SELECT * FROM "images" WHERE "created" BETWEEN NOW() - INTERVAL '5 HOURS' AND NOW()
   OR "images"."show" = true ORDER BY "images"."created" ASC;`;
   pool.query(query)
@@ -74,7 +73,7 @@ router.get('/today', (req, res) => {
   ORDER BY "created" ASC;`;
   pool.query(query)
   .then((result) => {
-    const pager = paginate(result.rows.length, page, 15);
+    const pager = paginate(result.rows.length, page, 12);
     const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
     res.send({pager, pageOfPictures});  })
   .catch((error)=>{
