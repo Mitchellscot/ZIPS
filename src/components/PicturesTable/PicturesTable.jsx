@@ -135,7 +135,7 @@ function PicturesTable() {
                 </Row>
                 <Row>
                     <SRLWrapper>
-                        <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 px-3">
+                        <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 px-3">
                             {showMode ?
                                  shownImages != undefined ? shownImages.map(image => {
                                     return (
