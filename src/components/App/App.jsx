@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import '../../custom.scss';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Redirect,
   Switch,
