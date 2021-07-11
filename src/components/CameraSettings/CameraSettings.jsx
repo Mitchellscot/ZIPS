@@ -13,7 +13,7 @@ function CameraSettings() {
     const username = 'bzt';
     const password = 'birchtree';
     const token = Buffer.from (`${username}:${password}`, 'utf8').toString('base64');
-    const ipAddress = "https://bztphotos.ddns.net";
+    const ipAddress = "http://bztphotos.ddns.net";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     //Sensitivity max: 2147483647
@@ -27,7 +27,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`https://bztphotos.ddns.net:8082/photos`).then((result) => {
+        axios.get(`http://bztphotos.ddns.net:8082/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
