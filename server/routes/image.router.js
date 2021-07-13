@@ -120,6 +120,7 @@ router.get('/today', (req, res) => {
 //accepts an image posted from raspberry pi
 router.post('/', cors(corsOptions), async (req, res) => {
   const fullImageUrl = req.body.url;
+  const watermarkLogo = '/app/public/watermark-lg.png';
   const fullImageFilename = fullImageUrl.substring(fullImageUrl.lastIndexOf('/') + 1);
   const fullImagePath = Path.resolve(defaultFolder, fullImageFilename);
   const thumbnailPath = `${defaultFolder}th-${fullImageFilename.slice(0, -4)}.gif`;
@@ -133,7 +134,7 @@ router.post('/', cors(corsOptions), async (req, res) => {
     const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
     console.log('all done thumbnailing');
     //Watermark
-    const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast /home/mitch/Pictures/watermark/watermark-lg.png ${fullImagePath} ${watermarkPath}`);
+    const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast ${watermarkLogo} ${fullImagePath} ${watermarkPath}`);
     console.log('all done watermarking');
     //Upload thumbnail
     const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
