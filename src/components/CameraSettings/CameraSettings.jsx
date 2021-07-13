@@ -16,7 +16,6 @@ function CameraSettings() {
     const ipAddress = "https://bztphotos.ddns.net";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
-    //Sensitivity max: 2147483647
     const [Sensitivity, setSensitivity] = useState(0);
     const [editSensitivity, setEditSensitivity] = useState(false);
     const toggleEditSensitivity = () => {
@@ -74,7 +73,6 @@ function CameraSettings() {
     };
 
     const handleEditSensitivity = () => {
-        //setSensitivity(); ?
         if (editSensitivity === false) {
             setEditSensitivity(!editSensitivity);
         }
