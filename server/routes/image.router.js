@@ -8,7 +8,7 @@ const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
 const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
-var whiteList = ['https://bztphotos.ddns.net', 'https://localhost', undefined]
+var whiteList = ['https://bztphotos.ddns.net', undefined];
 const corsOptions = {
   origin: function (origin, callback){
     if (whiteList.indexOf(origin) !== -1) {
