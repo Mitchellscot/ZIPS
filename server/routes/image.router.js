@@ -118,13 +118,20 @@ router.post('/', cors(), async (req, res) => {
   try {
     const result = await pool.query(query, [newImage]);
     const createdImageId = result.rows[0].id;
+    console.log(createdImageId);
     const image = await downloadFile(newImage, path);
     const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${path} -thumbnail 414x311 ${thumbnailPath}`);
     console.log('all done thumbnailing');
     const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast /home/mitch/Pictures/watermark/watermark-lg.png ${path} ${watermarkPath}`);
     console.log('all done watermarking');
-    const thumbnailUpload = await upload(path, 'thumbnail', filename, createdImageId);
-    const watermarkUpload = await upload(path, 'watermark', filename, createdImageId);
+    const thumbnailUpload = await upload(path, 'thumbnail', filename);
+    console.log(thumbnailUpload.Location);
+    const query2 = `UPDATE "images" SET "th_url"=$1 WHERE "id"=$2;`;
+    const result2 = await pool.query(query2, [thumbnailUpload.Location, createdImageId]);
+    const watermarkUpload = await upload(path, 'watermark', filename);
+    console.log(watermarkUpload.Location);
+    const query3 = `UPDATE "images" SET "wm_url"=$1 WHERE "id"=$2;`;
+    const result3 = await pool.query(query3, [watermarkUpload.Location, createdImageId]);
   }
   catch(err){
     console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);

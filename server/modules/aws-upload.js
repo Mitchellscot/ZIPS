@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const pool = require('../modules/pool');
 
-async function awsUpload(path, imageType, filename, createdImageId) {
+async function awsUpload(path, imageType, filename) {
     const bucketName = imageType == 'thumbnail' ? process.env.BUCKET_NAME_THUMBS : process.env.BUCKET_NAME_WATERMARKS;
     const s3 = new AWS.S3({
         accessKeyId: process.env.ACCESS_KEY_ID,
@@ -18,7 +18,7 @@ async function awsUpload(path, imageType, filename, createdImageId) {
         ACL: 'public-read'
     };
     console.log('begining upload of ', imageType);
-    s3.upload(params, async (error, data) => {
+    return s3.upload(params).promise();/* .then( async (error, data) => {
         try {
             if (error) {
                 console.log(error);
@@ -54,7 +54,7 @@ async function awsUpload(path, imageType, filename, createdImageId) {
             }
         } catch (error) { console.log(error); }
     });
-
+ */
 }
 
 module.exports = awsUpload;
