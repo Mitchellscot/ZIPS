@@ -21,8 +21,8 @@ function GalleryItem({ image }) {
 
     return (
         <Card className="shadow mb-3 bg-white rounded card">
-            <a href={image.url}>
-                <Card.Img variant="top" src={image.url} alt={formatTime(image.created)} min-height="256px" min-width="320px" />
+            <a href={image.wm_url}>
+                <Card.Img variant="top" src={image.th_url} alt={formatTime(image.created)} min-height="256px" min-width="320px" />
             </a>
             <Card.Body className="d-flex justify-content-between align-items-center">
                 <Card.Subtitle className="mb-2 text-muted">Taken at <b>{formatTime(image.created)}</b></Card.Subtitle>
