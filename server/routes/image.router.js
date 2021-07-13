@@ -3,10 +3,9 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
 var cors = require('cors');
-const { downloadFile, thumbImage, watermarkImage } = require('../modules/image-processing');
+const { downloadFile } = require('../modules/image-processing');
 const Path = require('path');
 const upload = require('../modules/aws-upload');
-const sharp = require('sharp');
 const { execSync } = require('child_process');
 
 //sets show=true for a given image. Default is false.
@@ -108,30 +107,30 @@ router.get('/today', (req, res) => {
 
 //accepts an image posted from raspberry pi
 router.post('/', cors(), async (req, res) => {
-  const newImage = req.body.url;
-  const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
-  const thumbnailPath = `/home/mitch/Pictures/watermark/th-${filename.slice(0, -4)}.gif`;
-  const watermarkPath = `/home/mitch/Pictures/watermark/wm-${filename}`;
-  const path = Path.resolve("/home/mitch/Pictures/watermark/", filename);
-  const query = `INSERT INTO "images" ("url") VALUES ($1) RETURNING "id";`;
+  const fullImageUrl = req.body.url;
+  const fullImageFilename = fullImageUrl.substring(fullImageUrl.lastIndexOf('/') + 1);
+  const fullImagePath = Path.resolve("/home/mitch/", fullImageFilename);
+  const thumbnailPath = `/home/mitch/th-${fullImageFilename.slice(0, -4)}.gif`;
+  const watermarkPath = `/home/mitch/wm-${fullImageFilename}`;
 
   try {
-    const result = await pool.query(query, [newImage]);
-    const createdImageId = result.rows[0].id;
-    console.log(createdImageId);
-    const image = await downloadFile(newImage, path);
-    const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${path} -thumbnail 414x311 ${thumbnailPath}`);
+    //Download
+    const image = await downloadFile(fullImageUrl, fullImagePath);
+    //Thumbnail
+    const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
     console.log('all done thumbnailing');
-    const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast /home/mitch/Pictures/watermark/watermark-lg.png ${path} ${watermarkPath}`);
+    //Watermark
+    const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast /home/mitch/Pictures/watermark/watermark-lg.png ${fullImagePath} ${watermarkPath}`);
     console.log('all done watermarking');
-    const thumbnailUpload = await upload(path, 'thumbnail', filename);
+    //Upload thumbnail
+    const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
     console.log(thumbnailUpload.Location);
-    const query2 = `UPDATE "images" SET "th_url"=$1 WHERE "id"=$2;`;
-    const result2 = await pool.query(query2, [thumbnailUpload.Location, createdImageId]);
-    const watermarkUpload = await upload(path, 'watermark', filename);
+    //Upload Watermark
+    const watermarkUpload = await upload(watermarkPath, 'watermark', fullImageFilename);
     console.log(watermarkUpload.Location);
-    const query3 = `UPDATE "images" SET "wm_url"=$1 WHERE "id"=$2;`;
-    const result3 = await pool.query(query3, [watermarkUpload.Location, createdImageId]);
+    //Post to DB
+    const query = `INSERT INTO "images" ("url", "th_url", "wm_url") VALUES ($1, $2, $3);`;
+    const result = await pool.query(query, [fullImageUrl, thumbnailUpload.Location, watermarkUpload.Location]);
   }
   catch(err){
     console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);

@@ -18,43 +18,7 @@ async function awsUpload(path, imageType, filename) {
         ACL: 'public-read'
     };
     console.log('begining upload of ', imageType);
-    return s3.upload(params).promise();/* .then( async (error, data) => {
-        try {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                let imageUrl = '';
-                console.log(`Here is the url: ${data.Location}`);
-                let url = await data.Location;
-                if (imageType == 'thumbnail') {
-                    if (imageUrl !== url) {
-                        const query = `UPDATE "images" SET "th_url"=$1 WHERE "id"=$2;`;
-                        try {
-                            const response = await pool.query(query, [url, createdImageId]);
-                            console.log('thumbnail posted to DB');
-                        }
-                        catch (error) {
-                            console.log(`HEY MITCH - YOU GOT AN ERROR POSTING THUMBNAIL TO THE DB ${error}`);
-                        }
-                    }
-                }
-                else {
-                    if (imageUrl !== url && url.endsWith(".jpg")) {
-                        const query = `UPDATE "images" SET "wm_url"=$1 WHERE "id"=$2;`;
-                        try {
-                            const response = await pool.query(query, [url, createdImageId]);
-                            console.log('watermark posted to DB');
-                        }
-                        catch (error) {
-                            console.log(`HEY MITCH - YOU GOT AN ERROR POSTING WATERMARK TO THE DB ${error}`);
-                        }
-                    }
-                }
-            }
-        } catch (error) { console.log(error); }
-    });
- */
+    return s3.upload(params).promise();
 }
 
 module.exports = awsUpload;
