@@ -7,6 +7,18 @@ const { downloadFile } = require('../modules/image-processing');
 const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
+const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
+var whiteList = ['https://bztphotos.ddns.net', 'https://localhost', undefined]
+const corsOptions = {
+  origin: function (origin, callback){
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed!'));
+    }
+  },
+  optionsSucessStatus: 201
+};
 
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
@@ -106,14 +118,15 @@ router.get('/today', (req, res) => {
 }); */
 
 //accepts an image posted from raspberry pi
-router.post('/', cors(), async (req, res) => {
+router.post('/', cors(corsOptions), async (req, res) => {
   const fullImageUrl = req.body.url;
   const fullImageFilename = fullImageUrl.substring(fullImageUrl.lastIndexOf('/') + 1);
-  const fullImagePath = Path.resolve("/home/mitch/", fullImageFilename);
-  const thumbnailPath = `/home/mitch/th-${fullImageFilename.slice(0, -4)}.gif`;
-  const watermarkPath = `/home/mitch/wm-${fullImageFilename}`;
+  const fullImagePath = Path.resolve(defaultFolder, fullImageFilename);
+  const thumbnailPath = `${defaultFolder}th-${fullImageFilename.slice(0, -4)}.gif`;
+  const watermarkPath = `${defaultFolder}wm-${fullImageFilename}`;
 
   try {
+    console.log(`here is default folder: ${defaultFolder}\n and here is fullimagepath: ${fullImagePath}\n and fullimagefilename: ${fullImageFilename}\n and thumbnailpath: ${thumbnailPath}\n and watermarkpath: ${watermarkPath}\n`);
     //Download
     const image = await downloadFile(fullImageUrl, fullImagePath);
     //Thumbnail
