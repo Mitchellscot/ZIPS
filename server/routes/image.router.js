@@ -8,6 +8,7 @@ const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
 const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
+const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-lg.png' || "~/Code/zips/public/watermark-lg.png"
 var whiteList = ['https://bztphotos.ddns.net', undefined];
 const corsOptions = {
   origin: function (origin, callback){
@@ -102,47 +103,20 @@ router.get('/today', (req, res) => {
     });
 });
 
-//old post request
-/* router.post('/', cors(), (req, res) => {
-  const newImage = req.body.url;
-  console.log(`adding newImage ${newImage}`);
-  const query = `INSERT INTO "images" ("url") VALUES ($1);`;
-  pool.query(query, [newImage])
-  .then((result) =>{
-      res.sendStatus(201);
-  })
-  .catch((error) => {
-    console.log(`HEY MITCH - YOU GOT AN ERROR ${error}`);
-    res.sendStatus(500);
-  })
-}); */
-
 //accepts an image posted from raspberry pi
 router.post('/', cors(corsOptions), async (req, res) => {
   const fullImageUrl = req.body.url;
-  const watermarkLogo = '/app/public/watermark-lg.png';
   const fullImageFilename = fullImageUrl.substring(fullImageUrl.lastIndexOf('/') + 1);
   const fullImagePath = Path.resolve(defaultFolder, fullImageFilename);
   const thumbnailPath = `${defaultFolder}th-${fullImageFilename.slice(0, -4)}.gif`;
   const watermarkPath = `${defaultFolder}wm-${fullImageFilename}`;
 
   try {
-    console.log(`here is default folder: ${defaultFolder}\n and here is fullimagepath: ${fullImagePath}\n and fullimagefilename: ${fullImageFilename}\n and thumbnailpath: ${thumbnailPath}\n and watermarkpath: ${watermarkPath}\n`);
-    //Download
     const image = await downloadFile(fullImageUrl, fullImagePath);
-    //Thumbnail
     const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
-    console.log('all done thumbnailing');
-    //Watermark
     const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast ${watermarkLogo} ${fullImagePath} ${watermarkPath}`);
-    console.log('all done watermarking');
-    //Upload thumbnail
     const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
-    console.log(thumbnailUpload.Location);
-    //Upload Watermark
     const watermarkUpload = await upload(watermarkPath, 'watermark', fullImageFilename);
-    console.log(watermarkUpload.Location);
-    //Post to DB
     const query = `INSERT INTO "images" ("url", "th_url", "wm_url") VALUES ($1, $2, $3);`;
     const result = await pool.query(query, [fullImageUrl, thumbnailUpload.Location, watermarkUpload.Location]);
   }
@@ -150,7 +124,6 @@ router.post('/', cors(corsOptions), async (req, res) => {
     console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);
     res.sendStatus(500);
   }
-  console.log('Great job mitch, you are all done');
   res.sendStatus(201);
 })
 module.exports = router;
