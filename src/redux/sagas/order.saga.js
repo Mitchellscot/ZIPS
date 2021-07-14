@@ -54,7 +54,7 @@ function* addOrder(action){
         yield put({type: 'FETCH_ORDERS'});
     }
     catch(error){
-        console.log(`HEY MITCH - COULDN"T ADD THE ORDER - ${order}`);
+        console.log(`HEY MITCH - COULDN'T ADD THE ORDER - ${error}`);
     }
 }
 

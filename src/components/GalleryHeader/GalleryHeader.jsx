@@ -27,7 +27,6 @@ function GalleryHeader() {
     let price = Number(storePrice);
     for (const image of cart) {
       sum += price + tax;
-      console.log(sum);
     }
     return sum.toFixed(2);
   }
@@ -54,11 +53,11 @@ function GalleryHeader() {
         id="galleryLogo"
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
           onClick={() =>{
-            if (user.id) {
-              history.push('admin/orders');
+            if (!user.id) {
+              history.push('login');
             }
             else{
-              history.go
+              history.push('admin/orders');
             }
           }}
         />

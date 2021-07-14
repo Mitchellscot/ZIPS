@@ -190,8 +190,8 @@ function OrdersTable() {
                         <td colSpan='6'>No Emails to view</td>
                         </tr></tbody>}
                     </Table>
-                    {emailPager.totalPages > 1 ? <Pagination Pager={emailpager}/> : <> </>}
-                </Tab>
+                     {emailPager.totalPages > 1 ? <Pagination Pager={emailPager}/> : <> </>}
+                 </Tab>
             </Tabs>
         </Col>
 

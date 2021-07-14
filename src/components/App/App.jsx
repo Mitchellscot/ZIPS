@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import '../../custom.scss';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Redirect,
   Switch,
@@ -13,6 +13,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LoginPage from '../LoginPage/LoginPage';
+import Orders from '../OrdersTable/OrdersTable';
 import './App.css';
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router>
         <Switch>
-          <Redirect exact from="/" to="/admin" />
+          <Redirect exact from="/" to="/gallery" />
           <Route
             exact
             path="/gallery"
@@ -44,6 +45,10 @@ function App() {
           >
             <LoginPage />
           </ProtectedRoute>
+          <ProtectedRoute
+            path="admin/orders">
+            <Orders />
+            </ProtectedRoute>
          <Route>
             <h1>404</h1>
           </Route> 

@@ -2,10 +2,24 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
-const {downloadFile, thumbImage, watermarkImage} = require('../modules/watermark');
+var cors = require('cors');
+const { downloadFile } = require('../modules/image-processing');
 const Path = require('path');
 const upload = require('../modules/aws-upload');
-
+const { execSync } = require('child_process');
+const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
+const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-lg.png' || "~/Code/zips/public/watermark-lg.png"
+var whiteList = ['https://bztphotos.ddns.net', undefined];
+const corsOptions = {
+  origin: function (origin, callback){
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed!'));
+    }
+  },
+  optionsSucessStatus: 201
+};
 
 //sets show=true for a given image. Default is false.
 router.put('/show/:id', (req, res) => {
@@ -49,7 +63,7 @@ router.get('/date', (req, res) => {
   ORDER BY "created" ASC;`
   pool.query(queryText)
     .then((result) => {
-      const pager = paginate(result.rows.length, page, 15);
+      const pager = paginate(result.rows.length, page, 12);
       const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
       res.send({ pager, pageOfPictures });
     })
@@ -61,8 +75,7 @@ router.get('/date', (req, res) => {
 
 //get all images created in the past 5 hours or if show=true
 router.get('/', (req, res) => {
-  //fix this !
-  const query = `SELECT * FROM "images" WHERE "created" BETWEEN NOW() - INTERVAL '5 HOURS' AND NOW()
+  const query = `SELECT * FROM "images" WHERE "created" BETWEEN NOW() - INTERVAL '3 HOURS' AND NOW()
   OR "images"."show" = true ORDER BY "images"."created" ASC;`;
   pool.query(query)
     .then((result) => { res.send(result.rows); })
@@ -74,12 +87,13 @@ router.get('/', (req, res) => {
 
 //get all images that were created TODAY - pagination enabled
 router.get('/today', (req, res) => {
+
   const page = parseInt(req.query.page) || 1;
-  const query = `SELECT * FROM "images" WHERE date_part('day', "created")=date_part('day', now())
+  const query = `SELECT * FROM "images" WHERE cast(created as date)=current_date
   ORDER BY "created" ASC;`;
   pool.query(query)
     .then((result) => {
-      const pager = paginate(result.rows.length, page, 15);
+      const pager = paginate(result.rows.length, page, 12);
       const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
       res.send({ pager, pageOfPictures });
     })
@@ -90,42 +104,26 @@ router.get('/today', (req, res) => {
 });
 
 //accepts an image posted from raspberry pi
-router.post('/', (req, res) => {
-  const newImage = req.body.url;
-   const filename = newImage.substring(newImage.lastIndexOf('/') + 1);
-  console.log('this is fileName', filename);
-  const path = Path.resolve("/home/mitch/Pictures/watermark/", filename);
-  //download the image to disk
-  downloadFile(newImage, path).then(async () => {
-    //create a thumbnail TODO: finish testing thumb method
-    thumbImage(path, filename);
-    const thumbnailPath = `${path.substring(0, path.lastIndexOf('/') + 1)}th-${filename.slice(0, -4)}.gif`;
-    try {
-      const thumbUrl = await upload(thumbnailPath, process.env.BUCKET_NAME_THUMBS);
-    } catch (error) {
-      console.log(error);
-    }
-    
-  }).then(async () => {
-    //watermark the image TODO: finish testing watermark method
-    watermarkImage(path, filename);
-    const watermarkedPath = `${path.substring(0, path.lastIndexOf('/') + 1)}wm-${filename.slice(0, -4)}.jpg`;
-    try {
-      const watermarkUrl = await upload(watermarkedPath, process.env.BUCKET_NAME_WATERMARKS);
-    } catch (error) {
-      
-    }
-  })
-  console.log(`adding newImage ${newImage}`);
-  const query = `INSERT INTO "images" ("url") VALUES ($1);`;
-  pool.query(query, [newImage])
-    .then((result) => {
-      res.sendStatus(201);
-    })
-    .catch((error) => {
-      console.log(`HEY MITCH - YOU GOT AN ERROR ${error}`);
-      res.sendStatus(500);
-    });
-});
+router.post('/', cors(corsOptions), async (req, res) => {
+  const fullImageUrl = req.body.url;
+  const fullImageFilename = fullImageUrl.substring(fullImageUrl.lastIndexOf('/') + 1);
+  const fullImagePath = Path.resolve(defaultFolder, fullImageFilename);
+  const thumbnailPath = `${defaultFolder}th-${fullImageFilename.slice(0, -4)}.gif`;
+  const watermarkPath = `${defaultFolder}wm-${fullImageFilename}`;
 
+  try {
+    const image = await downloadFile(fullImageUrl, fullImagePath);
+    const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
+    const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast ${watermarkLogo} ${fullImagePath} ${watermarkPath}`);
+    const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
+    const watermarkUpload = await upload(watermarkPath, 'watermark', fullImageFilename);
+    const query = `INSERT INTO "images" ("url", "th_url", "wm_url") VALUES ($1, $2, $3);`;
+    const result = await pool.query(query, [fullImageUrl, thumbnailUpload.Location, watermarkUpload.Location]);
+  }
+  catch(err){
+    console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);
+    res.sendStatus(500);
+  }
+  res.sendStatus(201);
+})
 module.exports = router;

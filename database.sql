@@ -7,8 +7,8 @@ CREATE TABLE "user" (
 CREATE TABLE "images" (
 	"id" SERIAL PRIMARY KEY,
 	"url" VARCHAR(250) NOT NULL,
-	"th_url" VARCHAR(250),
-	"wm_url" VARCHAR(250),
+	"th_url" VARCHAR(250) NOT NULL,
+	"wm_url" VARCHAR(250) NOT NULL,
 	"created" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	"show" BOOLEAN DEFAULT FALSE
 );
@@ -48,7 +48,7 @@ CREATE TABLE "email_settings"(
 );
 CREATE TABLE "costs"(
 	"id" SERIAL PRIMARY KEY,
-	"cost" MONEY NOT NULL,
+	"cost" DECIMAL NOT NULL,
 	"tax" DECIMAL NOT NULL
 )
 
@@ -63,7 +63,7 @@ SELECT * FROM "email_settings";
 
 --dummy data
 INSERT INTO "costs" ("cost", "tax") VALUES
-(5, 0.0075)
+(5, 0.075)
 INSERT INTO "user" ("username", "password") VALUES
 ('bztadmin', 'changeme');
 INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES

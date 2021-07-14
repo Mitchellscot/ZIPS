@@ -19,14 +19,15 @@
 }
 #the-div{
     position: relative;
-    min-width: 1024px;
+   /*  min-width: 1024px; */
 }
 #the-flash-div{
     position: relative;
-    min-width: 1024px;
+/*     min-width: 1024px; */
 }
 #the-webcam{
     position: absolute;
+    height: 100%;
 }
 .the-flash{
       z-index: 100;  
