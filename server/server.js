@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const path = require('path');
+
 
 const app = express();
 
@@ -35,9 +37,9 @@ app.use('/api/emailSettings', emailSettingsRouter);
 app.use('/api/cost', costRouter);
 
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'), function(err) {
+  res.sendFile(path.join(__dirname, '/app/public/index.html'), function(err) {
     if (err) {
-      res.status(500).send(err)
+      res.status(500).send(err);
     }
   })
 })
