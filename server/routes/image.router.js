@@ -125,5 +125,22 @@ router.post('/', cors(corsOptions), async (req, res) => {
     res.sendStatus(500);
   }
   res.sendStatus(201);
+});
+
+//route for testing purposes
+router.post('/test', async (req, res) => {
+  const fullImageUrl = req.body.url;
+  const thumbImageUrl = req.body.th_url;
+  const watermarkImageUrl = req.body.wm_url;
+  const query = `INSERT INTO "images" ("url", "th_url", "wm_url") VALUES ($1, $2, $3);`;
+  try{
+    const result = await pool.query(query, [fullImageUrl, thumbImageUrl, watermarkImageUrl]);
+    res.sendStatus(201);
+  }
+  catch(err){
+    console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);
+    res.sendStatus(500);
+  }
 })
+
 module.exports = router;
