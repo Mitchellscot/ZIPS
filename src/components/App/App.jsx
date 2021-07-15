@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import '../../custom.scss';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Redirect,
   Switch,
@@ -26,31 +26,27 @@ function App() {
   return (
     <Router>
         <Switch>
-          <Redirect exact from="/" to="/gallery" />
-          <Route
+          <Redirect exact from="/" to="/Login" />
+          <ProtectedRoute
             exact
-            path="/gallery"
+            path="/Gallery"
           >
             <Gallery />
-          </Route>
+          </ProtectedRoute>
           <ProtectedRoute
-            path="/admin"
+            path="/Admin"
           >
             <Admin />
           </ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/login"
-            authRedirect="/admin"
+            path="/Login"
+            authRedirect="/Admin/Orders"
           >
             <LoginPage />
           </ProtectedRoute>
-          <ProtectedRoute
-            path="admin/orders">
-            <Orders />
-            </ProtectedRoute>
          <Route>
-            <h1>404</h1>
+            <h1>Page Not Found</h1>
           </Route> 
         </Switch>
     </Router>

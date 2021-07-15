@@ -54,10 +54,10 @@ function GalleryHeader() {
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
           onClick={() =>{
             if (!user.id) {
-              history.push('login');
+              history.push('Login');
             }
             else{
-              history.push('admin/orders');
+              history.push('Admin/Orders');
             }
           }}
         />

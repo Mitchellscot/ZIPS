@@ -16,31 +16,31 @@ function AdminSideBar() {
         <Nav className="sidebar col-md-2 col-lg-2 d-md-block bg-light collapse position-sticky pt-3" >
             <Nav defaultActiveKey="Orders" as="ul" className="nav flex-column align-items-center">
                 <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`/gallery`}>
+                    <Link className="nav-link" role="button" to={`/Gallery`}>
                         Gallery&nbsp;&nbsp;&nbsp;
                         <Images />
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`${match.url}/orders`}>
+                    <Link className="nav-link" role="button" to={`${match.url}/Orders`}>
                         Orders&nbsp;&nbsp;&nbsp;
                         <InboxFill />
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`${match.url}/pictures`}>
+                    <Link className="nav-link" role="button" to={`${match.url}/Pictures`}>
                         Pictures&nbsp;
                         <Image />
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`${match.url}/camera`}>
+                    <Link className="nav-link" role="button" to={`${match.url}/Camera`}>
                         Camera&nbsp;&nbsp;&nbsp;
                         <CameraFill />
                     </Link>
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link className="nav-link" role="button" to={`${match.url}/account`}>
+                    <Link className="nav-link" role="button" to={`${match.url}/Account`}>
                         Account&nbsp;
                         <GearFill />
                     </Link>
