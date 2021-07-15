@@ -6,10 +6,8 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
-//import 'bootstrap/dist/css/bootstrap.min.css'; //uncomment for testing purposes
 import { useDispatch } from 'react-redux';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LoginPage from '../LoginPage/LoginPage';
@@ -24,7 +22,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
+    <Router basename="/">
         <Switch>
           <Redirect exact from="/" to="/Login" />
           <ProtectedRoute
