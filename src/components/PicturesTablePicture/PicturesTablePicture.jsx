@@ -13,7 +13,7 @@ function PicturesTablePicture({ image, page }) {
     const handleShowImage = () => {
         axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
             let dateQ = document.getElementById("picture-search-date").value;
-            dispatch({ type: 'FETCH_SHOWN_IMAGES' })
+            dispatch({ type: 'FETCH_SHOWN_IMAGES' });
             dispatch({ type: "FETCH_PICTURES", payload: { q: dateQ, page: page } });
 
         }).catch((error) => {

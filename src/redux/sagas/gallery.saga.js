@@ -17,6 +17,7 @@ function* fetchPictures(action){
     try{
         const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload.q}&page=${action.payload.page}`);
         yield put({type: 'SET_PICTURES', payload: {
+            date: searchedImagesByDateResponse.data.date,
             pager: searchedImagesByDateResponse.data.pager,
             pageOfPictures: searchedImagesByDateResponse.data.pageOfPictures
         }});

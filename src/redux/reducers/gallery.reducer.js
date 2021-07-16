@@ -21,13 +21,14 @@ const shownImagesReducer = (state = [], action) => {
             return state;
     }
 }
-const initialState = {pager: {}, pageOfOrders: []};
+const initialState = {pager: {}, pageOfOrders: [], date: ''};
 
 const picturePageReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_PICTURES':
             return {
-                ...state,
+            /*  ...state,*/     
+                date: action.payload.date,        
                 pager: action.payload.pager,
                 pageOfPictures: action.payload.pageOfPictures
             }

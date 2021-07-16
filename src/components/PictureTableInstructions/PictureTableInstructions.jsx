@@ -9,10 +9,10 @@ function PictureTableInstructions({showModal, handleCloseModal}){
                     <Modal.Title className="w-100 text-center"><h1>Instructions</h1></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>By default, what is shown in the Gallery view is only 5 hours old. This is to prevent the page from getting cluttered up with old images and so that guests can find their photos quickly. There may be times in which you would want to show photos that are older than five hours, or from a date a long time ago. Follow the steps below to display any photo you find on this page in the gallery view.</p>
+                    <p>By default, what is shown in the Gallery view is only 3 hours old. This is to prevent the page from getting cluttered up with old images and so that guests can find their photos quickly. There may be times in which you would want to show photos that are older than five hours, or from a date a long time ago. Follow the steps below to display any photo you find on this page in the gallery view.</p>
                     <ol>
                         <li>Find your photo by selecting the "Today" button, or be entering a date in the search box and selecting "Search"</li>
-                        <li>When you find the photo you would like to display, select the "Show" button. This will display it in the gallery to view alongside any other photo that is under 5 hours old.</li>
+                        <li>When you find the photo you would like to display, select the "Show" button. This will display it in the gallery to view alongside any other photo that is under 3 hours old.</li>
                         <li>If you would like to see a list of all photos that have been placed in the gallery, select the "All Shown" button. Note - this will enter you into a toggle mode, you will have to deselect the "All Shown" button to get out (You will see the button darken)</li>
                         <li>If you would like to simply clear all from the gallery view, just press the "Hide All" button.</li>
                     </ol>
