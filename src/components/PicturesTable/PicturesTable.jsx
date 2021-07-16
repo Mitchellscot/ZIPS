@@ -16,7 +16,6 @@ import axios from 'axios';
 
 function PicturesTable() {
     const dispatch = useDispatch();
-    const [dateQuery, setDateQuery] = useState(false);
     const shownImages = useSelector(store => store.gallery.shownImagesReducer);
     const pictures = useSelector(store => store.gallery.picturePageReducer.pageOfPictures);
     const Pager = useSelector(store => store.gallery.picturePageReducer.pager);
@@ -27,39 +26,10 @@ function PicturesTable() {
     const page = parseInt(params.get('page'));
     //"show mode" means it's showing all images where show=true, instead of the standard gallery
     const [showMode, setShowMode] = useState(false);
-
     const toggleShowMode = () => {
         setShowMode(!showMode);
     }
-
-    const setShownImagesToFalse = () => {
-        shownImages.map(image => {
-            axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
-                dispatch({ type: 'RESET_SHOWN_IMAGES' });
-                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} });
-                setShowMode(false);
-            }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
-        })
-    }
-
-    const handleSearch = () => {
-        setShowMode(false);
-        let dateQ = document.getElementById("picture-search-date").value;
-        setDateQuery(true);
-        if (dateQ === '') {
-            alert('Please enter a date or press the today button to view today\'s images');
-        }
-        else {
-            dispatch({ type: 'RESET_IMAGES' });
-            dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
-        }
-    }
-
-    const getNumberOfShown = (images) => {
-        return images.length;
-    }
-
-    const getTodaysImages = () => {
+    const setTodaysDate = () => {
         let day = new Date();
         let dd = day.getDate()
         let mm = day.getMonth()+1;
@@ -70,15 +40,43 @@ function PicturesTable() {
         if(mm<10) {
             mm = '0'+mm
         }
-        let todaysDate = yyyy + "-" + mm + "-" + dd;
-        document.getElementById('picture-search-date').value = todaysDate.toString();
-        setDateQuery(false);
+        return document.getElementById('picture-search-date').value = yyyy + "-" + mm + "-" + dd;
+         
+    }
+    const setShownImagesToFalse = () => {
+        shownImages.map(image => {
+            axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
+                dispatch({ type: 'RESET_SHOWN_IMAGES' });
+                dispatch({ type: 'RESET_PICTURES'});
+                setShowMode(false);
+            }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
+        })
+    }
+
+    const handleSearch = () => {
         setShowMode(false);
-        dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page }});
+        let dateQ = document.getElementById("picture-search-date").value;
+        if (dateQ === '') {
+            alert('Please enter a date or press the today button to view today\'s images');
+        }
+        else {
+            //dispatch({ type: 'RESET_IMAGES' });
+            dispatch({ type: "FETCH_PICTURES", payload: {q: dateQ, page: page }});
+        }
+    }
+
+    const getNumberOfShown = (images) => {
+        return images.length;
+    }
+
+    const getTodaysImages = () => {
+        setTodaysDate()
+        setShowMode(false);
+        dispatch({ type: "FETCH_PICTURES", payload: {q: document.getElementById('picture-search-date').value, page: page }});
     };
 
      useEffect(() => {
-        dispatch({ type: 'FETCH_SHOWN_IMAGES' })
+        //dispatch({ type: 'FETCH_SHOWN_IMAGES' })
     }, []); 
 
     return (
@@ -141,7 +139,6 @@ function PicturesTable() {
                                     return (
                                         <Col key={image.id}>
                                             <PicturesTablePicture
-                                                dateQuery={dateQuery}
                                                 image={image} />
                                         </Col>
                                     )
@@ -151,7 +148,6 @@ function PicturesTable() {
                                     return (
                                         <Col key={image.id}>
                                             <PicturesTablePicture
-                                                dateQuery={dateQuery}
                                                 image={image} 
                                                 />
                                         </Col>
@@ -159,7 +155,7 @@ function PicturesTable() {
                                 }) : <span> </span>
                             }
                         </Row>
-                        {Pager.totalPages > 1 && !showMode ? <Pagination Pager={Pager} dateQuery={dateQuery} page={page}/> : <> </>}
+                        {Pager.totalPages > 1 && !showMode ? <Pagination getTodaysImages={getTodaysImages} Pager={Pager} page={page}/> : <> </>}
                     </SRLWrapper>
                 </Row>
             </Container>

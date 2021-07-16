@@ -13,7 +13,7 @@ function* fetchShownImages(){
 }
 
 //gets all images that match a given date - able to paginate (that's why it's SET_PICTURES)
-function* fetchImagesByDate(action){
+function* fetchPictures(action){
     try{
         const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload.q}&page=${action.payload.page}`);
         yield put({type: 'SET_PICTURES', payload: {
@@ -26,19 +26,6 @@ function* fetchImagesByDate(action){
     }
 }
 
-//Gets all images that were created today - able to paginate
-function* fetchTodaysImages(action) {
-    try {
-        const galleryResponse = yield axios.get(`/api/image/today?page=${action.payload.page}`);
-        yield put({type: 'SET_PICTURES', payload: {
-            pager: galleryResponse.data.pager,
-            pageOfPictures: galleryResponse.data.pageOfPictures
-        }});
-    }
-    catch (error){
-        console.log(`HEY MITCH - COULDN'T GET THE PICTURES ${error}`);
-    }
-}
 // gets all images that are 5 hours old
 function* fetchGallery() {
     try {
@@ -52,9 +39,8 @@ function* fetchGallery() {
 
 function* gallerySaga() {
     yield takeLatest('FETCH_GALLERY', fetchGallery);
-    yield takeLatest('SEARCH_IMAGE_DATES', fetchImagesByDate);
+    yield takeLatest('FETCH_PICTURES', fetchPictures);
     yield takeLatest('FETCH_SHOWN_IMAGES', fetchShownImages);
-    yield takeLatest('FETCH_TODAYS_IMAGES', fetchTodaysImages)
   }
 
 export default gallerySaga;
