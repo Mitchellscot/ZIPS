@@ -165,9 +165,8 @@ function PicturesTable() {
                             variant="outline-dark"></QuestionCircle>
                     </Col>
                 </Row>
-                <Row>
                     <SRLWrapper options={options}>
-                        <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 px-2">
+                        <Col className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 px-2">
                             {showMode ?
                                 shownImages != undefined ? shownImages.map(image => {
                                     return (
@@ -191,9 +190,8 @@ function PicturesTable() {
                                     )
                                 }) : <span> </span>
                             }
-                        </Row>
+                        </Col>
                     </SRLWrapper>
-                </Row>
                 {Pager.totalPages > 1 && !showMode ?
                     <ul className="pagination">
                         <li onClick={handlePageChange}
