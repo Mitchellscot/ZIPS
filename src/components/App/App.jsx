@@ -13,8 +13,11 @@ import Admin from '../Admin/Admin';
 import LoginPage from '../LoginPage/LoginPage';
 import Orders from '../OrdersTable/OrdersTable';
 import './App.css';
+import { useSelector } from 'react-redux';
+
 
 function App() {
+  const user = useSelector(store => store.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,6 +25,7 @@ function App() {
   }, [dispatch]);
 
   return (
+    <div id={!user.id ? "big-zip" : ""}>
     <Router basename="/">
         <Switch>
           <Redirect exact from="/" to="/Login" />
@@ -48,6 +52,7 @@ function App() {
           </Route> 
         </Switch>
     </Router>
+    </div>
   );
 }
 
