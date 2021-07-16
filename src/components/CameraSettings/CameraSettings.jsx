@@ -8,11 +8,11 @@ import Row from 'react-bootstrap/Row';
 import { Pencil, PencilFill, Camera, Circle, PlayCircle, PlayCircleFill, PauseCircle, PauseCircleFill, ArrowCounterclockwise } from 'react-bootstrap-icons';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import { useHistory } from 'react-router-dom';
 
 function CameraSettings() {
-    const username = 'bzt';
-    const password = 'birchtree';
-    const token = Buffer.from (`${username}:${password}`, 'utf8').toString('base64');
+    const history = useHistory();
+    //const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
     const ipAddress = "https://bztphotos.ddns.net";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
@@ -59,7 +59,7 @@ function CameraSettings() {
                 element.classList.remove('spin-restart');
             }, 4000);
             setTimeout(() => {
-                location.reload();
+                history.push('/Admin/Camera');
             }, 4000);
 
         }).catch(error => console.log(error));

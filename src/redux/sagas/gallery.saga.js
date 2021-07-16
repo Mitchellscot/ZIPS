@@ -2,10 +2,14 @@ import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 //gets all images that are marked as show=true
-function* fetchShownImages(){
+function* fetchShownImages(action){
     try{
-        const allShownImages = yield axios.get(`/api/image/shown`);
-        yield put({type: 'SET_SHOWN_IMAGES', payload: allShownImages.data});
+        const allShownImages = yield axios.get(`/api/image/shown?q=${action.payload.q}&page=${action.payload.page}`);
+        yield put({type: 'SET_SHOWN_IMAGES', payload: {
+            date: allShownImages.data.date,
+            pager: allShownImages.data.pager,
+            pageOfPictures: allShownImages.data.pageOfPictures
+        }});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T GET THE SHOWN IMAGES ${error}`);

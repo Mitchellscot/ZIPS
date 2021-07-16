@@ -11,17 +11,25 @@ const galleryReducer = (state = [], action) => {
     }
 }
 
-const shownImagesReducer = (state = [], action) => {
+const initialState = {pager: {}, pageOfPictures: [], date: ''};
+const shownImagesReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_SHOWN_IMAGES':
-            return action.payload;
+            return {
+                date: action.payload.date,        
+                pager: action.payload.pager,
+                pageOfPictures: action.payload.pageOfPictures
+            }
         case 'RESET_SHOWN_IMAGES':
-            return [];
+            return {
+                date: '',
+                pager: {},
+                pageOfPictures: []
+            };
         default:
             return state;
     }
 }
-const initialState = {pager: {}, pageOfOrders: [], date: ''};
 
 const picturePageReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -34,7 +42,8 @@ const picturePageReducer = (state = initialState, action) => {
             }
             case 'RESET_PICTURES':
                 return {
-                    pager:{},
+                    date: '',
+                    pager: {},
                     pageOfPictures: []
                 };
         default:

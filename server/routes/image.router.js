@@ -46,14 +46,20 @@ router.delete('/delete/:id', (req, res) => {
 
 //gets all images that have show=true
 router.get('/shown', (req, res) => {
-  let queryText = `SELECT * FROM "images" WHERE "show"=true;`;
+  const page = parseInt(req.query.page) || 1;
+  let date = req.query.q;
+  let queryText = `SELECT * FROM "images" WHERE "show"=true ORDER BY "created" ASC;`;
   pool.query(queryText)
-    .then((result) => { res.send(result.rows); })
+    .then((result) => {
+      const pager = paginate(result.rows.length, page, 12);
+      const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+      res.send({ pager, pageOfPictures, date });
+    })
     .catch((error) => {
       console.log('HEY MITCH - COULDN\'T GET THE IMAGES MARKED AS SHOWN', error);
       res.sendStatus(500);
     });
-})
+});
 
 //selects all images that were created on a given date - pagination enabled
 router.get('/date', (req, res) => {

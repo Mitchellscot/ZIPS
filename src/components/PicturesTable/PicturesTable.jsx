@@ -15,11 +15,32 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
+const options = {
+    settings:{
+      autoplaySpeed: 4000,
+      slideAnimationType: 'both'
+    },
+    buttons:{
+      backgroundColor: 'rgba(30,30,36,0.8)',
+        iconColor: 'rgba(255, 255, 255, 0.8)',
+        iconPadding: '10px',
+        showDownloadButton: false,
+        size: '60px',
+        showAutoplayButton: false,
+        showThumbnailsButton: false
+    },
+    caption:{
+        showCaption: false
+    },
+    thumbnails:{
+        showThumbnails: false 
+    }
+  }
 
 function PicturesTable() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const shownImages = useSelector(store => store.gallery.shownImagesReducer);
+    const shownImages = useSelector(store => store.gallery.shownImagesReducer.pageOfPictures);
     const pictures = useSelector(store => store.gallery.picturePageReducer.pageOfPictures);
     const Pager = useSelector(store => store.gallery.picturePageReducer.pager);
     const searchDate = useSelector(store => store.gallery.picturePageReducer.date);
@@ -28,7 +49,6 @@ function PicturesTable() {
     const handleShowModal = () => setShowModal(true);
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
-    //"show mode" means it's showing all images where show=true, instead of the standard gallery
     const [showMode, setShowMode] = useState(false);
     const toggleShowMode = () => {
         setShowMode(!showMode);
@@ -46,8 +66,8 @@ function PicturesTable() {
             mm = '0' + mm
         }
         return yyyy + "-" + mm + "-" + dd;
-
     }
+
     const setShownImagesToFalse = () => {
         shownImages.map(image => {
             axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
@@ -89,9 +109,8 @@ function PicturesTable() {
         }
     }
 
-/*     useEffect(() => {
-
-    }, []); */
+     useEffect(() => {
+    }, []); 
 
     return (
         <>
@@ -102,7 +121,7 @@ function PicturesTable() {
             <Container fluid>
                 <Row className="pb-3">
                     <Col className="d-flex flex-nowrap align-items-center justify-content-around">
-                        <InputGroup className="input-group-md w-75">
+                        <InputGroup className="input-group-md">
                             <InputGroup.Text id="input-date-text"
                             >
                                 <span >Date</span>
@@ -127,15 +146,15 @@ function PicturesTable() {
                     <Col className="text-center d-flex justify-content-around">
                         <h4
                             className={getNumberOfShown(shownImages) === 0 ? "invisible gallery-image-count-text" : "visible gallery-image-count-text"}
-                        >{"IMAGES IN GALLERY: " + getNumberOfShown(shownImages)}</h4>
+                        >{getNumberOfShown(shownImages) < 12 ? "IMAGES IN GALLERY: " + getNumberOfShown(shownImages) : "GALLERY IS FULL!"}</h4>
                     </Col>
                     <Col className="text-center d-flex justify-content-end">
-                        <Button
+                        <Button size="md"
                             className="mr-3"
                             onClick={toggleShowMode}
                             variant={showMode ? "dark" : "outline-dark"}
                         >All Shown</Button>
-                        <Button
+                        <Button size="md"
                             onClick={setShownImagesToFalse}
                             variant="outline-dark">Hide All</Button>
                         <QuestionCircle
@@ -147,14 +166,16 @@ function PicturesTable() {
                     </Col>
                 </Row>
                 <Row>
-                    <SRLWrapper>
-                        <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 px-3">
+                    <SRLWrapper options={options}>
+                        <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 px-2">
                             {showMode ?
                                 shownImages != undefined ? shownImages.map(image => {
                                     return (
                                         <Col key={image.id}>
                                             <PicturesTablePicture
-                                                image={image} />
+                                                image={image}
+                                                searchDate={searchDate}
+                                                />
                                         </Col>
                                     )
                                 }) : <span> </span>
@@ -164,6 +185,7 @@ function PicturesTable() {
                                         <Col key={image.id}>
                                             <PicturesTablePicture
                                                 image={image}
+                                                searchDate={searchDate}
                                             />
                                         </Col>
                                     )
