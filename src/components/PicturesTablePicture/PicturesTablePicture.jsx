@@ -1,5 +1,5 @@
 import "./PicturesTablePicture.css";
-import {useState} from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -7,20 +7,15 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import swal from 'sweetalert';
 import axios from 'axios';
 
-function PicturesTablePicture({ image, dateQuery, page }) {
+function PicturesTablePicture({ image, page }) {
     const dispatch = useDispatch();
 
     const handleShowImage = () => {
-        axios.put(`/api/image/show/${image.id}`, {show: !image.show}).then((response)=>{
-            if (dateQuery === true) {
-                let dateQ = document.getElementById("picture-search-date").value;
-                dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
-            }
-            else {
-                dispatch({ type: 'FETCH_SHOWN_IMAGES' })
-                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} })
-            }
+        axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
+            let dateQ = document.getElementById("picture-search-date").value;
+            dispatch({ type: 'FETCH_SHOWN_IMAGES' });
+            dispatch({ type: "FETCH_PICTURES", payload: { q: dateQ, page: page } });
+
         }).catch((error) => {
             console.log(`HEY MITCH - CAN'T SHOW THE IMAGE: ${error}`);
         });
@@ -37,15 +32,10 @@ function PicturesTablePicture({ image, dateQuery, page }) {
                 if (willDelete) {
                     axios.delete(`/api/image/delete/${image.id}`)
                         .then((response) => {
-                            if (dateQuery === true) {
-                                let dateQ = document.getElementById("picture-search-date").value;
-                                dispatch({ type: 'FETCH_SHOWN_IMAGES'});
-                                dispatch({ type: "SEARCH_IMAGE_DATES", payload: {q: dateQ, page: page }});
-                            }
-                            else {
-                                dispatch({ type: 'FETCH_SHOWN_IMAGES' });
-                                dispatch({ type: 'FETCH_TODAYS_IMAGES', payload: {page: page} });
-                            }
+                            let dateQ = document.getElementById("picture-search-date").value;
+                            dispatch({ type: 'FETCH_SHOWN_IMAGES' });
+                            dispatch({ type: "FETCH_PICTURES", payload: { q: dateQ, page: page } });
+
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE IMAGE: ${error}`);
@@ -80,7 +70,7 @@ function PicturesTablePicture({ image, dateQuery, page }) {
                         onClick={handleDelete}
                         type="button"
                     >Delete
-                </Button>
+                    </Button>
                 </ButtonGroup>
             </Card.Body>
         </Card>
