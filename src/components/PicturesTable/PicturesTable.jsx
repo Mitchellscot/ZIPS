@@ -77,6 +77,7 @@ function PicturesTable() {
                 axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
                     dispatch({ type: 'RESET_SHOWN_IMAGES' });
                     dispatch({ type: 'RESET_PICTURES' });
+                    dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
                     setShowMode(false);
                 }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
             })
@@ -155,7 +156,7 @@ function PicturesTable() {
                     </Col>
                     <Col className="text-center d-flex justify-content-around">
                         {<h4
-                            className={shownPager.totalItems === undefined ? "invisible gallery-image-count-text" : "visible gallery-image-count-text"}
+                            className={shownPager.totalItems === 0 ? "invisible gallery-image-count-text" : "visible gallery-image-count-text"}
                         >{"IMAGES IN GALLERY: " + shownPager.totalItems}</h4>}
                     </Col>
                     <Col className="text-center d-flex justify-content-end">
