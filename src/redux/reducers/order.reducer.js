@@ -1,4 +1,4 @@
-const initialState = {pager: {}, pageOfOrders: []};
+const initialState = {pager: {}, pageOfOrders: [], date: ''};
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -6,7 +6,8 @@ const orderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pager: action.payload.pager,
-                pageOfOrders: action.payload.pageOfOrders
+                pageOfOrders: action.payload.pageOfOrders,
+                date: action.payload.date
             }
         case 'CLEAR_ORDERS':
             return {

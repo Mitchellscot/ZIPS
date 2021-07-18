@@ -115,7 +115,6 @@ function PicturesTable() {
                 dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
             }
         }
-
     }
 
     useEffect(() => {

@@ -4,7 +4,8 @@ import { put, takeEvery } from 'redux-saga/effects';
 function* fetchOrdersByDate(action){
     try{
         const page = action.payload.page;
-        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload.q}&page=${page}`);
+        const date = action.payload.date;
+        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload.date}&page=${page}`);
         yield put({type: 'SET_ORDERS', payload: {
             pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
             pager: searchedOrdersByDateResponse.data.pager
@@ -18,10 +19,12 @@ function* fetchOrdersByDate(action){
 function* fetchSearchedOrders(action) {
     try {
         const page = action.payload.page;
-        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload.q}&page=${page}`);
+        const date = action.payload.date;
+        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload.q}&page=${page}&date=${date}`);
         yield put({type: 'SET_ORDERS', payload: {
             pageOfOrders: searchedOrdersResponse.data.pageOfOrders,
-            pager: searchedOrdersResponse.data.pager
+            pager: searchedOrdersResponse.data.pager,
+            date: searchedOrdersResponse.data.date
         }});
     }
     catch (error){
@@ -32,10 +35,14 @@ function* fetchSearchedOrders(action) {
 function* fetchAllOrders(action) {
     try {
         const page = action.payload.page;
-        const orderResponse = yield axios.get(`/api/order?page=${page}`);
+        const date = action.payload.date;
+        const orderResponse = yield axios.get(`/api/order?page=${page}&date=${date}`);
         yield put({type: 'SET_ORDERS', payload: {
             pager: orderResponse.data.pager, 
-            pageOfOrders: orderResponse.data.pageOfOrders}});
+            pageOfOrders: orderResponse.data.pageOfOrders,
+            date: orderResponse.data.date
+        }});
+            
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);

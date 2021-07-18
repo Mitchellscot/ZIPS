@@ -11,21 +11,41 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Pagination from '../OrdersPagination/OrdersPagination';
+import { Link } from 'react-router-dom';
 
 function OrdersTable() {
     const dispatch = useDispatch();
     const Orders = useSelector(store => store.orders.pageOfOrders);
-    const orderPager = useSelector(store => store.orders.pager)
+    const orderPager = useSelector(store => store.orders.pager);
+    const searchDate = useSelector(store => store.orders.date);
     const emails = useSelector(store => store.emails.pageOfEmails);
     const emailPager = useSelector(store => store.emails.pager)
     const [tab, setTab] = useState('orders');
     const [dateQuery, setDateQuery] = useState('');
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
-    
+    const [input, setInput] = useState('');
+    const [searchByNameOrEmail, SetSearchByNameOrEmail] = useState(false);
+
+    const setTodaysDate = () => {
+        let day = new Date();
+        let dd = day.getDate()
+        let mm = day.getMonth() + 1;
+        let yyyy = day.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        return yyyy + "-" + mm + "-" + dd;
+    }
+
     React.useEffect(() => {
         getOrders();
         getEmails();
+        setInput(document.getElementById("search-text-input").value);
+        document.getElementById("search-text-input").value = input;
     }, []);
 
     const getEmails = () => {
@@ -35,43 +55,81 @@ function OrdersTable() {
             }
         });
     }
-
     const getOrders = () => {
-            dispatch({
-                type: 'FETCH_ALL_ORDERS', payload: {
-                    page: page
-                }
-            });
+        dispatch({
+            type: 'FETCH_ALL_ORDERS', payload: { page: page, date: determineDate() }
+        });
     }
 
-    const handleInputChange = (event) => {
 
+    const determineDate = (dateQuery) => {
+        if (dateQuery === '') {
+            return setTodaysDate();
+        }
+        else return dateQuery;
+    }
+
+    const handleInputChange = () => {
+        SetSearchByNameOrEmail(true);
+        let date = determineDate(dateQuery)
+        console.log(date)
         if (tab === 'orders') {
-            dispatch({ type: 'SEARCH_ORDERS', payload: {
-                q: event.target.value,
-                page: page
-            }});
+            dispatch({
+                type: 'SEARCH_ORDERS', payload: {
+                    q: input,
+                    page: page,
+                    date: date
+                }
+            });
         }
         else if (tab === 'emails') {
-            dispatch({ type: 'SEARCH_EMAILS', payload: {
-                q: event.target.value,
-                page: page
-             }});
+            dispatch({
+                type: 'SEARCH_EMAILS', payload: {
+                    q: input,
+                    page: page,
+                    date: date
+                }
+            });
         }
     }
 
     const handleDateSearch = () => {
+        SetSearchByNameOrEmail(false);
+        let date = determineDate(dateQuery);
         if (tab === 'orders') {
-            dispatch({ type: 'SEARCH_ORDER_DATES', payload: {
-                q: dateQuery,
-                page: page
-            }});
+            dispatch({
+                type: 'SEARCH_ORDER_DATES', payload: {
+                    date: dateQuery,
+                    page: page
+                }
+            });
         }
         else if (tab === 'emails') {
-            dispatch({ type: 'SEARCH_EMAIL_DATES', payload: {
-                q: dateQuery,
-                page: page
-            }});
+            dispatch({
+                type: 'SEARCH_EMAIL_DATES', payload: {
+                    date: dateQuery,
+                    page: page
+                }
+            });
+        }
+    }
+
+    const handleOrdersPageChange = () => {
+        const params = new URLSearchParams(document.location.search);
+        const page = parseInt(params.get('page'));
+        let date = determineDate(dateQuery)
+        if (searchByNameOrEmail) {
+            console.log('bingo');
+            dispatch({
+                type: 'SEARCH_ORDERS', payload: {
+                    q: input,
+                    page: page,
+                    date: date
+                }
+            });
+        }
+        else {
+            console.log('bango');
         }
     }
 
@@ -83,7 +141,12 @@ function OrdersTable() {
                     <span>Search</span>
                 </InputGroup.Text>
                 <FormControl
-                    onChange={handleInputChange}
+                    value={input}
+                    id="search-text-input"
+                    onChange={(e) => {
+                        setInput(e.target.value)
+                        handleInputChange()
+                    }}
                     placeholder="Name or email..."
                     type="text"
                 />
@@ -92,7 +155,10 @@ function OrdersTable() {
                 </InputGroup.Text>
                 <FormControl
                     id="search-dates-orders-emails"
-                    onChange={() => setDateQuery(event.target.value)}
+                    onChange={() => {
+                        setInput(event.target.value)
+                        setDateQuery(event.target.value)
+                    }}
                     type="date"
                 />
                 <InputGroup.Append>
@@ -102,6 +168,7 @@ function OrdersTable() {
                             if (input === '') {
                                 alert("Please enter a date to search");
                             }
+                            setInput(input)
                             handleDateSearch();
                         }}
                         variant="outline-dark"
@@ -142,7 +209,7 @@ function OrdersTable() {
                             </tr>
                         </thead>
 
-                       {Orders !== undefined ? Orders.map(order => {
+                        {Orders !== undefined ? Orders.map(order => {
                             return (
                                 <tbody key={order.id}>
                                     <OrderTableRow
@@ -153,9 +220,32 @@ function OrdersTable() {
                             )
                         }) : <tbody><tr className="d-flex justify-content-center">
                             <td colSpan='6'>No orders to view</td>
-                            </tr></tbody>}
+                        </tr></tbody>}
                     </Table>
-                    {orderPager.totalPages > 1 ? <Pagination Pager={orderPager}/> : <> </>}
+                    {orderPager.totalPages > 1 ? <ul className="pagination">
+                        <li onClick={handleOrdersPageChange}
+                            className={`page-item first-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
+                            <Link to={{ search: `?page=1` }} className="page-link">First</Link>
+                        </li>
+                        <li onClick={handleOrdersPageChange}
+                            className={`page-item previous-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
+                            <Link to={{ search: `?page=${orderPager.currentPage - 1}` }} className="page-link">Previous</Link>
+                        </li>
+                        {orderPager.pages.map(page =>
+                            <li onClick={handleOrdersPageChange}
+                                key={page} className={`page-item number-item ${orderPager.currentPage === page ? 'active' : ''}`}>
+                                <Link to={{ search: `?page=${page}` }} className="page-link">{page}</Link>
+                            </li>
+                        )}
+                        <li onClick={handleOrdersPageChange}
+                            className={`page-item next-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
+                            <Link to={{ search: `?page=${orderPager.currentPage + 1}` }} className="page-link">Next</Link>
+                        </li>
+                        <li onClick={handleOrdersPageChange}
+                            className={`page-item last-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
+                            <Link to={{ search: `?page=${orderPager.totalPages}` }} className="page-link">Last</Link>
+                        </li>
+                    </ul> : <> </>}
                 </Tab>
 
                 <Tab eventKey="emails" title="Emails" className="Tables">
@@ -182,16 +272,16 @@ function OrdersTable() {
                         {emails !== undefined ? emails.map(email => {
                             return (
                                 <tbody key={email.id}>
-                                    <EmailTableRow email={email} 
+                                    <EmailTableRow email={email}
                                     />
                                 </tbody>
-                            ) 
+                            )
                         }) : <tbody><tr className="d-flex justify-content-center">
-                        <td colSpan='6'>No Emails to view</td>
+                            <td colSpan='6'>No Emails to view</td>
                         </tr></tbody>}
                     </Table>
-                     {emailPager.totalPages > 1 ? <Pagination Pager={emailPager}/> : <> </>}
-                 </Tab>
+                    {emailPager.totalPages > 1 ? <Pagination searchDate={searchDate} Pager={emailPager} /> : <> </>}
+                </Tab>
             </Tabs>
         </Col>
 

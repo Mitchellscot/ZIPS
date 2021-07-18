@@ -39,18 +39,18 @@ router.put('/completed/:id', (req, res) => {
 //gets orders based on a given date
 router.get('/date', (req, res) =>{
     const page = parseInt(req.query.page) || 1;
-    let query = req.query.q;
+    let date = req.query.q;
     let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
-    WHERE CAST("orders"."order_date" as date) = date '${query}'
+    WHERE CAST("orders"."order_date" as date) = date '${date}'
     GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
     ORDER BY "complete" ASC;`;
     pool.query(queryText).then((result) => {
         const pager = paginate(result.rows.length, page, 8);
         const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        res.send({pager, pageOfOrders});
+        res.send({pager, pageOfOrders, date});
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE SEARCHED ORDERS ${error}`);
         res.sendStatus(500);
@@ -61,6 +61,8 @@ router.get('/', (req, res) => {
     const page = parseInt(req.query.page) || 1;
     let queryText = '';
     let query = req.query.q;
+    let date = req.query.date;
+    console.log(`this is date ${date}`);
     //if there is no query string, get them all. If there is a query string, send a sql query with that name in it.
     if (query == undefined) {
         //sends back a row with data from the orders table along with an array or URLs for the photos
@@ -80,14 +82,15 @@ router.get('/', (req, res) => {
         JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
         JOIN "images" ON "order_ids"."image_id"="images"."id"
         WHERE "orders"."name" ILIKE '%${query}%' 
-        OR "orders"."email" ILIKE '%${query}%' 
+        OR "orders"."email" ILIKE '%${query}%'
+        AND CAST("orders"."order_date" as date) = date '${date}' 
         GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
         ORDER BY "complete" ASC;`
     }
     pool.query(queryText).then((result) => {
         const pager = paginate(result.rows.length, page, 8);
         const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        res.send({pager, pageOfOrders});
+        res.send({pager, pageOfOrders, date});
     }).catch((error) => {
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
         res.sendStatus(500);
