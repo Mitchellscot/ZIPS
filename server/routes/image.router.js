@@ -46,32 +46,26 @@ router.delete('/delete/:id', (req, res) => {
 
 //gets all images that have show=true
 router.get('/shown', (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  let date = req.query.q;
-  let queryText = `SELECT * FROM "images" WHERE "show"=true ORDER BY "created" ASC;`;
+  let queryText = `SELECT * FROM "images" WHERE "show"=true;`;
   pool.query(queryText)
-    .then((result) => {
-      const pager = paginate(result.rows.length, page, 12);
-      const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-      res.send({ pager, pageOfPictures, date });
-    })
+    .then((result) => { res.send(result.rows); })
     .catch((error) => {
       console.log('HEY MITCH - COULDN\'T GET THE IMAGES MARKED AS SHOWN', error);
       res.sendStatus(500);
     });
-});
+})
 
 //selects all images that were created on a given date - pagination enabled
 router.get('/date', (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  let date = req.query.q;
-  const queryText = `SELECT * FROM "images" WHERE CAST("created" as date) = date '${date}' 
+  let query = req.query;
+  const queryText = `SELECT * FROM "images" WHERE CAST("created" as date) = date '${query.q}' 
   ORDER BY "created" ASC;`
   pool.query(queryText)
     .then((result) => {
       const pager = paginate(result.rows.length, page, 12);
       const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-      res.send({ pager, pageOfPictures, date });
+      res.send({ pager, pageOfPictures });
     })
     .catch((error) => {
       console.log('HEY MITCH - COULDN\'T GET THE IMAGES BY DATE', error);
@@ -79,7 +73,7 @@ router.get('/date', (req, res) => {
     });
 });
 
-//get all images created in the past 3 hours or if show=true
+//get all images created in the past 5 hours or if show=true
 router.get('/', (req, res) => {
   const query = `SELECT * FROM "images" WHERE "created" BETWEEN NOW() - INTERVAL '3 HOURS' AND NOW()
   OR "images"."show" = true ORDER BY "images"."created" ASC;`;
@@ -114,22 +108,5 @@ router.post('/', cors(corsOptions), async (req, res) => {
     res.sendStatus(500);
   }
   res.sendStatus(201);
-});
-
-//route for testing purposes
-router.post('/test', async (req, res) => {
-  const fullImageUrl = req.body.url;
-  const thumbImageUrl = req.body.th_url;
-  const watermarkImageUrl = req.body.wm_url;
-  const query = `INSERT INTO "images" ("url", "th_url", "wm_url") VALUES ($1, $2, $3);`;
-  try{
-    const result = await pool.query(query, [fullImageUrl, thumbImageUrl, watermarkImageUrl]);
-    res.sendStatus(201);
-  }
-  catch(err){
-    console.log('HEY MITCH - ERROR PROCESSING IMAGES', err);
-    res.sendStatus(500);
-  }
 })
-
 module.exports = router;
