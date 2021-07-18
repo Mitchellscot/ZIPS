@@ -8,7 +8,7 @@ const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
 const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
-const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-md.png' || "/home/mitch/Code/zips/public/watermark-lg.png"
+const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-md.png' || "/home/mitch/Code/zips/public/watermark-md.png"
 var whiteList = ['https://bztphotos.ddns.net', undefined];
 const corsOptions = {
   origin: function (origin, callback){
@@ -79,24 +79,6 @@ router.get('/', (req, res) => {
   OR "images"."show" = true ORDER BY "images"."created" ASC;`;
   pool.query(query)
     .then((result) => { res.send(result.rows); })
-    .catch((error) => {
-      console.log('HEY MITCH - COULDN\'T GET THE IMAGES', error);
-      res.sendStatus(500);
-    });
-});
-
-//get all images that were created TODAY - pagination enabled
-router.get('/today', (req, res) => {
-
-  const page = parseInt(req.query.page) || 1;
-  const query = `SELECT * FROM "images" WHERE cast(created as date)=current_date
-  ORDER BY "created" ASC;`;
-  pool.query(query)
-    .then((result) => {
-      const pager = paginate(result.rows.length, page, 12);
-      const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-      res.send({ pager, pageOfPictures });
-    })
     .catch((error) => {
       console.log('HEY MITCH - COULDN\'T GET THE IMAGES', error);
       res.sendStatus(500);
