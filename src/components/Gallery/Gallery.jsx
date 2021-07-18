@@ -17,13 +17,17 @@ const options = {
       iconColor: 'rgba(255, 255, 255, 0.8)',
       iconPadding: '10px',
       showDownloadButton: false,
-      size: '60px'
+      size: '60px',
+      showThumbnailsButton: false
   },
   caption:{
     captionContainerPadding: "0px 40px",
     captionFontFamily: "Roboto, sans-serif",
     captionFontSize: "48px"
-  }
+  },
+  thumbnails:{
+    showThumbnails: false 
+}
 }
 
 function Gallery() {

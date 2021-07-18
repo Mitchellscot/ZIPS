@@ -1,6 +1,5 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
-const pool = require('../modules/pool');
 
 async function awsUpload(path, imageType, filename) {
     const bucketName = imageType == 'thumbnail' ? process.env.BUCKET_NAME_THUMBS : process.env.BUCKET_NAME_WATERMARKS;
