@@ -8,7 +8,7 @@ const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
 const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
-const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-lg.png' || "~/Code/zips/public/watermark-lg.png"
+const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-md.png' || "/home/mitch/Code/zips/public/watermark-md.png"
 var whiteList = ['https://bztphotos.ddns.net', undefined];
 const corsOptions = {
   origin: function (origin, callback){
@@ -91,24 +91,6 @@ router.get('/', (req, res) => {
     });
 });
 
-//get all images that were created TODAY - pagination enabled
-/* router.get('/today', (req, res) => {
-
-  const page = parseInt(req.query.page) || 1;
-  const query = `SELECT * FROM "images" WHERE cast(created as date)=current_date
-  ORDER BY "created" ASC;`;
-  pool.query(query)
-    .then((result) => {
-      const pager = paginate(result.rows.length, page, 12);
-      const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-      res.send({ pager, pageOfPictures });
-    })
-    .catch((error) => {
-      console.log('HEY MITCH - COULDN\'T GET THE IMAGES', error);
-      res.sendStatus(500);
-    });
-}); */
-
 //accepts an image posted from raspberry pi
 router.post('/', cors(corsOptions), async (req, res) => {
   const fullImageUrl = req.body.url;
@@ -120,6 +102,7 @@ router.post('/', cors(corsOptions), async (req, res) => {
   try {
     const image = await downloadFile(fullImageUrl, fullImagePath);
     const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
+    const resizing = execSync(`convert -quiet -resize 1296x972 ${fullImagePath} ${fullImagePath}`);
     const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast ${watermarkLogo} ${fullImagePath} ${watermarkPath}`);
     const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
     const watermarkUpload = await upload(watermarkPath, 'watermark', fullImageFilename);
