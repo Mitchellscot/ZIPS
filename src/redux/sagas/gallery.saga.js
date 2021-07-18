@@ -5,10 +5,11 @@ import axios from 'axios';
 function* fetchShownImages(action){
     try{
         const allShownImages = yield axios.get(`/api/image/shown?q=${action.payload.q}&page=${action.payload.page}`);
+        //console.log(`${}`);
         yield put({type: 'SET_SHOWN_IMAGES', payload: {
             date: allShownImages.data.date,
             pager: allShownImages.data.pager,
-            pageOfPictures: allShownImages.data.pageOfPictures
+            pageOfImages: allShownImages.data.pageOfImages
         }});
     }
     catch(error){

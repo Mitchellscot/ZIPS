@@ -52,8 +52,9 @@ router.get('/shown', (req, res) => {
   pool.query(queryText)
     .then((result) => { 
       const pager = paginate(result.rows.length, page, 12);
-      const pageOfPictures = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-      res.send(pager, pageOfPictures, date); })
+      const pageOfImages = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+      res.send({pager, pageOfImages, date}); 
+    })
     .catch((error) => {
       console.log('HEY MITCH - COULDN\'T GET THE IMAGES MARKED AS SHOWN', error);
       res.sendStatus(500);
