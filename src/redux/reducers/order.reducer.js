@@ -1,6 +1,6 @@
 import { orderConstants } from '../../_constants';
 
-const initialState = {pager: {}, pageOfOrders: [], date: ''};
+const initialState = {pager: {}, pageOfOrders: [], date: '', text: ''};
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -9,12 +9,15 @@ const orderReducer = (state = initialState, action) => {
                 ...state,
                 pager: action.payload.pager,
                 pageOfOrders: action.payload.pageOfOrders,
-                date: action.payload.date
+                date: action.payload.date,
+                text: action.payload.text
             }
         case orderConstants.CLEAR_STATE:
             return {
                 pager: {},
-                pageOfOrders: []
+                pageOfOrders: [],
+                date: '',
+                text: ''
             };
         default:
             return state;
