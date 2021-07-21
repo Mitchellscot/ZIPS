@@ -81,14 +81,14 @@ function EmailTableRow({ email }) {
                                 onClick={() => {
                                     handleEmailModel()
                                 }}
-                                fontSize="2rem" />
+                                fontSize="1.5rem" />
                         </Button>    
                 <Button variant={photoModal ? "dark" : "outline-dark"}>
                             <Images
                                 onClick={() => {
                                     handlePhotoModal()
                                 }}
-                                fontSize="2rem" />
+                                fontSize="1.5rem" />
                         </Button>
                         </ButtonGroup>
                 </td>

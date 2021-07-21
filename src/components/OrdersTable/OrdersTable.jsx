@@ -1,4 +1,6 @@
 import './OrdersTable.css';
+import { orderConstants } from '../../_constants';
+import { emailConstants } from '../../_constants';
 import Table from 'react-bootstrap/Table';
 import OrderTableRow from '../OrderTableRow/OrderTableRow';
 import React, { useState } from 'react';
@@ -21,11 +23,10 @@ function OrdersTable() {
     const emails = useSelector(store => store.emails.pageOfEmails);
     const emailPager = useSelector(store => store.emails.pager)
     const [tab, setTab] = useState('orders');
-    const [dateQuery, setDateQuery] = useState('');
+    const [input, setInput] = useState('');
+
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
-    const [input, setInput] = useState('');
-    const [searchByNameOrEmail, SetSearchByNameOrEmail] = useState(false);
 
     const setTodaysDate = () => {
         let day = new Date();
@@ -42,96 +43,58 @@ function OrdersTable() {
     }
 
     React.useEffect(() => {
-        getOrders();
-        getEmails();
-        setInput(document.getElementById("search-text-input").value);
-        document.getElementById("search-text-input").value = input;
+        getAllResults()
     }, []);
 
-    const getEmails = () => {
-        dispatch({
-            type: 'FETCH_EMAIL_HISTORY', payload: {
-                page: page
-            }
-        });
-    }
-    const getOrders = () => {
-        dispatch({
-            type: 'FETCH_ALL_ORDERS', payload: { page: page, date: determineDate() }
-        });
-    }
-
-
-    const determineDate = (dateQuery) => {
-        if (dateQuery === '') {
-            return setTodaysDate();
-        }
-        else return dateQuery;
-    }
-
-    const handleInputChange = () => {
-        SetSearchByNameOrEmail(true);
-        let date = determineDate(dateQuery)
-        console.log(date)
-        if (tab === 'orders') {
-            dispatch({
-                type: 'SEARCH_ORDERS', payload: {
-                    q: input,
-                    page: page,
-                    date: date
-                }
-            });
-        }
-        else if (tab === 'emails') {
-            dispatch({
-                type: 'SEARCH_EMAILS', payload: {
-                    q: input,
-                    page: page,
-                    date: date
-                }
-            });
-        }
-    }
-
-    const handleDateSearch = () => {
-        SetSearchByNameOrEmail(false);
-        let date = determineDate(dateQuery);
-        if (tab === 'orders') {
-            dispatch({
-                type: 'SEARCH_ORDER_DATES', payload: {
-                    date: dateQuery,
-                    page: page
-                }
-            });
-        }
-        else if (tab === 'emails') {
-            dispatch({
-                type: 'SEARCH_EMAIL_DATES', payload: {
-                    date: dateQuery,
-                    page: page
-                }
-            });
-        }
-    }
-
-    const handleOrdersPageChange = () => {
+    const getAllResults = () => {
         const params = new URLSearchParams(document.location.search);
         const page = parseInt(params.get('page'));
-        let date = determineDate(dateQuery)
-        if (searchByNameOrEmail) {
-            console.log('bingo');
-            dispatch({
-                type: 'SEARCH_ORDERS', payload: {
-                    q: input,
-                    page: page,
-                    date: date
-                }
-            });
+        if (tab === 'orders'){
+            dispatch({type: orderConstants.SEARCH_ALL, payload:{
+                page: page
+            }});
         }
-        else {
-            console.log('bango');
+        else if (tab === 'emails'){
+            dispatch({type: emailConstants.SEARCH_ALL, payload:{
+                page: page
+            }});
+        };
+    };
+
+/*     const getResultsBySearch = (event, type) => {
+        const params = new URLSearchParams(document.location.search);
+        const page = parseInt(params.get('page'));
+
+        dispatch({type: orderConstants.SEARCH_TEXT, payload:{
+            page: page,
+            query: event.target.value,
+            type: type
+        }});
+    } */
+
+/*     const handleChange = (tab, type, page, query) => {
+        const params = new URLSearchParams(document.location.search);
+        const page = parseInt(params.get('page'));
+        if (tab === 'orders'){
+            //get all
+            dispatch({type: orderConstants.SEARCH_ALL, payload:{
+                page: page
+            }});
+
         }
-    }
+        else if (tab === 'emails'){
+
+
+        }
+
+        //needs logic to determin if current page is equal to page... maybe...
+        dispatch({type: 'ORDERS_SEARCH', payload:{
+            tab: tab, //ALL, ORDERS, EMAILS
+            type: type, //TEXT, DATE
+            page: page, //1,2,3,4,5... etc
+            query: query //either the date to search or the text to search
+        }});
+    } */
 
     return (
         <Col className="align-items-center justify-content-center">
@@ -180,8 +143,8 @@ function OrdersTable() {
             <Tabs
                 onSelect={(t) => {
                     setTab(t);
-                    getOrders();
-                    getEmails();
+/*                     getOrders();
+                    getEmails(); */
                 }}
                 activeKey={tab}>
                 <Tab eventKey="orders" title="Orders">
@@ -214,7 +177,7 @@ function OrdersTable() {
                                 <tbody key={order.id}>
                                     <OrderTableRow
                                         order={order}
-                                        getOrders={getOrders}
+                                      /*   getOrders={getOrders} */
                                     />
                                 </tbody>
                             )
@@ -223,25 +186,25 @@ function OrdersTable() {
                         </tr></tbody>}
                     </Table>
                     {orderPager.totalPages > 1 ? <ul className="pagination">
-                        <li onClick={handleOrdersPageChange}
+                        <li /* onClick={} */
                             className={`page-item first-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
                             <Link to={{ search: `?page=1` }} className="page-link">First</Link>
                         </li>
-                        <li onClick={handleOrdersPageChange}
+                        <li /* onClick={} */
                             className={`page-item previous-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
                             <Link to={{ search: `?page=${orderPager.currentPage - 1}` }} className="page-link">Previous</Link>
                         </li>
                         {orderPager.pages.map(page =>
-                            <li onClick={handleOrdersPageChange}
+                            <li /* onClick={} */
                                 key={page} className={`page-item number-item ${orderPager.currentPage === page ? 'active' : ''}`}>
                                 <Link to={{ search: `?page=${page}` }} className="page-link">{page}</Link>
                             </li>
                         )}
-                        <li onClick={handleOrdersPageChange}
+                        <li /* onClick={} */
                             className={`page-item next-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
                             <Link to={{ search: `?page=${orderPager.currentPage + 1}` }} className="page-link">Next</Link>
                         </li>
-                        <li onClick={handleOrdersPageChange}
+                        <li /* onClick={} */
                             className={`page-item last-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
                             <Link to={{ search: `?page=${orderPager.totalPages}` }} className="page-link">Last</Link>
                         </li>

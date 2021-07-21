@@ -1,15 +1,17 @@
+import { orderConstants } from '../../_constants';
+
 const initialState = {pager: {}, pageOfOrders: [], date: ''};
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_ORDERS':
+        case orderConstants.SEARCH_RESULTS:
             return {
                 ...state,
                 pager: action.payload.pager,
                 pageOfOrders: action.payload.pageOfOrders,
                 date: action.payload.date
             }
-        case 'CLEAR_ORDERS':
+        case orderConstants.CLEAR_STATE:
             return {
                 pager: {},
                 pageOfOrders: []

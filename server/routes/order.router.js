@@ -3,6 +3,29 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
 
+//gets all orders by page number
+router.get('/all', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    queryText = `
+    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+    FROM "orders"
+    JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
+    JOIN "images" ON "order_ids"."image_id"="images"."id"
+    GROUP BY "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", "orders"."id"
+    ORDER BY "complete" ASC, "orders"."order_date" DESC;`
+    pool.query(queryText).then((result) => {
+        const pager = paginate(result.rows.length, page, 8);
+        const pageOfOrders = result.rows.slice(pager.startIndex, pager.endIndex + 1);
+        res.send({pager, pageOfOrders});
+    }).catch((error) => {
+        console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
+        res.sendStatus(500);
+    });
+});
+
+//gets all orders with a given text search
+
+
 //deletes an image with a given id
 router.delete('/delete/:id', (req, res) => {
     pool.query('DELETE FROM "orders" WHERE id=$1;', [req.params.id])
@@ -36,6 +59,9 @@ router.put('/completed/:id', (req, res) => {
             res.sendStatus(500);
         })
 });
+
+
+
 //gets orders based on a given date
 router.get('/date', (req, res) =>{
     const page = parseInt(req.query.page) || 1;
@@ -56,6 +82,8 @@ router.get('/date', (req, res) =>{
         res.sendStatus(500);
     })
 })
+
+//THIS IS BEING RETIRED!!!
 //gets orders. If there is a query string, use it to search. If not, get them all
 router.get('/', (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -96,6 +124,8 @@ router.get('/', (req, res) => {
         res.sendStatus(500);
     });
 });
+
+
 //creates an order. After dat is submitted to orders table, associate the images with the order.
 router.post('/', (req, res) => {
     const newOrder = req.body;

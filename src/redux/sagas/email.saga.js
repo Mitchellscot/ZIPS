@@ -1,3 +1,4 @@
+import { emailConstants } from '../../_constants';
 import axios from 'axios';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
@@ -51,10 +52,11 @@ function* sendEmail(action){
 function* fetchEmails(action) {
     try {
         const page = action.payload.page;
-        const emailsResponse = yield axios.get(`/api/email?page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
+        const emailsResponse = yield axios.get(`/api/email/all?page=${page}`);
+        yield put({type: emailConstants.SEARCH_RESULTS, payload: {
             pager: emailsResponse.data.pager,
-            pageOfEmails: emailsResponse.data.pageOfEmails
+            pageOfEmails: emailsResponse.data.pageOfEmails,
+            date: ''
         }});
     }
     catch (error){
@@ -64,7 +66,7 @@ function* fetchEmails(action) {
 
 function* emailSaga() {
     yield takeEvery('SEND_EMAIL', sendEmail);
-    yield takeEvery('FETCH_EMAIL_HISTORY', fetchEmails);
+    yield takeEvery( emailConstants.SEARCH_ALL, fetchEmails);
     yield takeLatest('SEARCH_EMAILS', fetchSearchedEmails );
     yield takeLatest('SEARCH_EMAIL_DATES', fetchEmailsByDate);
   }

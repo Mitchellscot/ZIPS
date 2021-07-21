@@ -1,14 +1,16 @@
+import { emailConstants } from '../../_constants';
+
 const initialState = {pager: {}, pageOfEmails: []};
 
 const emailReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_EMAILS':
+        case emailConstants.SEARCH_RESULTS:
             return {
                 ...state,
                 pager: action.payload.pager,
                 pageOfEmails: action.payload.pageOfEmails
             }
-        case 'CLEAR_EMAILS':
+        case emailConstants.CLEAR_STATE:
             return {
                 pager: {},
                 pageOfEmails: []
