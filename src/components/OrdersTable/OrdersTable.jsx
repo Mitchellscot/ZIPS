@@ -48,7 +48,7 @@ function OrdersTable() {
     }
 
     React.useEffect(() => {
-        getResults(type, query);
+        getResults(type, '');
     }, []);
 
     const getResults = (type, query) => {
@@ -188,8 +188,7 @@ function OrdersTable() {
                 <Tabs
                     onSelect={(t) => {
                         setTab(t);
-                        /*                     getOrders();
-                                            getEmails(); */
+                        getResults(all, '');
                     }}
                     activeKey={tab}>
                     <Tab eventKey="orders" title="Orders">

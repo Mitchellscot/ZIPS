@@ -1,6 +1,6 @@
 import { emailConstants } from '../../_constants';
 
-const initialState = {pager: {}, pageOfEmails: []};
+const initialState = {pager: {}, pageOfEmails: [], date: '', text: ''};
 
 const emailReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -8,12 +8,16 @@ const emailReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pager: action.payload.pager,
-                pageOfEmails: action.payload.pageOfEmails
+                pageOfEmails: action.payload.pageOfEmails,
+                date: action.payload.date,
+                text: action.payload.text
             }
         case emailConstants.CLEAR_STATE:
             return {
                 pager: {},
-                pageOfEmails: []
+                pageOfEmails: [],
+                date: '',
+                text: ''
             };
         default:
             return state;

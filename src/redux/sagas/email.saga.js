@@ -4,12 +4,14 @@ import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function* fetchEmailsByDate(action){
     try{
-        const q = action.payload.q;
+        const date = action.payload.query;
         const page = action.payload.page;
-        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${q}&page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
+        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${date}&page=${page}`);
+        yield put({type: emailConstants.SEARCH_RESULTS, payload: {
             pageOfEmails: searchedEmailsByDateResponse.data.pageOfEmails, 
-            pager: searchedEmailsByDateResponse.data.pager
+            pager: searchedEmailsByDateResponse.data.pager,
+            date: searchedEmailsByDateResponse.data.date,
+            text: ''
         }});
     }
     catch(error){
@@ -17,14 +19,17 @@ function* fetchEmailsByDate(action){
     }
 }
 
-function* fetchSearchedEmails(action) {
+function* fetchEmailsByText(action) {
     try {
-        const q = action.payload.q;
+        const text = action.payload.query;
         const page = action.payload.page;
-        const searchedEmailsResponse = yield axios.get(`/api/email?q=${q}&page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
+        console.log(`here is text ${text}`);
+        const searchedEmailsResponse = yield axios.get(`/api/email/text?q=${text}&page=${page}`);
+        yield put({type: emailConstants.SEARCH_RESULTS, payload: {
             pageOfEmails: searchedEmailsResponse.data.pageOfEmails,
-            pager: searchedEmailsResponse.data.pager
+            pager: searchedEmailsResponse.data.pager,
+            date: '',
+            text: searchedEmailsResponse.data.text
         }
     });
     }
@@ -49,14 +54,15 @@ function* sendEmail(action){
     }
 }
 
-function* fetchEmails(action) {
+function* fetchAllEmails(action) {
     try {
         const page = action.payload.page;
         const emailsResponse = yield axios.get(`/api/email/all?page=${page}`);
         yield put({type: emailConstants.SEARCH_RESULTS, payload: {
             pager: emailsResponse.data.pager,
             pageOfEmails: emailsResponse.data.pageOfEmails,
-            date: ''
+            date: '',
+            text: ''
         }});
     }
     catch (error){
@@ -66,9 +72,9 @@ function* fetchEmails(action) {
 
 function* emailSaga() {
     yield takeEvery('SEND_EMAIL', sendEmail);
-    yield takeEvery( emailConstants.SEARCH_ALL, fetchEmails);
-    yield takeLatest('SEARCH_EMAILS', fetchSearchedEmails );
-    yield takeLatest('SEARCH_EMAIL_DATES', fetchEmailsByDate);
+    yield takeEvery(emailConstants.SEARCH_ALL, fetchAllEmails);
+    yield takeEvery(emailConstants.SEARCH_TEXT, fetchEmailsByText);
+    yield takeEvery(emailConstants.SEARCH_DATE, fetchEmailsByDate);
   }
 
 export default emailSaga;
