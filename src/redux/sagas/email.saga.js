@@ -23,7 +23,6 @@ function* fetchEmailsByText(action) {
     try {
         const text = action.payload.query;
         const page = action.payload.page;
-        console.log(`here is text ${text}`);
         const searchedEmailsResponse = yield axios.get(`/api/email/text?q=${text}&page=${page}`);
         yield put({type: emailConstants.SEARCH_RESULTS, payload: {
             pageOfEmails: searchedEmailsResponse.data.pageOfEmails,

@@ -1,6 +1,6 @@
-import { orderConstants } from '../../_constants';
+import { orderConstants, searchTypes } from '../../_constants';
 
-const initialState = {pager: {}, pageOfOrders: [], date: '', text: ''};
+const initialState = {pager: {}, pageOfOrders: [], date: '', text: '', type: searchTypes.ALL};
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -10,14 +10,16 @@ const orderReducer = (state = initialState, action) => {
                 pager: action.payload.pager,
                 pageOfOrders: action.payload.pageOfOrders,
                 date: action.payload.date,
-                text: action.payload.text
+                text: action.payload.text,
+                type: action.payload.type
             }
         case orderConstants.CLEAR_STATE:
             return {
                 pager: {},
                 pageOfOrders: [],
                 date: '',
-                text: ''
+                text: '',
+                type: searchTypes.ALL
             };
         default:
             return state;

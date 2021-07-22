@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { put, takeEvery } from 'redux-saga/effects';
-import { orderConstants } from '../../_constants';
+import { orderConstants, searchTypes } from '../../_constants';
+
 
 function* fetchOrdersByDate(action){
     try{
@@ -12,7 +13,8 @@ function* fetchOrdersByDate(action){
             pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
             pager: searchedOrdersByDateResponse.data.pager,
             date: searchedOrdersByDateResponse.data.date,
-            text: ''
+            text: '',
+            type: searchTypes.DATE
         }});
     }
     catch(error){
@@ -29,7 +31,8 @@ function* fetchOrdersByText(action) {
             pageOfOrders: searchedOrdersResponse.data.pageOfOrders,
             pager: searchedOrdersResponse.data.pager,
             date: '',
-            text: searchedOrdersResponse.data.text
+            text: searchedOrdersResponse.data.text,
+            type: searchTypes.TEXT
         }});
     }
     catch (error){
@@ -45,7 +48,8 @@ function* fetchAllOrders(action) {
             pager: orderResponse.data.pager, 
             pageOfOrders: orderResponse.data.pageOfOrders,
             date: '',
-            text: ''
+            text: '',
+            type: searchTypes.ALL
         }});
     }
     catch (error){

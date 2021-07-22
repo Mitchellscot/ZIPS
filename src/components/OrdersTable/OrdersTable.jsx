@@ -1,6 +1,5 @@
 import './OrdersTable.css';
-import { orderConstants } from '../../_constants';
-import { emailConstants } from '../../_constants';
+import { orderConstants, emailConstants, searchTypes } from '../../_constants';
 import Table from 'react-bootstrap/Table';
 import OrderTableRow from '../OrderTableRow/OrderTableRow';
 import React, { useState } from 'react';
@@ -13,21 +12,25 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import OrdersPagination from '../OrdersPagination/OrdersPagination';
 
 function OrdersTable() {
-    const all = 'all';
-    const text = 'text';
-    const date = 'date';
     const dispatch = useDispatch();
     const Orders = useSelector(store => store.orders.pageOfOrders);
     const orderPager = useSelector(store => store.orders.pager);
-    const searchDate = useSelector(store => store.orders.date);
+    const ordersText = useSelector(store => store.orders.text);
+    const ordersDate = useSelector(store => store.orders.date);
+    const orderTypes = useSelector(store => store.orders.type);
+    const [orderDate, setOrderDate] = useState(ordersDate);
+    const [orderText, setOrderText] = useState(ordersText);
+    const [orderType, setOrderType] = useState(orderTypes);
+
     const emails = useSelector(store => store.emails.pageOfEmails);
     const emailPager = useSelector(store => store.emails.pager)
     const [tab, setTab] = useState('orders');
     const [query, setQuery] = useState('');
     const [Query, setDateQuery] = useState('');
-    const [type, setType] = useState(all);
+    const [type, setType] = useState(searchTypes.ALL);
 
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
@@ -46,17 +49,18 @@ function OrdersTable() {
         return yyyy + "-" + mm + "-" + dd;
     }
 
-    React.useEffect(() => {
+/*     React.useEffect(() => {
         getResults(type, '');
-    }, [tab]);
+        console.log(orderPager.totalPages);
+    }, [tab]); */
 
     const getResults = (type, query) => {
         const params = new URLSearchParams(document.location.search);
         const page = parseInt(params.get('page'));
         if (tab === 'orders') {
             switch (type) {
-                case date:
-                    setType(date);
+                case searchTypes.DATE:
+                    setType(searchTypes.DATE);
                     setDateQuery(query);
                     document.getElementById("search-text-input").value = '';
                     console.log(`orders, date, query: ${query}`);
@@ -65,8 +69,8 @@ function OrdersTable() {
                             page: page,
                             query: query
                         }});
-                case text:
-                    setType(text);
+                case searchTypes.TEXT:
+                    setType(searchTypes.TEXT);
                     setQuery(query);
                     document.getElementById("search-dates-orders-emails").value = '';
                     console.log(`orders, text, query: ${query}`);
@@ -75,8 +79,8 @@ function OrdersTable() {
                             page: page,
                             query: query
                         }});
-                case all:
-                    setType(all);
+                case searchTypes.ALL:
+                    setType(searchTypes.ALL);
                     console.log(`orders, all, query: ${query}`);
                     return dispatch({
                         type: orderConstants.SEARCH_ALL, payload: {
@@ -86,7 +90,7 @@ function OrdersTable() {
         }
         else if (tab === 'emails') {
             switch (type) {
-                case date:
+                case searchTypes.DATE:
                     setType(date);
                     setDateQuery(query);
                     document.getElementById("search-text-input").value = '';
@@ -96,7 +100,7 @@ function OrdersTable() {
                             page: page,
                             query: query
                         }});
-                case text:
+                case searchTypes.TEXT:
                     setType(text);
                     setQuery(query);
                     document.getElementById("search-dates-orders-emails").value = '';
@@ -106,8 +110,8 @@ function OrdersTable() {
                             page: page,
                             query: query
                         }});
-                case all:
-                    setType(all);
+                case searchTypes.ALL:
+                    setType(ALL);
                     console.log(`emails, all, query: ${query}`);
                     return dispatch({
                         type: emailConstants.SEARCH_ALL, payload: {
@@ -116,27 +120,6 @@ function OrdersTable() {
                         }});}
         }
     }
-
-        /*     const handleChange = (tab, type, page, query) => {
-                const params = new URLSearchParams(document.location.search);
-                const page = parseInt(params.get('page'));
-                if (tab === 'orders'){
-                    //get all
-                    dispatch({type: orderConstants.SEARCH_ALL, payload:{
-                        page: page
-                    }});
-        
-                }
-                else if (tab === 'emails'){
-                }
-                //needs logic to determin if current page is equal to page... maybe...
-                dispatch({type: 'ORDERS_SEARCH', payload:{
-                    tab: tab, //ALL, ORDERS, EMAILS
-                    type: type, //TEXT, DATE
-                    page: page, //1,2,3,4,5... etc
-                    query: query //either the date to search or the text to search
-                }});
-            } */
 
         return (
             <Col className="align-items-center justify-content-center">
@@ -148,7 +131,7 @@ function OrdersTable() {
                     <FormControl
                         value={query}
                         id="search-text-input"
-                        onChange={(e) => getResults(text, e.target.value)}
+                        onChange={(e) => getResults(searchTypes.TEXT, e.target.value)}
                         placeholder="Name or email..."
                         type="text"
                     />
@@ -160,7 +143,7 @@ function OrdersTable() {
                         onChange={(e) => {
                             setQuery('');
                             document.getElementById("search-text-input").value = '';
-                            getResults(date, e.target.value)}}
+                            getResults(searchTypes.DATE, e.target.value)}}
                         type="date"
                     />
                     <InputGroup.Append>
@@ -171,11 +154,11 @@ function OrdersTable() {
                                     let today = setTodaysDate()
                                     document.getElementById("search-dates-orders-emails").value = today;
                                     document.getElementById("search-text-input").value = '';
-                                    getResults(date, today);
+                                    getResults(searchTypes.DATE, today);
                                     //alert("Please enter a date to search");
                                 }
                                 else{
-                                    getResults(date, q);
+                                    getResults(searchTypes.DATE, q);
                                 }
                             }}
                             variant="outline-dark"
@@ -227,32 +210,13 @@ function OrdersTable() {
                             </tr></tbody>}
                             
                         </Table>
-                        {orderPager.totalPages > 1 ? <ul className="pagination">
-                            <li /* onClick={} */
-                                className={`page-item first-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=1` }} className="page-link">First</Link>
-                            </li>
-                            <li /* onClick={} */
-                                className={`page-item previous-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${orderPager.currentPage - 1}` }} className="page-link">Previous</Link>
-                            </li>
-                            {orderPager.pages.map(page =>
-                                <li /* onClick={} */
-                                    key={page} className={`page-item number-item ${orderPager.currentPage === page ? 'active' : ''}`}>
-                                    <Link to={{ search: `?page=${page}` }} className="page-link">{page}</Link>
-                                </li>
-                            )}
-                            <li /* onClick={} */
-                                className={`page-item next-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${orderPager.currentPage + 1}` }} className="page-link">Next</Link>
-                            </li>
-                            <li /* onClick={} */
-                                className={`page-item last-item ${orderPager.currentPage === orderPager.totalPages ? 'disabled' : ''}`}>
-                                <Link to={{ search: `?page=${orderPager.totalPages}` }} className="page-link">Last</Link>
-                            </li>
-                        </ul> : <> </>}
+                        {orderPager.totalPages > 1 ? <OrdersPagination 
+                        orderPager={orderPager}
+                        orderType={orderType}
+                        orderDate={orderDate}
+                        orderText={orderText}
+                    /> : <> </>}
                     </Tab>
-
                     <Tab eventKey="emails" title="Emails" className="Tables">
                         <Table bordered hover>
                             <thead>
@@ -287,11 +251,11 @@ function OrdersTable() {
                         </Table>
 
                         {emailPager.totalPages > 1 ? <ul className="pagination">
-                            <li /* onClick={} */
+                            <li /* onClick={} */ 
                                 className={`page-item first-item ${emailPager.currentPage === 1 ? 'disabled' : ''}`}>
                                 <Link to={{ search: `?page=1` }} className="page-link">First</Link>
                             </li>
-                            <li /* onClick={} */
+                            <li  /* onClick={} */ 
                                 className={`page-item previous-item ${emailPager.currentPage === 1 ? 'disabled' : ''}`}>
                                 <Link to={{ search: `?page=${emailPager.currentPage - 1}` }} className="page-link">Previous</Link>
                             </li>
