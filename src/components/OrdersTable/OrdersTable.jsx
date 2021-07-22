@@ -12,7 +12,6 @@ import EmailTableRow from '../EmailTableRow/EmailTableRow';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import Pagination from '../OrdersPagination/OrdersPagination';
 import { Link } from 'react-router-dom';
 
 function OrdersTable() {
@@ -49,7 +48,7 @@ function OrdersTable() {
 
     React.useEffect(() => {
         getResults(type, '');
-    }, []);
+    }, [tab]);
 
     const getResults = (type, query) => {
         const params = new URLSearchParams(document.location.search);
@@ -141,7 +140,7 @@ function OrdersTable() {
 
         return (
             <Col className="align-items-center justify-content-center">
-                {/*ORDERS SEARCH */}
+                {/*SEARCH */}
                 <InputGroup className="mb-3">
                     <InputGroup.Text id="input-name-text">
                         <span>Search</span>
@@ -188,7 +187,6 @@ function OrdersTable() {
                 <Tabs
                     onSelect={(t) => {
                         setTab(t);
-                        getResults(all, '');
                     }}
                     activeKey={tab}>
                     <Tab eventKey="orders" title="Orders">
@@ -215,7 +213,6 @@ function OrdersTable() {
                                     </th>
                                 </tr>
                             </thead>
-
                             {Orders !== undefined ? Orders.map(order => {
                                 return (
                                     <tbody key={order.id}>
@@ -228,6 +225,7 @@ function OrdersTable() {
                             }) : <tbody><tr className="d-flex justify-content-center">
                                 <td colSpan='6'>No orders to view</td>
                             </tr></tbody>}
+                            
                         </Table>
                         {orderPager.totalPages > 1 ? <ul className="pagination">
                             <li /* onClick={} */
@@ -287,7 +285,32 @@ function OrdersTable() {
                                 <td colSpan='6'>No Emails to view</td>
                             </tr></tbody>}
                         </Table>
-                        {emailPager.totalPages > 1 ? <Pagination searchDate={searchDate} Pager={emailPager} /> : <> </>}
+
+                        {emailPager.totalPages > 1 ? <ul className="pagination">
+                            <li /* onClick={} */
+                                className={`page-item first-item ${emailPager.currentPage === 1 ? 'disabled' : ''}`}>
+                                <Link to={{ search: `?page=1` }} className="page-link">First</Link>
+                            </li>
+                            <li /* onClick={} */
+                                className={`page-item previous-item ${emailPager.currentPage === 1 ? 'disabled' : ''}`}>
+                                <Link to={{ search: `?page=${emailPager.currentPage - 1}` }} className="page-link">Previous</Link>
+                            </li>
+                            {emailPager.pages.map(page =>
+                                <li /* onClick={} */
+                                    key={page} className={`page-item number-item ${emailPager.currentPage === page ? 'active' : ''}`}>
+                                    <Link to={{ search: `?page=${page}` }} className="page-link">{page}</Link>
+                                </li>
+                            )}
+                            <li /* onClick={} */
+                                className={`page-item next-item ${emailPager.currentPage === emailPager.totalPages ? 'disabled' : ''}`}>
+                                <Link to={{ search: `?page=${emailPager.currentPage + 1}` }} className="page-link">Next</Link>
+                            </li>
+                            <li /* onClick={} */
+                                className={`page-item last-item ${emailPager.currentPage === emailPager.totalPages ? 'disabled' : ''}`}>
+                                <Link to={{ search: `?page=${emailPager.totalPages}` }} className="page-link">Last</Link>
+                            </li>
+                        </ul> : <> </>}
+
                     </Tab>
                 </Tabs>
             </Col>
