@@ -240,7 +240,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash" height="480px" width="640px"></img>
                         <img
                             id="the-webcam"
-                            name="webcam" src={`bzt:birchtree@${ipAddress}:8081`}
+                            name="webcam" src={`${username}:${password}@bztphotos.ddns.net:8081`}
                             width="640px" height="480px" frameBorder="1" scrolling="no" />
                     </div>
                 </Col>
