@@ -43,22 +43,22 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/start',{ headers: {
-            'Authorization' : `Basic ${token}`
+        axios.get(ipAddress + ':8080/0/detection/start',{auth: {
+            username: 'bzt', password: 'birchtree' 
           }}).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
     const pauseMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/pause', {headers: {
-            'Authorization': `Basic ${token}`}}).then((result) => {
+        axios.get(ipAddress + ':8080/0/detection/pause', {auth: {
+            username: 'bzt', password: 'birchtree' }}).then((result) => {
             toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress + ':8080/0/action/restart', {headers: {
-            'Authorization': `Basic ${token}`}}).then((result) => {
+        axios.get(ipAddress + ':8080/0/action/restart', {auth: {
+            username: 'bzt', password: 'birchtree' }}).then((result) => {
             const element = document.getElementById('restart-button');
             element.classList.add('spin-restart');
             setTimeout(() => {
@@ -84,19 +84,19 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress + `:8080/0/config/set?noise_level=${Sensitivity}`, {headers: {
-                'Authorization': `Basic ${token}`}})
+            axios.get(ipAddress + `:8080/0/config/set?noise_level=${Sensitivity}`, {auth: {
+                username: 'bzt', password: 'birchtree' }})
                 .then((response) => {
-                    axios.get(ipAddress + ':8080/0/config/get?query=noise_level', {headers: {
-                        'Authorization': `Basic ${token}`}}).then((result) => {
+                    axios.get(ipAddress + ':8080/0/config/get?query=noise_level', {auth: {
+                        username: 'bzt', password: 'birchtree' }}).then((result) => {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
                         console.log(answer);
                         setSensitivity(answer);
                     }).catch(error => console.log(error));
-                    axios.get(ipAddress + `:8080/0/config/write`, {headers: {
-                        'Authorization': `Basic ${token}`}}).then((result) => {
+                    axios.get(ipAddress + `:8080/0/config/write`, {auth: {
+                        username: 'bzt', password: 'birchtree' }}).then((result) => {
                     }).catch(error => console.log(error));
                 })
                 .catch((error) => {
@@ -107,8 +107,8 @@ function CameraSettings() {
 
     useEffect(() => {
         //gets the status of the webcam
-        axios.get(ipAddress + ':8080/0/detection/status', {headers: {
-            'Authorization': `Basic ${token}`}}).then((result) => {
+        axios.get(ipAddress + ':8080/0/detection/status', {auth: {
+            username: 'bzt', password: 'birchtree' }}).then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -117,8 +117,8 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the Sensitivity
-        axios.get(ipAddress + ':8080/0/config/get?query=noise_level', {headers: {
-            'Authorization': `Basic ${token}`}}).then((result) => {
+        axios.get(ipAddress + ':8080/0/config/get?query=noise_level', {auth: {
+            username: 'bzt', password: 'birchtree' }}).then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
@@ -240,7 +240,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash" height="480px" width="640px"></img>
                         <img
                             id="the-webcam"
-                            name="webcam" src={`${username}:${password}@bztphotos.ddns.net:8081`}
+                            name="webcam" src={`https://${username}:${password}@bztphotos.ddns.net:8081`}
                             width="640px" height="480px" frameBorder="1" scrolling="no" />
                     </div>
                 </Col>
