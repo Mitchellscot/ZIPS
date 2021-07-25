@@ -25,7 +25,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`${ipAddress}:8082/photos`).then((result) => {
+        axios.get(`${ipAddress}:8082/camera/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -90,7 +90,7 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.put(`${ipAddress}:8082/sensitivity`, {Sensitivity: Sensitivity})
+            axios.put(`${ipAddress}:8082/camera/sensitivity`, {Sensitivity: Sensitivity})
             .then((response) =>{
                 let string = result.data;
                 let donePosition = string.indexOf('Done');
@@ -103,7 +103,7 @@ function CameraSettings() {
 
     useEffect(() => {
          //gets the status of the webcam
-        axios.get(ipAddress + ':8082/status').then((result) => {
+        axios.get(ipAddress + ':8082/camera/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -112,7 +112,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the Sensitivity
-        axios.get(ipAddress + ':8082/sensitivity').then((result) => {
+        axios.get(ipAddress + ':8082/camera/sensitivity').then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
