@@ -95,9 +95,6 @@ function CameraSettings() {
                 let string = result.data;
                 let donePosition = string.indexOf('Done');
                 let answer = Number(string.substring(22, donePosition));
-                console.log(string.substring(22, donePosition));
-                console.log(answer.toString());
-                console.log(answer);
                 setSensitivity(answer);
                 console.log(Sensitivity);
             }).catch(error => console.log(error));
@@ -119,8 +116,8 @@ function CameraSettings() {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
-            console.log(answer.toString());
             setSensitivity(answer);
+            console.log(Sensitivity);
         }).catch(error => console.log(error)); 
     }, []);
 
