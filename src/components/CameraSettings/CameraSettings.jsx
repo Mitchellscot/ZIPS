@@ -40,42 +40,27 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
-            if (result.status === 200) {
-                toggleMotionStarted();
-            }
-            else if (result.status === 500) {
-                console.log('HEY MITCH - Unable to start motion detection.');
-            }
+        axios.get(ipAddress + ':8080/0/detection/start').then((result) => {
+            toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const pauseMotion = () => {
-        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
-            if (result.status === 200) {
-                toggleMotionStarted();
-            }
-            else if (result.status === 500) {
-                console.log('HEY MITCH - Unable to pause motion detection.');
-            }
+        axios.get(ipAddress + ':8080/0/detection/pause').then((result) => {
+            toggleMotionStarted();
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
-            if (result.status === 200) {
-                const element = document.getElementById('restart-button');
-                element.classList.add('spin-restart');
-                setTimeout(() => {
-                    element.classList.remove('spin-restart');
-                }, 4000);
-                setTimeout(() => {
-                    history.push('/Admin/Camera');
-                }, 4000);
-            }
-            else if (result.status === 500) {
-                console.log('HEY MITCH - Unable to restart motion detection.');
-            }
+        axios.get(ipAddress + ':8080/0/action/restart').then((result) => {
+            const element = document.getElementById('restart-button');
+            element.classList.add('spin-restart');
+            setTimeout(() => {
+                element.classList.remove('spin-restart');
+            }, 4000);
+            setTimeout(() => {
+                history.push('/Admin/Camera');
+            }, 4000);
         }).catch(error => console.log(error));
     }
 
@@ -111,7 +96,7 @@ function CameraSettings() {
     }
 
     useEffect(() => {
-/*         //gets the status of the webcam
+         //gets the status of the webcam
         axios.get(ipAddress + ':8080/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
@@ -127,7 +112,7 @@ function CameraSettings() {
             let answer = Number(string.substring(22, donePosition));
             console.log(answer.toString());
             setSensitivity(answer);
-        }).catch(error => console.log(error)); */
+        }).catch(error => console.log(error)); 
     }, []);
 
     return (
