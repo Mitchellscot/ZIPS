@@ -25,7 +25,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`${ipAddress}:8082/camera/photos`).then((result) => {
+        axios.get(`${ipAddress}:8082/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -66,10 +66,10 @@ function CameraSettings() {
                 element.classList.add('spin-restart');
                 setTimeout(() => {
                     element.classList.remove('spin-restart');
-                }, 4000);
+                }, 5000);
                 setTimeout(() => {
                     history.push('/Admin/Camera');
-                }, 4000);
+                }, 5000);
             }
             else if (result.status === 500) {
                 console.log('HEY MITCH - Unable to restart motion detection.');
@@ -91,19 +91,22 @@ function CameraSettings() {
         else {
             setEditSensitivity(!editSensitivity);
             axios.put(`${ipAddress}:8082/camera/sensitivity`, {Sensitivity: Sensitivity})
-            .then((response) =>{
+            .then((result) =>{
                 let string = result.data;
                 let donePosition = string.indexOf('Done');
                 let answer = Number(string.substring(22, donePosition));
+                console.log(string.substring(22, donePosition));
                 console.log(answer.toString());
+                console.log(answer);
                 setSensitivity(answer);
+                console.log(Sensitivity);
             }).catch(error => console.log(error));
         }
     }
 
     useEffect(() => {
          //gets the status of the webcam
-        axios.get(ipAddress + ':8082/camera/status').then((result) => {
+        axios.get(`${ipAddress}:8082/camera/status`).then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -112,7 +115,7 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the Sensitivity
-        axios.get(ipAddress + ':8082/camera/sensitivity').then((result) => {
+        axios.get(`${ipAddress}:8082/camera/sensitivity`).then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
@@ -224,8 +227,6 @@ function CameraSettings() {
                             onClick={snapPhoto}
                         />
                     </div>
-
-
                 </Col>
                 <Col lg={8} md={6} className="d-flex-inline justify-content-center">
                     <div id="the-flash-div" className="d-flex justify-content-center mx-0">
