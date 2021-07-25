@@ -12,7 +12,6 @@ import { useHistory } from 'react-router-dom';
 
 function CameraSettings() {
     const history = useHistory();
-    //const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
     const ipAddress = "https://bztphotos.ddns.net";
     const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
@@ -41,27 +40,42 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/start').then((result) => {
-            toggleMotionStarted();
+        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
+            if (result.status === 200) {
+                toggleMotionStarted();
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to start motion detection.');
+            }
         }).catch(error => console.log(error));
     }
+
     const pauseMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/pause').then((result) => {
-            toggleMotionStarted();
+        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
+            if (result.status === 200) {
+                toggleMotionStarted();
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to pause motion detection.');
+            }
         }).catch(error => console.log(error));
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress + ':8080/0/action/restart').then((result) => {
-            const element = document.getElementById('restart-button');
-            element.classList.add('spin-restart');
-            setTimeout(() => {
-                element.classList.remove('spin-restart');
-            }, 4000);
-            setTimeout(() => {
-                history.push('/Admin/Camera');
-            }, 4000);
-
+        axios.get('https://bztphotos.ddns.net:8082/camera/start').then((result) => {
+            if (result.status === 200) {
+                const element = document.getElementById('restart-button');
+                element.classList.add('spin-restart');
+                setTimeout(() => {
+                    element.classList.remove('spin-restart');
+                }, 4000);
+                setTimeout(() => {
+                    history.push('/Admin/Camera');
+                }, 4000);
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to restart motion detection.');
+            }
         }).catch(error => console.log(error));
     }
 
@@ -84,7 +98,7 @@ function CameraSettings() {
                         let string = result.data;
                         let donePosition = string.indexOf('Done');
                         let answer = Number(string.substring(22, donePosition));
-                        console.log(answer);
+                        console.log(answer.toString());
                         setSensitivity(answer);
                     }).catch(error => console.log(error));
                     axios.get(ipAddress + `:8080/0/config/write`).then((result) => {
@@ -97,7 +111,7 @@ function CameraSettings() {
     }
 
     useEffect(() => {
-        //gets the status of the webcam
+/*         //gets the status of the webcam
         axios.get(ipAddress + ':8080/0/detection/status').then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
@@ -111,9 +125,9 @@ function CameraSettings() {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
-            console.log(answer);
+            console.log(answer.toString());
             setSensitivity(answer);
-        }).catch(error => console.log(error));
+        }).catch(error => console.log(error)); */
     }, []);
 
     return (
@@ -229,7 +243,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash" height="480px" width="640px"></img>
                         <img
                             id="the-webcam"
-                            name="webcam" src={`${ipAddress}:8081`}
+                            name="webcam" src={`https://bztphotos.ddns.net:8081`}
                             width="640px" height="480px" frameBorder="1" scrolling="no" />
                     </div>
                 </Col>
