@@ -102,7 +102,7 @@ router.post('/', cors(corsOptions), async (req, res) => {
   try {
     const image = await downloadFile(fullImageUrl, fullImagePath);
     const thumbnailing = execSync(`convert -quiet -define jpeg:size=518x389 ${fullImagePath} -thumbnail 414x311 ${thumbnailPath}`);
-    const resizing = execSync(`convert -quiet -resize 1920x1440 ${fullImagePath} ${fullImagePath}`);
+    //const resizing = execSync(`convert -quiet -resize 1920x1440 ${fullImagePath} ${fullImagePath}`);
     const watermarking = execSync(`composite -quiet -watermark 100 -gravity northeast ${watermarkLogo} ${fullImagePath} ${watermarkPath}`);
     const thumbnailUpload = await upload(thumbnailPath, 'thumbnail', fullImageFilename);
     const watermarkUpload = await upload(watermarkPath, 'watermark', fullImageFilename);
