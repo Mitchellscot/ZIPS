@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-function LoginForm() {
+function LoginFormGuest() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
@@ -15,9 +15,9 @@ function LoginForm() {
 
     if (username && password) {
       dispatch({
-        type: 'LOGIN',
+        type: 'LOGIN_GUEST',
         payload: {
-          username: username,
+          username: guest,
           password: password,
         },
       });
@@ -36,19 +36,10 @@ function LoginForm() {
       )}
       <Form.Group>
         <Form.Control
-        className="my-3 text-center"
-          placeholder="Username"
+        className="my-4 text-center"
+          placeholder="Secret Phrase"
           type="text"
-          name="username"
-          required
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-        <Form.Control
-        className="my-3 text-center"
-          placeholder="Password"
-          type="password"
-          name="password"
+          name="secret phrase"
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -56,11 +47,11 @@ function LoginForm() {
       </Form.Group>
 
       <div className="d-flex justify-content-center mb-3">
-        <Button variant="info" type="submit" name="submit">Log In</Button>
+        <Button variant="info" type="submit" name="submit">View Photos</Button>
       </div>
 
     </Form>
   );
 }
 
-export default LoginForm;
+export default LoginFormGuest;

@@ -8,7 +8,7 @@ const Path = require('path');
 const upload = require('../modules/aws-upload');
 const { execSync } = require('child_process');
 const defaultFolder = process.env.HOME_FOLDER || "/home/mitch/";
-const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-md.png' || "/home/mitch/Code/zips/public/watermark-md.png"
+const watermarkLogo = process.env.HOME_FOLDER + '/public/watermark-lg.png' || "/home/mitch/Code/zips/public/watermark-md.png"
 var whiteList = ['https://bztphotos.ddns.net', undefined];
 const corsOptions = {
   origin: function (origin, callback){
