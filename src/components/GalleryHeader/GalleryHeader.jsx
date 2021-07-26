@@ -53,8 +53,8 @@ function GalleryHeader() {
         id="galleryLogo"
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
           onClick={() =>{
-            if (!user.id) {
-              history.push('Login');
+            if (user.id === 2) {
+              history.go(-1);
             }
             else{
               history.push('Admin/Orders');
