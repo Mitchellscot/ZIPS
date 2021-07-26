@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 function LoginFormGuest() {
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
@@ -13,16 +12,16 @@ function LoginFormGuest() {
   const login = (event) => {
     event.preventDefault();
 
-    if (username && password) {
+    if (password) {
       dispatch({
-        type: 'LOGIN_GUEST',
+        type: 'LOGIN',
         payload: {
-          username: guest,
+          username: "guest",
           password: password,
         },
       });
     } else {
-      dispatch({ type: 'LOGIN_INPUT_ERROR' });
+      dispatch({ type: 'LOGIN_GUEST_ERROR' });
     }
   };
 
@@ -30,16 +29,16 @@ function LoginFormGuest() {
     <Form onSubmit={login} className="mt-3">
 
       {errors.loginMessage && (
-        <h3 className="alert" role="alert">
+        <h3 className="alert text-center" role="alert">
           {errors.loginMessage}
         </h3>
       )}
       <Form.Group>
         <Form.Control
         className="my-4 text-center"
-          placeholder="Secret Phrase"
+          placeholder="Password"
           type="text"
-          name="secret phrase"
+          name="Password"
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}

@@ -47,11 +47,11 @@ function LoginPage() {
 
       {loginOptions ? 
       <div className="container" >
-        <div className="d-flex justify-content-center mt-3">
-        <Button onClick={toggleGuestForm}variant="info" type="submit" name="submit">Enter Password to View Photos</Button>
+        <div className="d-flex justify-content-center mt-4">
+        <Button onClick={toggleGuestForm} variant="info" type="submit" name="submit">Enter Password to View Photos</Button>
         </div>
-      <div className="d-flex justify-content-center mt-3">
-      <a href="" onClick={toggleAdminForm} id="login-link" >...Or Log In</a>
+      <div className="d-flex justify-content-center mt-4">
+      <Button onClick={toggleAdminForm} id="login-link" >...Or Log In</Button>
       </div>
       </div>
        : <> </> }
