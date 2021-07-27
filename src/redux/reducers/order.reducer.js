@@ -6,7 +6,6 @@ const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case orderConstants.SEARCH_RESULTS:
             return {
-                ...state,
                 pager: action.payload.pager,
                 pageOfOrders: action.payload.pageOfOrders,
                 date: action.payload.date,

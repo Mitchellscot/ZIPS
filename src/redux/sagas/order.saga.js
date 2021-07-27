@@ -7,7 +7,6 @@ function* fetchOrdersByDate(action){
     try{
         const page = action.payload.page;
         const date = action.payload.query;
-        console.log(`Here is date: ${date}`);
         const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${date}&page=${page}`);
         yield put({type: orderConstants.SEARCH_RESULTS, payload: {
             pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
