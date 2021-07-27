@@ -5,27 +5,28 @@ import { orderConstants, searchTypes } from '../../_constants';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-export default function OrdersPagination({ orderPager, orderType, orderDate, orderText }) {
+export default function OrdersPagination({ orderPager, type, orderDate, orderText }) {
     const dispatch = useDispatch();
 
     const handleOrdersPageChange = (page) => {
-        switch (orderType) {
+        console.log(`pagination clicked, type is: ${type}`);
+        switch (type) {
             case searchTypes.DATE:
-                console.log(`pagination: type: ${orderType} page: ${page} date: ${orderDate}`)
+                console.log(`pagination: type: ${type} page: ${page} date: ${orderDate}`)
                 return dispatch({
                     type: orderConstants.SEARCH_DATE, payload: {
                         page: page,
                         query: orderDate
                     }});
             case searchTypes.TEXT:
-                console.log(`pagination: type: ${orderType} page: ${page} text: ${orderText}`)
+                console.log(`pagination: type: ${type} page: ${page} text: ${orderText}`)
                 return dispatch({
                     type: orderConstants.SEARCH_TEXT, payload: {
                         page: page,
                         query: orderText
                     }});
             case searchTypes.ALL:
-                console.log(`pagination: type: ${orderType} page: ${page} date: ${orderDate} text: ${orderText}`)
+                console.log(`pagination: type: ${type} page: ${page} date: ${orderDate} text: ${orderText}`)
                 return dispatch({
                     type: orderConstants.SEARCH_ALL, payload: {
                         page: page,

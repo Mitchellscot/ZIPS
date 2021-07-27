@@ -22,10 +22,9 @@ function OrdersTable() {
     const orderTypes = useSelector(store => store.orders.type);
     const [orderDate, setOrderDate] = useState(ordersDate);
     const [orderText, setOrderText] = useState(ordersText);
-    const [orderType, setOrderType] = useState(orderTypes);
     const [query, setQuery] = useState('');
     const [Query, setDateQuery] = useState('');
-    const [type, setType] = useState(searchTypes.ALL);
+    const [searchType, setSearchType] = useState(searchTypes.ALL);
 
     const params = new URLSearchParams(document.location.search);
     const page = parseInt(params.get('page'));
@@ -44,17 +43,17 @@ function OrdersTable() {
         return yyyy + "-" + mm + "-" + dd;
     }
 
-    React.useEffect(() => {
-        getResults(type, '');
-        console.log(orderPager.totalPages);
-    }, []);
+      React.useEffect(() => {
+        //getResults(type, '');
+        console.log(searchType);
+    }, []); 
 
     const getResults = (type, query) => {
         const params = new URLSearchParams(document.location.search);
         const page = parseInt(params.get('page'));
         switch (type) {
             case searchTypes.DATE:
-                setType(searchTypes.DATE);
+                setSearchType(searchTypes.DATE);
                 setDateQuery(query);
                 document.getElementById("search-text-input").value = '';
                 console.log(`orders, date, query: ${query}`);
@@ -65,9 +64,9 @@ function OrdersTable() {
                     }
                 });
             case searchTypes.TEXT:
-                setType(searchTypes.TEXT);
+                setSearchType(searchTypes.TEXT);
                 setQuery(query);
-                document.getElementById("search-dates-orders-emails").value = '';
+                document.getElementById("search-dates-orders").value = '';
                 console.log(`orders, text, query: ${query}`);
                 return dispatch({
                     type: orderConstants.SEARCH_TEXT, payload: {
@@ -76,7 +75,7 @@ function OrdersTable() {
                     }
                 });
             case searchTypes.ALL:
-                setType(searchTypes.ALL);
+                setSearchType(searchTypes.ALL);
                 console.log(`orders, all, query: ${query}`);
                 return dispatch({
                     type: orderConstants.SEARCH_ALL, payload: {
@@ -97,7 +96,10 @@ function OrdersTable() {
                 <FormControl
                     value={query}
                     id="search-text-input"
-                    onChange={(e) => getResults(searchTypes.TEXT, e.target.value)}
+                    onChange={(e) => {
+                        setSearchType(searchTypes.TEXT);
+                        getResults(searchTypes.TEXT, e.target.value)
+                    }}
                     placeholder="Name or email..."
                     type="text"
                 />
@@ -105,9 +107,10 @@ function OrdersTable() {
                     <span>Or date</span>
                 </InputGroup.Text>
                 <FormControl
-                    id="search-dates-orders-emails"
+                    id="search-dates-orders"
                     onChange={(e) => {
                         setQuery('');
+                        setSearchType(searchTypes.DATE)
                         document.getElementById("search-text-input").value = '';
                         getResults(searchTypes.DATE, e.target.value)
                     }}
@@ -121,6 +124,7 @@ function OrdersTable() {
                                 let today = setTodaysDate()
                                 document.getElementById("search-dates-orders").value = today;
                                 document.getElementById("search-text-input").value = '';
+                                setSearchType(searchTypes.DATE);
                                 getResults(searchTypes.DATE, today);
                                 //alert("Please enter a date to search");
                             }
@@ -175,11 +179,11 @@ function OrdersTable() {
 
             {orderPager.totalPages > 1 ? <OrdersPagination
                 orderPager={orderPager}
-                orderType={orderType}
+                type={searchType}
                 orderDate={orderDate}
                 orderText={orderText}
             /> : <> </>}
-            
+
         </Col>
     );
 }
