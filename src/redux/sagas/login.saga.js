@@ -1,7 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-
 function* loginUser(action) {
   try {
     yield put({ type: 'CLEAR_LOGIN_ERROR' });
@@ -35,9 +34,28 @@ function* logoutUser(action) {
   }
 }
 
+function* loginGuest(action){
+  try{
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.post('/api/user/login', {
+      username: 'guest',
+      password: action.payload.password
+    }, config);
+    yield put({ type: 'FETCH_USER' });
+    yield history.push('/Gallery');
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
 function* loginSaga() {
   yield takeLatest('LOGIN', loginUser);
   yield takeLatest('LOGOUT', logoutUser);
+  yield takeLatest('LOGIN_GUEST', loginGuest);
 }
 
 export default loginSaga;

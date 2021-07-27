@@ -39,6 +39,10 @@ function GalleryHeader() {
     dispatch({ type: 'FETCH_COST' })
   }, []);
 
+  const logout = () => {
+    dispatch({type: 'LOGOUT'});
+  }
+
   return (
     <>
       <Checkout
@@ -53,8 +57,8 @@ function GalleryHeader() {
         id="galleryLogo"
           src="Brainerd_Horizontal_White_RGB.svg" alt="logo" height="100px" width="225"
           onClick={() =>{
-            if (!user.id) {
-              history.push('Login');
+            if (user.id === 2) {
+              logout()
             }
             else{
               history.push('Admin/Orders');
