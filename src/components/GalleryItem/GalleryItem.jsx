@@ -1,3 +1,4 @@
+import { cartConstants } from '../../_constants';
 import './GalleryItem.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
@@ -9,8 +10,8 @@ function GalleryItem({ image }) {
     const dispatch = useDispatch();
 
     const handleSelect = () => {
-        cart.includes(image) ? dispatch({ type: 'REMOVE_FROM_CART', payload: image }) :
-            dispatch({ type: 'ADD_TO_CART', payload: image });
+        cart.includes(image) ? dispatch({ type: cartConstants.REMOVE, payload: image }) :
+            dispatch({ type: cartConstants.ADD, payload: image });
     }
     const formatTime = (imageTime) => {
         const time = new Date(imageTime);

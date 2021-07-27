@@ -1,3 +1,4 @@
+import { cartConstants } from '../../_constants';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './GalleryHeader.css';
@@ -32,7 +33,7 @@ function GalleryHeader() {
   }
 
   const resetCart = () => {
-    dispatch({ type: 'CLEAR_CART' })
+    dispatch({ type: cartConstants.CLEAR })
   }
 
   useEffect(() => {

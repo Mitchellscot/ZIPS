@@ -1,10 +1,12 @@
+import { cartConstants } from '../../_constants';
+
 const cartReducer = (state = [], action) => {
-    if (action.type === 'ADD_TO_CART') {
+    if (action.type === cartConstants.ADD) {
         return [...state, action.payload];
     }
-    else if (action.type === 'REMOVE_FROM_CART') {
+    else if (action.type === cartConstants.REMOVE) {
         return state.filter(image => image.id != action.payload.id);
-    }else if (action.type === 'CLEAR_CART'){
+    }else if (action.type === cartConstants.CLEAR){
         return [];
     }
     return state;

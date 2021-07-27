@@ -183,7 +183,7 @@ function OrdersTable() {
                     </tr></tbody>}
 
                 </Table>
-                {orderPager.pages != undefined ?
+                {orderPager.pages !== undefined ?
                 <ul className="pagination">
                     <li onClick={() => handleOrdersPageChange(1)}
                         className={`page-item first-item ${orderPager.currentPage === 1 ? 'disabled' : ''}`}>

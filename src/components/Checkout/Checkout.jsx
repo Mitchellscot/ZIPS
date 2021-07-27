@@ -1,4 +1,5 @@
 import './Checkout.css'
+import { cartConstants } from '../../_constants';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
@@ -43,7 +44,7 @@ function Checkout({ modal, setModal, total }) {
             images: imageIds
         }
         dispatch({ type: "ADD_ORDER", payload: newOrder });
-        dispatch({ type: 'CLEAR_CART' });
+        dispatch({ type: cartConstants.CLEAR });
         handleCloseModal();
     }
 
