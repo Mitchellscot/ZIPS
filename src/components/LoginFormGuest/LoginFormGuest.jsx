@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useHistory } from 'react-router-dom';
 
 function LoginFormGuest() {
+  const history = useHistory();
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
@@ -14,12 +16,12 @@ function LoginFormGuest() {
 
     if (password) {
       dispatch({
-        type: 'LOGIN',
+        type: 'LOGIN_GUEST',
         payload: {
-          username: "guest",
           password: password,
         },
       });
+      //history.push('/Gallery');
     } else {
       dispatch({ type: 'LOGIN_GUEST_ERROR' });
     }

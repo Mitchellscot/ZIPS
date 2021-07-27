@@ -4,11 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 export default function AccountPassword() {
-    const history = useHistory();
     const user = useSelector(store => store.user)
     const dispatch = useDispatch();
     const [password1, SetPassword1] = useState('');
