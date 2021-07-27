@@ -15,13 +15,13 @@ function LoginFormGuest() {
     event.preventDefault();
 
     if (password) {
+      history.push('/Gallery');
       dispatch({
         type: 'LOGIN_GUEST',
         payload: {
           password: password,
         },
       });
-      //history.push('/Gallery');
     } else {
       dispatch({ type: 'LOGIN_GUEST_ERROR' });
     }
