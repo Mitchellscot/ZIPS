@@ -140,7 +140,7 @@ function OrdersTable() {
                                     setSearchType(searchTypes.ALL);
                                     getResults(searchTypes.ALL, '');
                             }}
-                            variant="dark"
+                            variant="outline-dark"
                         >ALL</Button>
                     </InputGroup.Append>
                 </InputGroup>

@@ -45,7 +45,6 @@ function* loginGuest(action){
       password: action.payload.password
     }, config);
     yield put({ type: 'FETCH_USER' });
-    yield history.push('/Gallery');
   }
   catch(err){
     console.log(err);
