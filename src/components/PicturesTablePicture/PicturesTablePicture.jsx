@@ -58,7 +58,7 @@ function PicturesTablePicture({ image, searchDate }) {
                 <Card.Img className="pix" variant="top" src={image.th_url} alt={formatTime(image.created)} min-height="256px" min-width="320px" />
             </a>
             <Card.Body className="d-flex flex-column justify-content-around align-items-center px-0">
-{/*             <Card.Subtitle className="mt-0 mb-2 text-muted align-self-center"><b>{formatTime(image.created)}</b></Card.Subtitle> */}
+{            <Card.Subtitle className="mt-0 mb-2 text-muted align-self-center"><b>{formatTime(image.created)}</b></Card.Subtitle> }
                 <ButtonGroup size="md" className="my-0">
                 <Button
                 variant={image.show ? "dark" : "outline-dark"}

@@ -104,7 +104,7 @@ function AccountSettings() {
                             <h4>Account Settings</h4>
                         </Row>
                         <Table striped bordered hover>
-                            <tbody>
+                            {/*I deleted a <tbody> here, watch the console for errors */}
                                 <tr>
                                     <td width="20%" className="font-weight-bold align-middle">
                                         Picture Price
@@ -146,7 +146,6 @@ function AccountSettings() {
                                             /></>}
                                     </td>
                                 </tr>
-                            </tbody>
                         </Table>
                         <AccountPassword />
                     </Tab>
