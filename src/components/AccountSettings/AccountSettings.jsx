@@ -12,7 +12,7 @@ import Tab from 'react-bootstrap/Tab';
 import EmailSettings from '../EmailSettings/EmailSettings';
 import EmailPreview from '../EmailPreview/EmailPreview';
 import AccountPassword from '../AccountPassword/AccountPassword';
-
+import AccountPasswordGuest from '../AccountPasswordGuest/AccountPasswordGuest';
 
 function AccountSettings() {
     const dispatch = useDispatch();
@@ -148,6 +148,7 @@ function AccountSettings() {
                                 </tr>
                         </Table>
                         <AccountPassword />
+                        <AccountPasswordGuest />
                     </Tab>
                     <Tab eventKey="emailSettings" title="Email">
                         <EmailSettings

@@ -39,9 +39,9 @@ function OrdersTable() {
         return yyyy + "-" + mm + "-" + dd;
     }
 
-    React.useEffect(() => {
+/*     React.useEffect(() => {
         getResults(searchType, '');
-    }, []);
+    }, []); */
 
     const getResults = (type, query) => {
         const params = new URLSearchParams(document.location.search);

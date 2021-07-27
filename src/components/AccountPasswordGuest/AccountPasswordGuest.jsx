@@ -6,42 +6,41 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function AccountPassword() {
+export default function AccountPasswordGuest() {
     const user = useSelector(store => store.user)
     const dispatch = useDispatch();
-    const [password1, SetPassword1] = useState('');
-    const [password2, SetPassword2] = useState('');
+    const [guestPassword1, SetGuestPassword1] = useState('');
+    const [guestPassword2, SetGuestPassword2] = useState('');
 
-    const changePassword = e => {
+    const changeGuestPassword = e => {
         e.preventDefault();
-        axios.put(`/api/user/1`, {password: password2}).then(response => {
-            alert('Password Changed - please login with your new password');
-            dispatch({type: "LOGOUT"})
-        }).catch(e => console.log(e));
+        axios.put(`/api/user/2`, {password: guestPassword2}).then(response => {
+            alert('Password Changed!')
+        }).then(() => {SetGuestPassword1(''); SetGuestPassword2('');}).catch(e => console.log(e));
     }
 
     return (
         <>
         <Row className="d-flex justify-content-between mt-3 mx-1 pb-2">
-        <h4>Account Password</h4>
+        <h4>Guest Password</h4>
     </Row>
-    <Form onSubmit={changePassword}>
+    <Form onSubmit={changeGuestPassword}>
         <Table striped bordered hover>
             <tbody>
                 <tr>
                     <td width="20%" className="font-weight-bold align-middle">
-                        New Password
+                        New Guest Password
             </td>
                     <td className="d-flex align-middle justify-content-between border-0">
                         <Form.Control
                             type="password"
-                            name="password1"
-                            value={password1}
-                            onChange={e => SetPassword1(e.target.value)}
+                            name="guestpassword1"
+                            value={guestPassword1}
+                            onChange={e => SetGuestPassword1(e.target.value)}
                         ></Form.Control>
                     </td>
                 </tr>
-                {password1 ?
+                {guestPassword1 ?
                     <tr>
                         <td width="20%" className="font-weight-bold align-middle">
                             Verify Password
@@ -49,15 +48,15 @@ export default function AccountPassword() {
                         <td className="d-flex align-middle justify-content-between border-bottom-0">
                             <Form.Control
                                 type="password"
-                                name="password2"
-                                value={password2}
-                                onChange={e => SetPassword2(e.target.value)}
+                                name="guestpassword2"
+                                value={guestPassword2}
+                                onChange={e => SetGuestPassword2(e.target.value)}
                             ></Form.Control>
                         </td>
                     </tr> : <> </>
                 }
-                {password1 && password2 ?
-                    password1 === password2 ? <tr colSpan="2">
+                {guestPassword1 && guestPassword2 ?
+                    guestPassword1 === guestPassword2 ? <tr colSpan="2">
                         <td width="20%" className="font-weight-bold align-middle">
                             Password Match!
             </td>
