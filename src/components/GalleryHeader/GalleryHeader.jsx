@@ -1,4 +1,4 @@
-import { cartConstants } from '../../_constants';
+import { cartConstants, costConstants } from '../../_constants';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './GalleryHeader.css';
@@ -37,7 +37,7 @@ function GalleryHeader() {
   }
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_COST' })
+    dispatch({ type: costConstants.FETCH })
   }, []);
 
   const logout = () => {

@@ -25,15 +25,6 @@ CREATE TABLE "order_ids"(
 	"image_id" INT REFERENCES "images" ON DELETE CASCADE NOT NULL,
 	"order_id" INT REFERENCES "orders" ON DELETE CASCADE NOT NULL
 );
-CREATE TABLE "emails"(
-	"id" SERIAL PRIMARY KEY,
-	"date_sent" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-	"email_address" VARCHAR(50) NOT NULL,
-	"email_text" TEXT NOT NULL,
-	"name" VARCHAR(50) NOT NULL,
-	"total" MONEY,
-	"order_id" INT REFERENCES "orders" ON DELETE CASCADE NOT NULL
-);
 CREATE TABLE "email_settings"(
 	"id" SERIAL PRIMARY KEY,
 	"source_email" VARCHAR(100) NOT NULL,
@@ -63,7 +54,7 @@ SELECT * FROM "email_settings";
 
 --dummy data
 INSERT INTO "costs" ("cost", "tax") VALUES
-(5, 0.075)
+(5, 0.07875)
 INSERT INTO "user" ("username", "password") VALUES
 ('bztadmin', 'changeme');
 INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES
@@ -80,7 +71,7 @@ INSERT INTO "orders" ("name", "email", "total", "order_date") VALUES
 ('Edward Mitchell', 'alwaysmoving@seeds.com', 5, '2021-06-01 14:05:18.4216589-06'),--
 ('Lydia Lynn', 'elsa@ballerina.com', 30, '2021-06-01 13:06:18.4216589-06'),--
 ('Arthur Norman', 'zeezee@dish.com', 25, '2021-06-01 15:26:18.4216589-06'),--
-('Sarah Leighann', 'sarahlscott@me.com', 10, '2021-06-01 16:16:18.4216589-06')--
+('Sarah Leighann', 'sarahlscot@me.com', 10, '2021-06-01 16:16:18.4216589-06')--
 INSERT INTO "images" ("url", "created") VALUES
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/BlackCouple.jpg', '2021-05-30 13:55:18.4216589-06'),
 ('https://rpi-photos-solo.s3.us-east-2.amazonaws.com/ManTrees.jpg', '2021-05-30 11:35:18.4216589-06'),

@@ -1,4 +1,5 @@
 import './AccountSettings.css';
+import { costConstants } from '../../_constants';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
@@ -47,7 +48,7 @@ function AccountSettings() {
                 cost: photoCost
             })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_COST' });
+                    dispatch({ type: costConstants.FETCH });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE COST OF THE PICTURES: ${error}`);
@@ -67,7 +68,7 @@ function AccountSettings() {
                 tax: tax
             })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_COST' });
+                    dispatch({ type: costConstants.FETCH });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE TAX: ${error}`);
@@ -92,7 +93,7 @@ function AccountSettings() {
 
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_COST' });
+        dispatch({ type: costConstants.FETCH });
     }, []);
 
     return (
