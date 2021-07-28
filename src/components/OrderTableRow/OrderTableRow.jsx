@@ -1,4 +1,4 @@
-import { emailConstants } from '../../_constants';
+import { emailConstants, searchTypes } from '../../_constants';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './OrderTableRow.css';
@@ -13,7 +13,7 @@ import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
-function OrderTableRow({ order }) {
+function OrderTableRow({ order, getResults }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ function OrderTableRow({ order }) {
                 if (willDelete) {
                     axios.delete(`/api/order/delete/${order.id}`)
                         .then((response) => {
-                            getOrders();
+                            getResults(searchTypes.ALL, '');
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE ORDER: ${error}`);
@@ -66,7 +66,7 @@ function OrderTableRow({ order }) {
                 }
                 dispatch({type: emailConstants.SEND, payload: newEmail});
                 axios.put(`/api/order/completed/${order.id}`).then((response)=>{
-                    getOrders();
+                    getResults(searchTypes.ALL, '');
                 }).catch((error) => {
                     console.log(`HEY MITCH - CAN'T SET ORDER AS COMPLETED: ${error}`);
                 });
@@ -87,7 +87,7 @@ function OrderTableRow({ order }) {
             setToggleName(!toggleName);
             axios.put(`/api/order/update/${order.id}`, { name: name, email: email })
                 .then((response) => {
-                    getOrders();
+                getResults(searchTypes.ALL, '');
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE NAME OR EMAIL: ${error}`);
@@ -171,22 +171,20 @@ function OrderTableRow({ order }) {
                     <ButtonGroup >
                         <Button variant="outline-dark">
                             <Envelope
-                             onClick={sendEmails}
+                             onClick={() => sendEmails()}
                              variant={order.complete ? "outline-dark" : "secondary"}
                             fontSize="1.5rem" 
                             />
                         </Button>
                         <Button
-                            onClick={editMode}
+                            onClick={() => editMode()}
                             variant={toggleEmail ? "dark" : "outline-dark"}
                         >
                             <PencilSquare fontSize="1.5rem" />
                         </Button>
                         <Button variant={modal ? "dark" : "outline-dark"}>
                             <Images
-                                onClick={() => {
-                                    handleShowModal()
-                                }}
+                                onClick={handleShowModal}
                                 fontSize="1.5rem" />
                         </Button>
                         <Button

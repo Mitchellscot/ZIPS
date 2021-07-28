@@ -40,7 +40,7 @@ function OrdersTable() {
     }
 
 /*     React.useEffect(() => {
-        getResults(searchType, '');
+        getResults(searchType.ALL, '');
     }, []); */
 
     const getResults = (type, query) => {
@@ -175,6 +175,7 @@ function OrdersTable() {
                             <tbody key={order.id}>
                                 <OrderTableRow
                                     order={order}
+                                    getResults={getResults}
                                 />
                             </tbody>
                         )

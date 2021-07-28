@@ -106,6 +106,7 @@ function AccountSettings() {
                         </Row>
                         <Table striped bordered hover>
                             {/*I deleted a <tbody> here, watch the console for errors */}
+                            <tbody>
                                 <tr>
                                     <td width="20%" className="font-weight-bold align-middle">
                                         Picture Price
@@ -147,6 +148,7 @@ function AccountSettings() {
                                             /></>}
                                     </td>
                                 </tr>
+                                </tbody>
                         </Table>
                         <AccountPassword />
                         <AccountPasswordGuest />
