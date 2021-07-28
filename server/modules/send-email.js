@@ -39,11 +39,8 @@ function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyE
       ],
     };
 
-  console.log(`params ${params}`);  
-  // Create the promise and SES service object
   let sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
   
-  // Handle promise's fulfilled/rejected states
   return sendPromise.then(
     (data)=> {
       console.log(`Here is the message id: ${data.MessageId}`);

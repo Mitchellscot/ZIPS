@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import {BoxArrowRight} from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
+import {loginConstants} from "../../_constants";
 
 function AdminHeader(){
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function AdminHeader(){
                     className="mr-4"
                     fontSize="2rem"
                     color="white"
-                    onClick={() => dispatch({ type: 'LOGOUT' })}
+                    onClick={() => dispatch({ type: loginConstants.LOGOUT })}
                     />
                 </li>
             </ul>

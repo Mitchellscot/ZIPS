@@ -1,4 +1,5 @@
 import React from 'react';
+import { errorConstants } from '../../_constants';
 import {useEffect, useState} from 'react';
 import LoginForm from '../LoginForm/LoginForm';
 import LoginFormGuest from '../LoginFormGuest/LoginFormGuest';
@@ -35,7 +36,7 @@ function LoginPage() {
 
   useEffect(() => {
     dispatch({ type: 'LOG_OUT' });
-    dispatch({type: 'CLEAR_LOGIN_ERROR'});
+    dispatch({type: errorConstants.CLEAR});
   }, []);
 
   return (

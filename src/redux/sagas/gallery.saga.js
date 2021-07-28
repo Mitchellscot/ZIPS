@@ -1,12 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+import { galleryConstants } from '../../_constants';
 
 //gets all images that are marked as show=true
 function* fetchShownImages(action){
     try{
         const allShownImages = yield axios.get(`/api/image/shown?q=${action.payload.q}&page=${action.payload.page}`);
         //console.log(`${}`);
-        yield put({type: 'SET_SHOWN_IMAGES', payload: {
+        yield put({type: galleryConstants.SET_SHOWN, payload: {
             date: allShownImages.data.date,
             pager: allShownImages.data.pager,
             pageOfImages: allShownImages.data.pageOfImages
@@ -21,7 +22,7 @@ function* fetchShownImages(action){
 function* fetchPictures(action){
     try{
         const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload.q}&page=${action.payload.page}`);
-        yield put({type: 'SET_PICTURES', payload: {
+        yield put({type: galleryConstants.SET_PICTURES, payload: {
             date: searchedImagesByDateResponse.data.date,
             pager: searchedImagesByDateResponse.data.pager,
             pageOfPictures: searchedImagesByDateResponse.data.pageOfPictures
@@ -32,11 +33,11 @@ function* fetchPictures(action){
     }
 }
 
-// gets all images that are 5 hours old
+// gets all images that are 3 hours old
 function* fetchGallery() {
     try {
         const galleryResponse = yield axios.get('/api/image');
-        yield put({type: 'SET_IMAGES', payload: galleryResponse.data});
+        yield put({type: galleryConstants.SET_GALLERY, payload: galleryResponse.data});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE PICTURES ${error}`);
@@ -44,9 +45,9 @@ function* fetchGallery() {
 }
 
 function* gallerySaga() {
-    yield takeLatest('FETCH_GALLERY', fetchGallery);
-    yield takeLatest('FETCH_PICTURES', fetchPictures);
-    yield takeLatest('FETCH_SHOWN_IMAGES', fetchShownImages);
+    yield takeLatest(galleryConstants.FETCH_GALLERY, fetchGallery);
+    yield takeLatest(galleryConstants.FETCH_PICTURES, fetchPictures);
+    yield takeLatest(galleryConstants.FETCH_SHOWN, fetchShownImages);
   }
 
 export default gallerySaga;

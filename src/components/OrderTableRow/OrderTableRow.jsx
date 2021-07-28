@@ -1,3 +1,4 @@
+import { emailConstants } from '../../_constants';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './OrderTableRow.css';
@@ -12,7 +13,7 @@ import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
-function OrderTableRow({ order, /* getOrders */ }) {
+function OrderTableRow({ order }) {
     const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ function OrderTableRow({ order, /* getOrders */ }) {
         setModal(!modal);
     }
 
-/*     const deleteOrder = () => {
+     const deleteOrder = () => {
         swal({
             title: "Are you sure?",
             text: `You are about to delete ${order.name}'s order... u sho 'bout dat? `,
@@ -43,9 +44,9 @@ function OrderTableRow({ order, /* getOrders */ }) {
                 }
                 else return;
             });
-    } */
+    } 
 
-/*     const sendEmails = () => {
+     const sendEmails = () => {
         swal({
             title: `Email ${order.name}?`,
             text: `You are about to send an email to ${order.email} - Are you sure about that?`,
@@ -63,7 +64,7 @@ function OrderTableRow({ order, /* getOrders */ }) {
                     total: order.total,
                     orderId: order.id
                 }
-                dispatch({type: 'SEND_EMAIL', payload: newEmail});
+                dispatch({type: emailConstants.SEND, payload: newEmail});
                 axios.put(`/api/order/completed/${order.id}`).then((response)=>{
                     getOrders();
                 }).catch((error) => {
@@ -72,7 +73,7 @@ function OrderTableRow({ order, /* getOrders */ }) {
             }
             else return;
         })
-    } */
+    }
 
     const editMode = () => {
         setName(order.name);
@@ -170,8 +171,8 @@ function OrderTableRow({ order, /* getOrders */ }) {
                     <ButtonGroup >
                         <Button variant="outline-dark">
                             <Envelope
-/*                             onClick={sendEmails}
- */                            variant={order.complete ? "outline-dark" : "secondary"}
+                             onClick={sendEmails}
+                             variant={order.complete ? "outline-dark" : "secondary"}
                             fontSize="1.5rem" 
                             />
                         </Button>
@@ -189,8 +190,8 @@ function OrderTableRow({ order, /* getOrders */ }) {
                                 fontSize="1.5rem" />
                         </Button>
                         <Button
-/*                             onClick={deleteOrder}
- */                            variant="outline-dark">
+                             onClick={deleteOrder}
+                             variant="outline-dark">
                             <Trash fontSize="1.5rem" />
                         </Button>
                     </ButtonGroup>

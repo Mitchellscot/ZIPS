@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import swal from 'sweetalert';
 import axios from 'axios';
+import { galleryConstants } from "../../_constants";
 
 function PicturesTablePicture({ image, searchDate }) {
     const dispatch = useDispatch();
@@ -14,8 +15,8 @@ function PicturesTablePicture({ image, searchDate }) {
         const params = new URLSearchParams(document.location.search);
         const page = parseInt(params.get('page'));
         axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
-            dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
-            dispatch({ type: "FETCH_PICTURES", payload: { q: searchDate, page: page } });
+            dispatch({ type: galleryConstants.FETCH_SHOWN, payload: { q: searchDate, page: page } });
+            dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: searchDate, page: page } });
         }).catch((error) => {
             console.log(`HEY MITCH - CAN'T SHOW THE IMAGE: ${error}`);
         });
@@ -34,8 +35,8 @@ function PicturesTablePicture({ image, searchDate }) {
                         .then((response) => {
                             const params = new URLSearchParams(document.location.search);
                             const page = parseInt(params.get('page'));
-                            dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page }  });
-                            dispatch({ type: "FETCH_PICTURES", payload: { q: searchDate, page: page } });
+                            dispatch({ type: galleryConstants.FETCH_SHOWN, payload: { q: searchDate, page: page }  });
+                            dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: searchDate, page: page } });
                         })
                         .catch((error) => {
                             console.log(`HEY MITCH - COULDN'T DELETE THE IMAGE: ${error}`);

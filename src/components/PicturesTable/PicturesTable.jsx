@@ -1,4 +1,5 @@
 import './PicturesTable.css';
+import { galleryConstants } from '../../_constants';
 import PictureTableInstructions from '../PictureTableInstructions/PictureTableInstructions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -75,9 +76,9 @@ function PicturesTable() {
                 const params = new URLSearchParams(document.location.search);
                 params.set('page', 1);
                 axios.put(`/api/image/show/${image.id}`, { show: !image.show }).then((response) => {
-                    dispatch({ type: 'RESET_SHOWN_IMAGES' });
-                    dispatch({ type: 'RESET_PICTURES' });
-                    dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
+                    dispatch({ type: galleryConstants.RESET_SHOWN });
+                    dispatch({ type: galleryConstants.SET_PICTURES });
+                    dispatch({ type: galleryConstants.FETCH_SHOWN, payload: { q: searchDate, page: page } });
                     setShowMode(false);
                 }).catch(error => { console.log(`HEY MITCH - COULDN'T SET ALL SHOWN IMAGES TO FALSE`) });
             })
@@ -92,15 +93,14 @@ function PicturesTable() {
             alert('Please enter a date or press the today button to view today\'s images');
         }
         else {
-            //dispatch({ type: 'RESET_IMAGES' });
-            dispatch({ type: "FETCH_PICTURES", payload: { q: dateQ, page: page } });
+            dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: dateQ, page: page } });
         }
     }
 
     const getTodaysImages = () => {
         document.getElementById("picture-search-date").value = setTodaysDate();
         setShowMode(false);
-        dispatch({ type: "FETCH_PICTURES", payload: { q: setTodaysDate(), page: page } });
+        dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: setTodaysDate(), page: page } });
     };
 
     const handlePageChange = () => {
@@ -108,18 +108,18 @@ function PicturesTable() {
         const page = parseInt(params.get('page'));
         if(!showMode){
             if (page !== Pager.currentPage) {
-                dispatch({ type: "FETCH_PICTURES", payload: { q: searchDate, page: page } });
+                dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: searchDate, page: page } });
             }
         }
         else{
             if (page !== shownPager.currentPage) {
-                dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
+                dispatch({ type: galleryConstants.FETCH_PICTURES, payload: { q: searchDate, page: page } });
             }
         }
     }
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_SHOWN_IMAGES', payload: { q: searchDate, page: page } });
+        dispatch({ type: galleryConstants.FETCH_SHOWN, payload: { q: searchDate, page: page } });
     }, []);
 
     return (

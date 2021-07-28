@@ -1,8 +1,10 @@
+import { userConstants } from "../../_constants";
+
 const userReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case userConstants.SET:
       return action.payload;
-    case 'UNSET_USER':
+    case userConstants.RESET:
       return {};
     default:
       return state;

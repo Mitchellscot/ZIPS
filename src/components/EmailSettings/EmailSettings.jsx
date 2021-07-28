@@ -1,4 +1,5 @@
 import './EmailSettings.css';
+import { emailConstants } from '../../_constants';
 import Tab from 'react-bootstrap/Tab';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
@@ -50,7 +51,7 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
                 business_phone: businessPhone
             })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_EMAIL_SETTINGS' });
+                    dispatch({ type: emailConstants.FETCH });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE EMAIL SETTINGS: ${error}`);
@@ -65,7 +66,7 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
     };
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_EMAIL_SETTINGS' });
+        dispatch({ type: emailConstants.FETCH });
     }, []);
 
     return (

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { emailConstants } from '../../_constants';
 
 function* sendEmail(action){
     try{
@@ -10,7 +11,6 @@ function* sendEmail(action){
             total: action.payload.total,
             orderId: action.payload.orderId
         });
-        yield put({type: 'FETCH_ORDERS'});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T SEND THE EMAIL (SAGA) - ${error}`);
@@ -19,7 +19,7 @@ function* sendEmail(action){
 
 
 function* emailSaga() {
-    yield takeEvery('SEND_EMAIL', sendEmail);
+    yield takeEvery(emailConstants.SEND, sendEmail);
   }
 
 export default emailSaga;

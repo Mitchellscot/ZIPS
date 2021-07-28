@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import { SRLWrapper } from "simple-react-lightbox";
 import './Gallery.css';
+import { galleryConstants } from '../../_constants';
 
 const options = {
   settings: {
@@ -35,7 +36,7 @@ function Gallery() {
   const gallery = useSelector(store => store.gallery.galleryReducer);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_GALLERY' })
+    dispatch({ type: galleryConstants.FETCH_GALLERY })
   }, []);
 
   return (

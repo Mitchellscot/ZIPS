@@ -3,111 +3,6 @@ const EmailTemplate = require('../modules/email-template');
 const sendEmail = require('../modules/send-email');
 const router = express.Router();
 const pool = require('../modules/pool');
-const paginate = require('jw-paginate');
-
-//gets all orders by page number
-router.get('/all', (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    queryText = `
-    SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
-    FROM "emails"
-    JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
-    JOIN "images" ON "order_ids"."image_id"="images"."id"
-    GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
-    ORDER BY "date_sent" DESC;
-    `;
-    pool.query(queryText).then((result)=>{
-        const pager = paginate(result.rows.length, page, 8);
-        const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        res.send({pager, pageOfEmails});
-    }).catch((error)=>{
-        console.log(`HEY MITCH - COULDN\'T GET THE EMAIL HISTORY ${error}`);
-         res.sendStatus(500);
-        });
-});
-
-router.get('/text', (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const text = req.query.q;
-    queryText= `
-    SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
-    FROM "emails"
-    JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
-    JOIN "images" ON "order_ids"."image_id"="images"."id"
-    WHERE "emails"."name" ILIKE '%${text}%' 
-    OR "emails"."email_address" ILIKE '%${text}%' 
-    GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
-    ORDER BY "date_sent" DESC;
-    `;
-    pool.query(queryText).then((result)=>{
-        const pager = paginate(result.rows.length, page, 8);
-        const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        res.send({pager, pageOfEmails, text});
-    }).catch((error)=>{
-        console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
-         res.sendStatus(500);
-        });
-
-})
-
-//gets emails for a given date
-router.get('/date', (req, res) =>{
-    const page = parseInt(req.query.page) || 1;
-    let date = req.query.q;
-    let queryText = `SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
-    FROM "emails"
-    JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
-    JOIN "images" ON "order_ids"."image_id"="images"."id"
-    WHERE CAST("emails"."date_sent" as date) = date '${date}'
-    GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
-    ORDER BY "date_sent" DESC;`
-    pool.query(queryText).then((result) => {
-        const pager = paginate(result.rows.length, page, 8);
-        const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-        res.send({pager, pageOfEmails, date});
-    }).catch((error) => {
-        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
-        res.sendStatus(500);
-    })
-})
-
-
-//RETIRE THIS SOON
-router.get('/', (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    let queryText = '';
-    let query = req.query.q;
-    if (query === undefined) {
-        queryText = `
-        SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
-        FROM "emails"
-        JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
-        JOIN "images" ON "order_ids"."image_id"="images"."id"
-        GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
-        ORDER BY "date_sent" DESC;
-        `;
-    }
-    else {
-        queryText= `
-        SELECT "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total", array_agg("url") 
-        FROM "emails"
-        JOIN "order_ids" ON "order_ids"."order_id"="emails"."order_id"
-        JOIN "images" ON "order_ids"."image_id"="images"."id"
-        WHERE "emails"."name" ILIKE '%${query}%' 
-        OR "emails"."email_address" ILIKE '%${query}%' 
-        GROUP BY "emails"."id", "emails"."date_sent", "emails"."email_address", "emails"."email_text", "emails"."name", "emails"."total"
-        ORDER BY "date_sent" DESC;
-        `;
-    }
-        pool.query(queryText).then((result)=>{
-            const pager = paginate(result.rows.length, page, 8);
-            const pageOfEmails = result.rows.slice(pager.startIndex, pager.endIndex + 1);
-            res.send({pager, pageOfEmails});
-        }).catch((error)=>{
-            console.log(`HEY MITCH - COULDN"T GET THE SEARCHED EMAIL HISTORY ${error}`);
-             res.sendStatus(500);
-            });
-});
 
 router.post('/', (req, res) => {
     //from the post
@@ -123,9 +18,9 @@ router.post('/', (req, res) => {
     let header = '';
     let body = '';
     let businessName = '';
-    let businessEmail='';
-    let businessWebsite='';
-    let businessPhone='';
+    let businessEmail = '';
+    let businessWebsite = '';
+    let businessPhone = '';
     //getting the email settings
     const queryTest = `SELECT * FROM "email_settings";`
     pool.query(queryTest).then((result) => {
@@ -145,16 +40,11 @@ router.post('/', (req, res) => {
         //try sending the email with the above information
         try {
             sendEmail(email, plainTextEmail, emailAddress, sourceEmail, replyEmail, subject).then(() => {
-                //after sending an email, enter the sent email into the database
-                const query = `INSERT INTO "emails" ("name", "email_address", "email_text", "total", "order_id")
-                VALUES($1, $2, $3, $4, $5);`
-                pool.query(query, [name, emailAddress, email, total, orderId]).then((result)=>{
-                    res.sendStatus(200);
-                }).catch((error)=>{
-                    console.log(`HEY MITCH - COULDN'T ADD TO EMAILS TABLE ${error}`);
-                     res.sendStatus(500);
-                    }) 
-            });
+                res.sendStatus(200);
+            }).catch((error) => {
+                console.log(`HEY MITCH - COULDN'T ADD TO EMAILS TABLE ${error}`);
+                res.sendStatus(500);
+            })
         }
         catch (error) {
             console.log(`HEY MITCH - COULDN'T SEND THE PHOTOS! ${error}`);

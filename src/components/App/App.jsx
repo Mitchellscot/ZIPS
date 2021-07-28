@@ -11,17 +11,16 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LoginPage from '../LoginPage/LoginPage';
-import Orders from '../OrdersTable/OrdersTable';
 import './App.css';
 import { useSelector } from 'react-redux';
-
+import { userConstants } from '../../_constants';
 
 function App() {
   const user = useSelector(store => store.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: userConstants.FETCH });
   }, [dispatch]);
 
   return (

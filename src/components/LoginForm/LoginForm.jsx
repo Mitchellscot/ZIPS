@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { errorConstants, loginConstants } from '../../_constants';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
@@ -15,14 +16,14 @@ function LoginForm() {
 
     if (username && password) {
       dispatch({
-        type: 'LOGIN',
+        type: loginConstants.LOGIN,
         payload: {
           username: username,
           password: password,
         },
       });
     } else {
-      dispatch({ type: 'LOGIN_INPUT_ERROR' });
+      dispatch({ type: errorConstants.INPUT });
     }
   };
 

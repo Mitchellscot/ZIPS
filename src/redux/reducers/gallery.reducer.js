@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
+import { galleryConstants } from '../../_constants';
 
 const galleryReducer = (state = [], action) => {
     switch (action.type) {
-        case 'SET_IMAGES':
+        case galleryConstants.SET_GALLERY:
             return action.payload;
-        case 'RESET_IMAGES':
+        case galleryConstants.RESET_GALLERY:
             return [];
         default:
             return state;
@@ -14,13 +15,13 @@ const galleryReducer = (state = [], action) => {
 const initialState1 = {pager: {}, pageOfImages: [], date: ''};
 const shownImagesReducer = (state = initialState1, action) => {
     switch (action.type) {
-        case 'SET_SHOWN_IMAGES':
+        case galleryConstants.SET_SHOWN:
             return {
                 date: action.payload.date,        
                 pager: action.payload.pager,
                 pageOfImages: action.payload.pageOfImages
             }
-        case 'RESET_SHOWN_IMAGES':
+        case galleryConstants.RESET_SHOWN:
             return {
                 date: '',
                 pager: {},
@@ -33,14 +34,14 @@ const shownImagesReducer = (state = initialState1, action) => {
 const initialState2 = {pager: {}, pageOfPictures: [], date: ''};
 const picturePageReducer = (state = initialState2, action) => {
     switch (action.type) {
-        case 'SET_PICTURES':
+        case galleryConstants.SET_PICTURES:
             return {
             /*  ...state,*/     
                 date: action.payload.date,        
                 pager: action.payload.pager,
                 pageOfPictures: action.payload.pageOfPictures
             }
-            case 'RESET_PICTURES':
+            case galleryConstants.RESET_PICTURES:
                 return {
                     date: '',
                     pager: {},

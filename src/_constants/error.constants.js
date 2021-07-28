@@ -1,0 +1,7 @@
+export const errorConstants = {
+    CLEAR: 'CLEAR_LOGIN_ERROR',
+    INPUT: 'LOGIN_INPUT_ERROR',
+    GUEST: 'LOGIN_GUEST_ERROR',
+    FAILED: 'LOGIN_FAILED',
+    NO_CODE: 'LOGIN_FAILED_NO_CODE'
+}

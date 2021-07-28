@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom';
+import { errorConstants, loginConstants } from '../../_constants';
+
 
 function LoginFormGuest() {
   const history = useHistory();
@@ -18,13 +20,13 @@ function LoginFormGuest() {
     if (username && password) {
       history.push('/Gallery');
       dispatch({
-        type: 'LOGIN_GUEST',
+        type: loginConstants.LOGIN_GUEST,
         payload: {
           password: password,
         },
       });
     } else {
-      dispatch({ type: 'LOGIN_GUEST_ERROR' });
+      dispatch({ type: errorConstants.GUEST });
     }
   };
 

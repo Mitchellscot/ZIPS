@@ -64,8 +64,7 @@ function* addOrder(action){
             total: action.payload.total,
             images: action.payload.images
         });
-        // I don't think I need this... 
-        //yield put({type: 'FETCH_ORDERS'});
+
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T ADD THE ORDER - ${error}`);
@@ -73,7 +72,7 @@ function* addOrder(action){
 }
 
 function* orderSaga() {
-    yield takeEvery('ADD_ORDER', addOrder);
+    yield takeEvery(orderConstants.ADD, addOrder);
     yield takeEvery(orderConstants.SEARCH_ALL, fetchAllOrders);
     yield takeEvery(orderConstants.SEARCH_TEXT, fetchOrdersByText);
     yield takeEvery(orderConstants.SEARCH_DATE, fetchOrdersByDate);

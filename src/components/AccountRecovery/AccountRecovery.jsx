@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import axios from 'axios';
+import { loginConstants } from '../../_constants';
 
 export default function AccountRecovery() {
     const user = useSelector(store => store.user)
@@ -16,7 +17,7 @@ export default function AccountRecovery() {
         const id = Number(user.id)
         axios.put(`/api/user/${id}`, {email: email}).then(response => {
             alert('Email Changed - please login with your new Email');
-            dispatch({type: "LOGOUT"})
+            dispatch({type: loginConstants.LOGOUT})
         }).catch(e => console.log(e));
     }
     return (

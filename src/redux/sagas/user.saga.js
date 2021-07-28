@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
+import { userConstants } from '../../_constants';
 
 function* fetchUser() {
   try {
@@ -8,14 +9,14 @@ function* fetchUser() {
       withCredentials: true,
     };
     const response = yield axios.get('/api/user', config);
-    yield put({ type: 'SET_USER', payload: response.data });
+    yield put({ type: userConstants.SET, payload: response.data });
   } catch (error) {
     console.log('HEY MITCH - COULDNT GET USER', error);
   }
 }
 
 function* userSaga() {
-  yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest(userConstants.FETCH, fetchUser);
 }
 
 export default userSaga;

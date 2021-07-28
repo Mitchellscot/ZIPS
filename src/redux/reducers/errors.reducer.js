@@ -1,23 +1,20 @@
-import { combineReducers } from 'redux';
+import { errorConstants } from '../../_constants';
 
 const loginMessage = (state = '', action) => {
   switch (action.type) {
-    case 'CLEAR_LOGIN_ERROR':
+    case errorConstants.CLEAR:
       return '';
-    case 'LOGIN_INPUT_ERROR':
+    case errorConstants.INPUT:
       return 'Enter your username and password!';
-    case 'LOGIN_GUEST_ERROR':
+    case errorConstants.GUEST:
       return 'Incorrect Password';
-    case 'LOGIN_FAILED':
+    case errorConstants.FAILED:
       return "Oops! The username and password didn't match. Try again!";
-    case 'LOGIN_FAILED_NO_CODE':
+    case errorConstants.NO_CODE:
       return 'Oops! Something went wrong! Is the server running?';
     default:
       return state;
   }
 };
 
-export default combineReducers({
-  loginMessage,
-  registrationMessage,
-});
+export default loginMessage;

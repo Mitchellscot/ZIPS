@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import axios from 'axios';
+import { loginConstants } from '../../_constants';
 
 export default function AccountPassword() {
     const user = useSelector(store => store.user)
@@ -16,7 +17,7 @@ export default function AccountPassword() {
         e.preventDefault();
         axios.put(`/api/user/1`, {password: password2}).then(response => {
             alert('Password Changed - please login with your new password');
-            dispatch({type: "LOGOUT"})
+            dispatch({type: loginConstants.LOGOUT})
         }).catch(e => console.log(e));
     }
 
