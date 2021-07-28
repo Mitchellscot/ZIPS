@@ -35,6 +35,7 @@ function LoginPage() {
 
   useEffect(() => {
     dispatch({ type: 'LOG_OUT' });
+    dispatch({type: 'CLEAR_LOGIN_ERROR'});
   }, []);
 
   return (

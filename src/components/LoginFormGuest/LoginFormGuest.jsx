@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 function LoginFormGuest() {
   const history = useHistory();
+  const [username, setUsername] = useState('guest');
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function LoginFormGuest() {
   const login = (event) => {
     event.preventDefault();
 
-    if (password) {
+    if (username && password) {
       history.push('/Gallery');
       dispatch({
         type: 'LOGIN_GUEST',

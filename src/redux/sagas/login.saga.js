@@ -48,6 +48,7 @@ function* loginGuest(action){
   }
   catch(err){
     console.log(err);
+    yield put({ type: 'LOGIN_GUEST_ERROR' });
   }
 }
 
