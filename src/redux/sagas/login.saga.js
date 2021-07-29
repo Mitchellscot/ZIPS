@@ -29,7 +29,7 @@ function* logoutUser(action) {
       withCredentials: true,
     };
     yield axios.post('/api/user/logout', config);
-    yield put({ type: userConstants.SET });
+    yield put({ type: userConstants.RESET });
   } catch (error) {
     console.log('Error with user logout:', error);
   }
