@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
             sendEmail(email, plainTextEmail, emailAddress, sourceEmail, replyEmail, subject).then(() => {
                 res.sendStatus(200);
             }).catch((error) => {
-                console.log(`HEY MITCH - COULDN'T ADD TO EMAILS TABLE ${error}`);
+                console.log(error);
                 res.sendStatus(500);
             })
         }

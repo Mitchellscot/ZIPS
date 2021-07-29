@@ -9,7 +9,7 @@ function* fetchUser() {
       withCredentials: true,
     };
     const response = yield axios.get('/api/user', config);
-    yield put({ type: userConstants.SET, payload: response.data });
+    yield put({ type: userConstants.RESET, payload: response.data });
   } catch (error) {
     console.log('HEY MITCH - COULDNT GET USER', error);
   }
