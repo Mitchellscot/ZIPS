@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import LoginPage from '../LoginPage/LoginPage';
+import LoginPage from '../components/LoginPage/LoginPage';
 import {useSelector} from 'react-redux';
-import Gallery from '../Gallery/Gallery';
+import  Gallery  from '../components/Gallery/Gallery';
 
 function ProtectedRoute(props) {
   const user = useSelector((store) => store.user);
@@ -14,7 +14,6 @@ function ProtectedRoute(props) {
 
   const ComponentToProtect = props.component || (() => props.children);
   let ComponentToShow;
-
 
   if (user.id === 1) {
     ComponentToShow = ComponentToProtect;

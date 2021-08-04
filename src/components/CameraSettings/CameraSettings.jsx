@@ -1,9 +1,7 @@
 import './CameraSettings.css';
 import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import { Pencil, PencilFill, Camera, Circle, PlayCircle, PlayCircleFill, PauseCircle, PauseCircleFill, ArrowCounterclockwise } from 'react-bootstrap-icons';
 import axios from 'axios';
@@ -13,7 +11,6 @@ import { useHistory } from 'react-router-dom';
 function CameraSettings() {
     const history = useHistory();
     const ipAddress = "https://bztphotos.ddns.net";
-    const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     const [Sensitivity, setSensitivity] = useState(0);
     const [editSensitivity, setEditSensitivity] = useState(false);
@@ -78,7 +75,6 @@ function CameraSettings() {
     };
 
     const handleKeyPressSensitivity = e => {
-        //it triggers by pressing the enter key
         if (e.key === 'Enter') {
             handleEditSensitivity();
         }

@@ -1,6 +1,6 @@
 import './PicturesTable.css';
 import { galleryConstants } from '../../_constants';
-import PictureTableInstructions from '../PictureTableInstructions/PictureTableInstructions';
+import PictureTableInstructions from './PictureTableInstructions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -10,11 +10,12 @@ import { SRLWrapper } from "simple-react-lightbox";
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import PicturesTablePicture from '../PicturesTablePicture/PicturesTablePicture';
+import PicturesTablePicture from './PicturesTablePicture';
 import { QuestionCircle } from "react-bootstrap-icons";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { setTodaysDate } from '../../_actions';
 
 const options = {
     settings: {
@@ -54,20 +55,6 @@ function PicturesTable() {
     const [showMode, setShowMode] = useState(false);
     const toggleShowMode = () => {
         setShowMode(!showMode);
-    }
-
-    const setTodaysDate = () => {
-        let day = new Date();
-        let dd = day.getDate()
-        let mm = day.getMonth() + 1;
-        let yyyy = day.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        return yyyy + "-" + mm + "-" + dd;
     }
 
     const setShownImagesToFalse = () => {

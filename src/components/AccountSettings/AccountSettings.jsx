@@ -1,4 +1,3 @@
-import './AccountSettings.css';
 import { costConstants } from '../../_constants';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,14 +5,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import { Pencil, PencilFill, Image, ImageFill } from 'react-bootstrap-icons'
+import { Pencil, PencilFill } from 'react-bootstrap-icons'
 import axios from 'axios';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import EmailSettings from '../EmailSettings/EmailSettings';
-import EmailPreview from '../EmailPreview/EmailPreview';
-import AccountPassword from '../AccountPassword/AccountPassword';
-import AccountPasswordGuest from '../AccountPasswordGuest/AccountPasswordGuest';
+import EmailSettings from './EmailSettings';
+import EmailPreview from './EmailPreview';
+import AccountPassword from './AccountPassword';
+import AccountPasswordGuest from './AccountPasswordGuest';
 
 function AccountSettings() {
     const dispatch = useDispatch();
@@ -90,8 +89,6 @@ function AccountSettings() {
         }
     };
 
-
-
     useEffect(() => {
         dispatch({ type: costConstants.FETCH });
     }, []);
@@ -157,7 +154,6 @@ function AccountSettings() {
                         <EmailSettings
                             emailSettings={emailSettings}
                             showEmail={showEmail}
-                            setShowEmail={setShowEmail}
                             toggleShowEmail={toggleShowEmail}
                         />
                     </Tab>
@@ -166,8 +162,6 @@ function AccountSettings() {
             {showEmail ? <EmailPreview
                 emailSettings={emailSettings}
                 showEmail={showEmail}
-                setShowEmail={setShowEmail}
-                toggleShowEmail={toggleShowEmail}
             /> : <></>}
         </>
     );

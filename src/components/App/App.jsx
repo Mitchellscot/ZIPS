@@ -7,7 +7,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRoute from '../../_helpers/ProtectedRoute';
 import Gallery from '../Gallery/Gallery';
 import Admin from '../Admin/Admin';
 import LoginPage from '../LoginPage/LoginPage';

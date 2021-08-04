@@ -3,21 +3,14 @@ import './GalleryItem.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { formatTime } from '../../_actions';
 
-
-function GalleryItem({ image }) {
+export default function GalleryItem({ image }) {
     const cart = useSelector(store => store.cart);
     const dispatch = useDispatch();
-
     const handleSelect = () => {
         cart.includes(image) ? dispatch({ type: cartConstants.REMOVE, payload: image }) :
             dispatch({ type: cartConstants.ADD, payload: image });
-    }
-    const formatTime = (imageTime) => {
-        const time = new Date(imageTime);
-        const options = { hour: "numeric", minute: "numeric" }
-        const fd = new Intl.DateTimeFormat('en-us', options).format(time);
-        return fd.toString();
     }
 
     return (
@@ -34,5 +27,3 @@ function GalleryItem({ image }) {
         </Card>
     );
 }
-
-export default GalleryItem;

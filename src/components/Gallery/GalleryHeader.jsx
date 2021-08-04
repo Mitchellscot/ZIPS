@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { CartCheckFill } from 'react-bootstrap-icons';
-import Checkout from '../Checkout/Checkout';
+import Checkout from './Checkout';
+import { addUpCart } from '../../_actions';
 
 function GalleryHeader() {
   const history = useHistory();
@@ -20,16 +21,6 @@ function GalleryHeader() {
 
   const handleShowModal = () => {
     setModal(true);
-  }
-
-  const addUpCart = (cart) => {
-    let sum = 0;
-    let tax = Number(storePrice * storeTax);
-    let price = Number(storePrice);
-    for (const image of cart) {
-      sum += price + tax;
-    }
-    return sum.toFixed(2);
   }
 
   const resetCart = () => {
@@ -70,7 +61,7 @@ function GalleryHeader() {
           className="total-amount">
           <span
             className={Object.keys(cart).length === 0 ? "invisible" : "visible"}
-          >${Object.keys(cart).length === 0 ? "00.00" : addUpCart(cart)}</span>
+          >${Object.keys(cart).length === 0 ? "00.00" : addUpCart(cart, storePrice, storeTax)}</span>
         </div>
         <div className="checkoutButtons">
           <ButtonGroup>
@@ -84,7 +75,7 @@ function GalleryHeader() {
               type="button"
               onClick={() => {
                 handleShowModal();
-                setTotal(addUpCart(cart));
+                setTotal(addUpCart(cart, storePrice, storeTax));
               }}
             >Checkout&nbsp;
           <CartCheckFill

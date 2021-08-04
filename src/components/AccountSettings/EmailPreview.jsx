@@ -1,8 +1,7 @@
-import './EmailPreview.css';
 import Table from 'react-bootstrap/Table';
 import Col from 'react-bootstrap/Col';
 
-function EmailPreview({emailSettings, showEmail, setShowEmail, toggleShowEmail}){
+function EmailPreview({emailSettings, showEmail}){
     return(
         <Col lg={6} md={4} className="d-flex justify-content-center mt-5">
         <Table className={showEmail ? "visible border" : "invisible"}>
