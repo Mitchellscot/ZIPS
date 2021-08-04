@@ -1,14 +1,7 @@
 import './AdminSideBar.css';
 import Nav from 'react-bootstrap/Nav';
 import { InboxFill, Image, CameraFill, GearFill, Images } from 'react-bootstrap-icons';
-import {
-    HashRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 function AdminSideBar() {
     let match = useRouteMatch();

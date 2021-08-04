@@ -1,8 +1,8 @@
 import './Admin.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
-import AdminHeader from '../AdminHeader/AdminHeader';
-import AdminSideBar from '../AdminSideBar/AdminSideBar';
+import AdminHeader from './AdminHeader';
+import AdminSideBar from './AdminSideBar';
 import Row from 'react-bootstrap/Row';
 import OrdersTable from '../OrdersTable/OrdersTable';
 import { Switch, Route } from "react-router-dom";

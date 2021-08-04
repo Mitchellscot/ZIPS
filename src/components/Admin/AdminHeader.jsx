@@ -1,9 +1,8 @@
 import './AdminHeader.css';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
-import {BoxArrowRight} from 'react-bootstrap-icons';
+import { BoxArrowRight } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
-import {loginConstants} from "../../_constants";
+import { loginConstants } from "../../_constants";
 
 function AdminHeader(){
     const dispatch = useDispatch();

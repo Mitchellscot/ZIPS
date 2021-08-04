@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
@@ -8,7 +8,6 @@ import axios from 'axios';
 
 export default function AccountPasswordGuest() {
     const user = useSelector(store => store.user)
-    const dispatch = useDispatch();
     const [guestPassword1, SetGuestPassword1] = useState('');
     const [guestPassword2, SetGuestPassword2] = useState('');
 

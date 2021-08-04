@@ -1,17 +1,14 @@
-import './EmailSettings.css';
 import { emailConstants } from '../../_constants';
-import Tab from 'react-bootstrap/Tab';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail }) {
+function EmailSettings({emailSettings, showEmail, toggleShowEmail }) {
     const dispatch = useDispatch();
-
     const [sendingEmail, setSendingEmail] = useState('');
     const [replyToEmail, setReplyToEmail] = useState('');
     const [subject, setSubject] = useState('');
@@ -22,7 +19,6 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
     const [businessWebsite, setBusinessWebsite] = useState('');
     const [businessPhone, setBusinessPhone] = useState('');
     const [editMode, setEditMode] = useState(false);
-
 
     const editEmailMode = () => {
         setSendingEmail(emailSettings.source_email);
@@ -82,7 +78,6 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
                     variant="outline-dark"
                 >Edit</Button>
                 }
-
                 <Button
                     onClick={toggleShowEmail}
                     variant={showEmail ? "dark" : "outline-dark"}
@@ -96,7 +91,6 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
     </td>
                         <td className="align-middle">
                             {editMode ? <Form.Control
-
                                 className="text-left w-75"
                                 onKeyPress={handleKeyPressEmail}
                                 onChange={((e) => { setSendingEmail(e.target.value) })}
@@ -214,7 +208,6 @@ function EmailSettings({emailSettings, showEmail, setShowEmail, toggleShowEmail 
                     </tr>
                 </tbody>
             </Table>
-
     </>
     );
 }
