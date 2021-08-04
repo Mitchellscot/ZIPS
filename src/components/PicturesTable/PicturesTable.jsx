@@ -15,6 +15,7 @@ import { QuestionCircle } from "react-bootstrap-icons";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { setTodaysDate } from '../../_actions';
 
 const options = {
     settings: {
@@ -54,20 +55,6 @@ function PicturesTable() {
     const [showMode, setShowMode] = useState(false);
     const toggleShowMode = () => {
         setShowMode(!showMode);
-    }
-
-    const setTodaysDate = () => {
-        let day = new Date();
-        let dd = day.getDate()
-        let mm = day.getMonth() + 1;
-        let yyyy = day.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        return yyyy + "-" + mm + "-" + dd;
     }
 
     const setShownImagesToFalse = () => {

@@ -18,7 +18,6 @@ function* fetchShownImages(action){
     }
 }
 
-//gets all images that match a given date - able to paginate (that's why it's SET_PICTURES)
 function* fetchPictures(action){
     try{
         const searchedImagesByDateResponse = yield axios.get(`/api/image/date?q=${action.payload.q}&page=${action.payload.page}`);

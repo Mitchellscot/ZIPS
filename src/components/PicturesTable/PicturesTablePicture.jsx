@@ -5,6 +5,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import swal from 'sweetalert';
 import axios from 'axios';
 import { galleryConstants } from "../../_constants";
+import { formatTime } from '../../_actions';
 
 function PicturesTablePicture({ image, searchDate }) {
     const dispatch = useDispatch();
@@ -42,13 +43,6 @@ function PicturesTablePicture({ image, searchDate }) {
                 }
                 else return;
             });
-    }
-
-    const formatTime = (imageTime) => {
-        const time = new Date(imageTime);
-        const options = { year: "2-digit", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" }
-        const fd = new Intl.DateTimeFormat('en-us', options).format(time);
-        return fd.toString();
     }
 
     return (
