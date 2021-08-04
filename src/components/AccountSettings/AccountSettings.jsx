@@ -1,18 +1,18 @@
-import './AccountSettings.css';
+import { costConstants } from '../../_constants';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import { Pencil, PencilFill, Image, ImageFill } from 'react-bootstrap-icons'
+import { Pencil, PencilFill } from 'react-bootstrap-icons'
 import axios from 'axios';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import EmailSettings from '../EmailSettings/EmailSettings';
-import EmailPreview from '../EmailPreview/EmailPreview';
-import AccountPassword from '../AccountPassword/AccountPassword';
-
+import EmailSettings from './EmailSettings';
+import EmailPreview from './EmailPreview';
+import AccountPassword from './AccountPassword';
+import AccountPasswordGuest from './AccountPasswordGuest';
 
 function AccountSettings() {
     const dispatch = useDispatch();
@@ -47,7 +47,7 @@ function AccountSettings() {
                 cost: photoCost
             })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_COST' });
+                    dispatch({ type: costConstants.FETCH });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE COST OF THE PICTURES: ${error}`);
@@ -67,7 +67,7 @@ function AccountSettings() {
                 tax: tax
             })
                 .then((response) => {
-                    dispatch({ type: 'FETCH_COST' });
+                    dispatch({ type: costConstants.FETCH });
                 })
                 .catch((error) => {
                     console.log(`HEY MITCH - CAN'T CHANGE THE TAX: ${error}`);
@@ -89,10 +89,8 @@ function AccountSettings() {
         }
     };
 
-
-
     useEffect(() => {
-        dispatch({ type: 'FETCH_COST' });
+        dispatch({ type: costConstants.FETCH });
     }, []);
 
     return (
@@ -104,6 +102,7 @@ function AccountSettings() {
                             <h4>Account Settings</h4>
                         </Row>
                         <Table striped bordered hover>
+                            {/*I deleted a <tbody> here, watch the console for errors */}
                             <tbody>
                                 <tr>
                                     <td width="20%" className="font-weight-bold align-middle">
@@ -146,15 +145,15 @@ function AccountSettings() {
                                             /></>}
                                     </td>
                                 </tr>
-                            </tbody>
+                                </tbody>
                         </Table>
                         <AccountPassword />
+                        <AccountPasswordGuest />
                     </Tab>
                     <Tab eventKey="emailSettings" title="Email">
                         <EmailSettings
                             emailSettings={emailSettings}
                             showEmail={showEmail}
-                            setShowEmail={setShowEmail}
                             toggleShowEmail={toggleShowEmail}
                         />
                     </Tab>
@@ -163,8 +162,6 @@ function AccountSettings() {
             {showEmail ? <EmailPreview
                 emailSettings={emailSettings}
                 showEmail={showEmail}
-                setShowEmail={setShowEmail}
-                toggleShowEmail={toggleShowEmail}
             /> : <></>}
         </>
     );

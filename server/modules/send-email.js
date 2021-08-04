@@ -1,5 +1,5 @@
 require('dotenv').config();
-var AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
 
 
 function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyEmail, subject){
@@ -11,7 +11,7 @@ function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyE
   }
   AWS.config.update(SESConfig);
 
-    var params = {
+    let params = {
       Destination: {
         ToAddresses: [
           sendToAddress
@@ -39,16 +39,13 @@ function sendEmail(emailBody, plainTextEmail, sendToAddress, sourceEmail, replyE
       ],
     };
 
-  console.log(`params ${params}`);  
-  // Create the promise and SES service object
-  var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
+  let sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise();
   
-  // Handle promise's fulfilled/rejected states
   return sendPromise.then(
-    function(data) {
+    (data)=> {
       console.log(`Here is the message id: ${data.MessageId}`);
     }).catch(
-      function(err) {
+      (err)=> {
       console.error(`HEY MITCH - ERROR OCCURING IN SEND_EMAIL - ${err, err.stack}`);
     });
 

@@ -1,8 +1,10 @@
+import { emailConstants } from '../../_constants';
+
 const emailSettingsReducer = (state = [], action) => {
     switch (action.type) {
-        case 'SET_EMAIL_SETTINGS':
+        case emailConstants.SET:
             return action.payload;
-        case 'CLEAR_EMAIL_SETTINGS':
+        case emailConstants.CLEAR:
             return [];
         default:
             return state;

@@ -1,13 +1,19 @@
 import axios from 'axios';
 import { put, takeEvery } from 'redux-saga/effects';
+import { orderConstants, searchTypes } from '../../_constants';
+
 
 function* fetchOrdersByDate(action){
     try{
         const page = action.payload.page;
-        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${action.payload.q}&page=${page}`);
-        yield put({type: 'SET_ORDERS', payload: {
+        const date = action.payload.query;
+        const searchedOrdersByDateResponse = yield axios.get(`/api/order/date?q=${date}&page=${page}`);
+        yield put({type: orderConstants.SEARCH_RESULTS, payload: {
             pageOfOrders: searchedOrdersByDateResponse.data.pageOfOrders,
-            pager: searchedOrdersByDateResponse.data.pager
+            pager: searchedOrdersByDateResponse.data.pager,
+            date: searchedOrdersByDateResponse.data.date,
+            text: '',
+            type: searchTypes.DATE
         }});
     }
     catch(error){
@@ -15,13 +21,17 @@ function* fetchOrdersByDate(action){
     }
 }
 
-function* fetchSearchedOrders(action) {
+function* fetchOrdersByText(action) {
     try {
         const page = action.payload.page;
-        const searchedOrdersResponse = yield axios.get(`/api/order?q=${action.payload.q}&page=${page}`);
-        yield put({type: 'SET_ORDERS', payload: {
+        const text = action.payload.query;
+        const searchedOrdersResponse = yield axios.get(`/api/order/text?q=${text}&page=${page}`);
+        yield put({type: orderConstants.SEARCH_RESULTS, payload: {
             pageOfOrders: searchedOrdersResponse.data.pageOfOrders,
-            pager: searchedOrdersResponse.data.pager
+            pager: searchedOrdersResponse.data.pager,
+            date: '',
+            text: searchedOrdersResponse.data.text,
+            type: searchTypes.TEXT
         }});
     }
     catch (error){
@@ -32,10 +42,14 @@ function* fetchSearchedOrders(action) {
 function* fetchAllOrders(action) {
     try {
         const page = action.payload.page;
-        const orderResponse = yield axios.get(`/api/order?page=${page}`);
-        yield put({type: 'SET_ORDERS', payload: {
+        const orderResponse = yield axios.get(`/api/order/all?page=${page}`);
+        yield put({type: orderConstants.SEARCH_RESULTS, payload: {
             pager: orderResponse.data.pager, 
-            pageOfOrders: orderResponse.data.pageOfOrders}});
+            pageOfOrders: orderResponse.data.pageOfOrders,
+            date: '',
+            text: '',
+            type: searchTypes.ALL
+        }});
     }
     catch (error){
         console.log(`HEY MITCH - COULDN'T GET THE ORDERS ${error}`);
@@ -50,8 +64,7 @@ function* addOrder(action){
             total: action.payload.total,
             images: action.payload.images
         });
-        // I don't think I need this... 
-        yield put({type: 'FETCH_ORDERS'});
+
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T ADD THE ORDER - ${error}`);
@@ -59,10 +72,10 @@ function* addOrder(action){
 }
 
 function* orderSaga() {
-    yield takeEvery('ADD_ORDER', addOrder);
-    yield takeEvery('FETCH_ALL_ORDERS', fetchAllOrders);
-    yield takeEvery('SEARCH_ORDERS', fetchSearchedOrders);
-    yield takeEvery('SEARCH_ORDER_DATES', fetchOrdersByDate);
+    yield takeEvery(orderConstants.ADD, addOrder);
+    yield takeEvery(orderConstants.SEARCH_ALL, fetchAllOrders);
+    yield takeEvery(orderConstants.SEARCH_TEXT, fetchOrdersByText);
+    yield takeEvery(orderConstants.SEARCH_DATE, fetchOrdersByDate);
   }
 
 export default orderSaga;

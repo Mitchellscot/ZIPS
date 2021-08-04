@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
+import { costConstants } from '../../_constants';
 
 function* fetchCost() {
     try {
         const costResponse = yield axios.get('/api/cost');
-        yield put({type: 'SET_COST', payload: {
+        yield put({type: costConstants.SET, payload: {
             price: costResponse.data.price,
             tax: costResponse.data.tax
             }});
@@ -15,7 +16,7 @@ function* fetchCost() {
 }
 
 function* costSaga() {
-    yield takeLatest('FETCH_COST', fetchCost);
+    yield takeLatest(costConstants.FETCH, fetchCost);
   }
 
 export default costSaga;

@@ -4,6 +4,15 @@ body,
   height: 100%;
 }
 
+#big-zip {
+  background-image: url("me_ziplining.JPG");
+  background-size: cover;
+  position: relative;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: auto;
+ }
+
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0px;

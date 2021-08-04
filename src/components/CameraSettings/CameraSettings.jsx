@@ -1,20 +1,16 @@
 import './CameraSettings.css';
 import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import { Pencil, PencilFill, Camera, Circle, PlayCircle, PlayCircleFill, PauseCircle, PauseCircleFill, ArrowCounterclockwise } from 'react-bootstrap-icons';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
+import { useHistory } from 'react-router-dom';
 
 function CameraSettings() {
-    const username = 'bzt';
-    const password = 'birchtree';
-    const token = Buffer.from (`${username}:${password}`, 'utf8').toString('base64');
+    const history = useHistory();
     const ipAddress = "https://bztphotos.ddns.net";
-    const dispatch = useDispatch();
     const [motionStarted, setMotionStarted] = useState(false);
     const [Sensitivity, setSensitivity] = useState(0);
     const [editSensitivity, setEditSensitivity] = useState(false);
@@ -26,7 +22,7 @@ function CameraSettings() {
     }
 
     const snapPhoto = () => {
-        axios.get(`https://bztphotos.ddns.net:8082/photos`).then((result) => {
+        axios.get(`${ipAddress}:8082/photos`).then((result) => {
             if (result.status === 200) {
                 const element = document.getElementById('the-flash');
                 element.classList.add('the-flash');
@@ -41,32 +37,44 @@ function CameraSettings() {
     }
 
     const startMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/start').then((result) => {
-            toggleMotionStarted();
-        }).catch(error => console.log(error));
-    }
+        axios.get(`${ipAddress}:8082/camera/start`).then((result) => {
+            if (result.status === 200) {
+                toggleMotionStarted();
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to start motion detection.');
+            }});
+    };
+
     const pauseMotion = () => {
-        axios.get(ipAddress + ':8080/0/detection/pause').then((result) => {
-            toggleMotionStarted();
-        }).catch(error => console.log(error));
+        axios.get(`${ipAddress}:8082/camera/pause`).then((result) => {
+            if (result.status === 200) {
+                toggleMotionStarted();
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to pause motion detection.');
+            }});
     }
 
     const restartMotion = () => {
-        axios.get(ipAddress + ':8080/0/action/restart').then((result) => {
-            const element = document.getElementById('restart-button');
-            element.classList.add('spin-restart');
-            setTimeout(() => {
-                element.classList.remove('spin-restart');
-            }, 4000);
-            setTimeout(() => {
-                location.reload();
-            }, 4000);
-
-        }).catch(error => console.log(error));
-    }
+        axios.get(`${ipAddress}:8082/camera/restart`).then((result) => {
+            if (result.status === 200) {
+                const element = document.getElementById('restart-button');
+                element.classList.add('spin-restart');
+                setTimeout(() => {
+                    element.classList.remove('spin-restart');
+                }, 5000);
+                setTimeout(() => {
+                    history.push('/Admin/Camera');
+                }, 5000);
+            }
+            else if (result.status === 500) {
+                console.log('HEY MITCH - Unable to restart motion detection.');
+            }
+        });
+    };
 
     const handleKeyPressSensitivity = e => {
-        //it triggers by pressing the enter key
         if (e.key === 'Enter') {
             handleEditSensitivity();
         }
@@ -78,27 +86,20 @@ function CameraSettings() {
         }
         else {
             setEditSensitivity(!editSensitivity);
-            axios.get(ipAddress + `:8080/0/config/set?noise_level=${Sensitivity}`)
-                .then((response) => {
-                    axios.get(ipAddress + ':8080/0/config/get?query=noise_level').then((result) => {
-                        let string = result.data;
-                        let donePosition = string.indexOf('Done');
-                        let answer = Number(string.substring(22, donePosition));
-                        console.log(answer);
-                        setSensitivity(answer);
-                    }).catch(error => console.log(error));
-                    axios.get(ipAddress + `:8080/0/config/write`).then((result) => {
-                    }).catch(error => console.log(error));
-                })
-                .catch((error) => {
-                    console.log(`HEY MITCH - CAN'T CHANGE THE Sensitivity: ${error}`);
-                })
+            axios.put(`${ipAddress}:8082/camera/sensitivity`, {Sensitivity: Sensitivity})
+            .then((result) =>{
+                let string = result.data;
+                let donePosition = string.indexOf('Done');
+                let answer = Number(string.substring(22, donePosition));
+                setSensitivity(answer);
+                console.log(Sensitivity);
+            }).catch(error => console.log(error));
         }
     }
 
     useEffect(() => {
-        //gets the status of the webcam
-        axios.get(ipAddress + ':8080/0/detection/status').then((result) => {
+         //gets the status of the webcam
+        axios.get(`${ipAddress}:8082/camera/status`).then((result) => {
             if (result.data.includes('ACTIVE')) {
                 setMotionStarted(true);
             }
@@ -107,13 +108,13 @@ function CameraSettings() {
             }
         }).catch(error => console.log(error));
         //gets the value of the Sensitivity
-        axios.get(ipAddress + ':8080/0/config/get?query=noise_level').then((result) => {
+        axios.get(`${ipAddress}:8082/camera/sensitivity`).then((result) => {
             let string = result.data;
             let donePosition = string.indexOf('Done');
             let answer = Number(string.substring(22, donePosition));
-            console.log(answer);
             setSensitivity(answer);
-        }).catch(error => console.log(error));
+            console.log(Sensitivity);
+        }).catch(error => console.log(error)); 
     }, []);
 
     return (
@@ -219,8 +220,6 @@ function CameraSettings() {
                             onClick={snapPhoto}
                         />
                     </div>
-
-
                 </Col>
                 <Col lg={8} md={6} className="d-flex-inline justify-content-center">
                     <div id="the-flash-div" className="d-flex justify-content-center mx-0">
@@ -229,7 +228,7 @@ function CameraSettings() {
                             src="../../flash-640x480.jpg" alt="flash" height="480px" width="640px"></img>
                         <img
                             id="the-webcam"
-                            name="webcam" src={`${ipAddress}:8081`}
+                            name="webcam" src={`https://bztphotos.ddns.net:8081`}
                             width="640px" height="480px" frameBorder="1" scrolling="no" />
                     </div>
                 </Col>

@@ -1,36 +1,6 @@
 import axios from 'axios';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
-
-function* fetchEmailsByDate(action){
-    try{
-        const q = action.payload.q;
-        const page = action.payload.page;
-        const searchedEmailsByDateResponse = yield axios.get(`/api/email/date?q=${q}&page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
-            pageOfEmails: searchedEmailsByDateResponse.data.pageOfEmails, 
-            pager: searchedEmailsByDateResponse.data.pager
-        }});
-    }
-    catch(error){
-        console.log(`HEY MITCH - COULDN'T GET THE ORDERS BY EMAILS BY DATE ${error}`);
-    }
-}
-
-function* fetchSearchedEmails(action) {
-    try {
-        const q = action.payload.q;
-        const page = action.payload.page;
-        const searchedEmailsResponse = yield axios.get(`/api/email?q=${q}&page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
-            pageOfEmails: searchedEmailsResponse.data.pageOfEmails,
-            pager: searchedEmailsResponse.data.pager
-        }
-    });
-    }
-    catch (error){
-        console.log(`HEY MITCH - COULDN'T GET THE SEARCHED EMAILS ${error}`);
-    }
-}
+import { emailConstants } from '../../_constants';
 
 function* sendEmail(action){
     try{
@@ -41,32 +11,15 @@ function* sendEmail(action){
             total: action.payload.total,
             orderId: action.payload.orderId
         });
-        yield put({type: 'FETCH_ORDERS'});
     }
     catch(error){
         console.log(`HEY MITCH - COULDN'T SEND THE EMAIL (SAGA) - ${error}`);
     }
 }
 
-function* fetchEmails(action) {
-    try {
-        const page = action.payload.page;
-        const emailsResponse = yield axios.get(`/api/email?page=${page}`);
-        yield put({type: 'SET_EMAILS', payload: {
-            pager: emailsResponse.data.pager,
-            pageOfEmails: emailsResponse.data.pageOfEmails
-        }});
-    }
-    catch (error){
-        console.log(`HEY MITCH - COULDN'T GET THE EMAILS ${error}`);
-    }
-}
 
 function* emailSaga() {
-    yield takeEvery('SEND_EMAIL', sendEmail);
-    yield takeEvery('FETCH_EMAIL_HISTORY', fetchEmails);
-    yield takeLatest('SEARCH_EMAILS', fetchSearchedEmails );
-    yield takeLatest('SEARCH_EMAIL_DATES', fetchEmailsByDate);
+    yield takeEvery(emailConstants.SEND, sendEmail);
   }
 
 export default emailSaga;
