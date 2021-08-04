@@ -1,7 +1,7 @@
 import './OrdersTable.css';
 import { orderConstants, searchTypes } from '../../_constants';
 import Table from 'react-bootstrap/Table';
-import OrderTableRow from '../OrderTableRow/OrderTableRow';
+import OrderTableRow from './OrderTableRow';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Col from 'react-bootstrap/Col';

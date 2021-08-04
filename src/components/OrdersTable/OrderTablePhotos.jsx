@@ -1,5 +1,3 @@
-import './OrderTablePhotos.css';
-import Carousel from 'react-bootstrap/Carousel';
 
 function OrderTablePhotos({image}){
     return(

@@ -1,13 +1,12 @@
 import React from 'react';
 import { errorConstants } from '../../_constants';
 import {useEffect, useState} from 'react';
-import LoginForm from '../LoginForm/LoginForm';
-import LoginFormGuest from '../LoginFormGuest/LoginFormGuest';
+import LoginForm from './LoginForm';
+import LoginFormGuest from './LoginFormGuest';
 import { useHistory } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import './LoginPage.css';
 
 function LoginPage() {

@@ -1,5 +1,3 @@
-import "./PicturesTablePicture.css";
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';

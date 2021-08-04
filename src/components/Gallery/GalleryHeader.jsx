@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { CartCheckFill } from 'react-bootstrap-icons';
-import Checkout from '../Checkout/Checkout';
+import Checkout from './Checkout';
 
 function GalleryHeader() {
   const history = useHistory();

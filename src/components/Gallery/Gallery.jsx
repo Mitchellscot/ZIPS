@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import GalleryItem from '../GalleryItem/GalleryItem';
-import GalleryHeader from '../GalleryHeader/GalleryHeader';
+import GalleryItem from './GalleryItem';
+import GalleryHeader from './GalleryHeader';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import { SRLWrapper } from "simple-react-lightbox";

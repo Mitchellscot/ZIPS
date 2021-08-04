@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from 'axios';
 import swal from 'sweetalert';
-import OrderTablePhotos from '../OrderTablePhotos/OrderTablePhotos';
+import OrderTablePhotos from './OrderTablePhotos';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge'
 
