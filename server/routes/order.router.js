@@ -3,6 +3,11 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
 
+//IMPORTANT
+//right now all urls are WATERMARKED
+//to change it so that the email sends the original image and not the watermarked image
+//search for "array_agg" and change "wm_url" to just "url"
+
 //gets all orders by page number
 router.get('/all', (req, res) => {
     const page = parseInt(req.query.page) || 1;
