@@ -43,8 +43,7 @@ By default the kiosk only displays pictures that are three hours old. This is to
 
 The application also provides a way for you to view what the camera is viewing through the webcam. This page allows you to set the sensitivity of the motion detection software, start or pause motion detection (by default it only runs between 9:30 and 5:30), or manually take a picture. Note: the webcam is seperate from the camera that takes pictures. The webcam only detects motion, while the R-PI HQ Camera is what takes the pictures.
 
-(camera was down the day I made this, i will add a better pic in the future BUT IT WORKS trust me...)
-[![Camera Manager](/demo-pics/camera-settings.jpg "Picture Manager screen")](https://ibb.co/4dChMDL)
+[![Camera Manager](/demo-pics/camera-settings.jpg "Picture Manager screen")](https://ibb.co/FYfD31D)
 
 There is also an account settings page that lets you change the password or set the price. You can see there is a guest password... that is so that guests can view the photos when they are not in the gift shop as some people call after their tour and want to see the pictures from the day they went. This allows us to provide a link to the application while keeping the photos secure and accessible.
 
