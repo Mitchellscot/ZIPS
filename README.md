@@ -52,7 +52,11 @@ Finally, the email can be edited here as well.
 
 [![Email Settings](/demo-pics/email-settings.jpg "admin settings screen")](https://ibb.co/swJbK3R)
 
-This project was originally my solo project for a javascript bootcamp I did over the winter of 20-21. You can [view the presentaion if you like.](https://www.youtube.com/watch?v=Ei-ZUtdrTKw)
+Login page (Yes that is me in the background)
+
+[![Login Page](/demo-pics/login-page.jpg "login screen")](https://ibb.co/dDxX1R9)
+
+This project was originally my solo project for a javascript bootcamp I did over the winter of 2020-2021. You can [view the presentaion if you like.](https://www.youtube.com/watch?v=Ei-ZUtdrTKw) It is now a revenue generating business application.
 
 ## Built With
 
