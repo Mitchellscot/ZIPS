@@ -1,7 +1,6 @@
 # Zipline Image Photo System (ZIPS)
 
-[![Login page](/demo-pics/login-page.jpg "Login Page")](https://ibb.co/dDxX1R9)
-(Yes that is me in the picture)
+[![Example](/demo-pics/example.jpg "Login Page")](https://ibb.co/H7yDnGq)
 
 ## Description
 
@@ -29,7 +28,7 @@ After that they can create an order for the photos by putting in their name and 
 
 [![Checkout](/demo-pics/checkout.jpg "Checkout screen")](https://ibb.co/cDQn220)
 
-After staff recieve payment, they then head to the orders scren and send an email containing the pictures to the guest. This screen provides a search for orders based on name or date and has buttons for each order that send photos, allow you to edit the orders, view the pictures the guests ordered, or delete the photos.
+After staff recieve payment, they then head to the orders screen and send an email containing the pictures to the guest. This screen provides a search for orders based on name or date and has buttons for each order that send photos, allow you to edit the orders, view the pictures the guests ordered, or delete the photos.
 
 [![Orders](/demo-pics/admin-orders.jpg "Orders screen")](https://ibb.co/Mnr1TJc)
 
