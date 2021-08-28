@@ -4,7 +4,7 @@
 
 This is a multipart camera system designed for a zip line adventure park. The system includes a Raspberry pi hooked up to a webcam and a camera module. The webcam watches a zipline and runs motion detection software. When someone zips across the line, the webcam will trigger a picture to be taken. The picture is then uploaded to AWS by the raspberry pi and posted to a database on my website (www.bzt.photos). On the website, guests can view and purchase their photos. There is an Admin part of the website as well, where staff can manage the camera, the pictures and the orders.
 
-[![Here is a picture of the Raspberry Pi]]("Camera Setup")(https://ibb.co/4N3WfRS)
+[![Here is a picture of the Raspberry Pi]](/demo-pics/raspberry-pi.jpg "Camera Setup")(https://ibb.co/4N3WfRS)
 
 
 Because this project has a few moving components, the best way to see the application in action is to [view this demo](https://www.youtube.com/watch?v=Ei-ZUtdrTKw)
