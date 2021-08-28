@@ -19,11 +19,11 @@ Here is the raspberry pi set up. You can see the webcam mounted on top of the HQ
 
 After the guests are done with the zip line tour, they can view the photos on a kiosk at the gift shop. here is a view of the photos that they would browse:
 
-[![gallery](/demo-pics/gallery-photos.jpg "kiosk")](https://i.ibb.co/1mKCbbW/admin-photos.jpg)
+[![gallery](/demo-pics/gallery-photos.jpg "kiosk")](https://ibb.co/JqKqqbC)
 
 They can even click on the phot and inspect the the picture in detail. A watermark has been added to prevent people from taking pictures of the screen:
 
-[![gallery-detail](/demo-pics/gallery-photo.jpg "picture detail")](https://i.ibb.co/1mKCbbW/admin-photos.jpg)
+[![gallery-detail](/demo-pics/gallery-photo.jpg "picture detail")](https://ibb.co/WDgKyfc)
 
 After that they can create an order for the photos by putting in their name and email address. The price of the pictures is displayed but the application does not handle payment. The idea is the guest would enter their information and create an order, then they would walk up to the front desk and tell them they placed an order, and then be rung up at the cash register. 
 
