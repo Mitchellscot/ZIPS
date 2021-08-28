@@ -3,11 +3,16 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const paginate = require('jw-paginate');
 
+//IMPORTANT
+//right now all urls are WATERMARKED
+//to change it so that the email sends the original image and not the watermarked image
+//search for "array_agg" and change "wm_url" to just "url"
+
 //gets all orders by page number
 router.get('/all', (req, res) => {
     const page = parseInt(req.query.page) || 1;
     queryText = `
-    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("wm_url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
@@ -28,7 +33,7 @@ router.get('/text', (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const text = req.query.q;
     queryText = `
-    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+    SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("wm_url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"
@@ -50,7 +55,7 @@ router.get('/text', (req, res) => {
 router.get('/date', (req, res) =>{
     const page = parseInt(req.query.page) || 1;
     let date = req.query.q;
-    let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("url") 
+    let queryText = `SELECT "orders"."id", "orders"."complete", "orders"."order_date", "orders"."name", "orders"."email", "orders"."total", array_agg("wm_url") 
     FROM "orders"
     JOIN "order_ids" ON "order_ids"."order_id"="orders"."id"
     JOIN "images" ON "order_ids"."image_id"="images"."id"

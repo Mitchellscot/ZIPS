@@ -37,7 +37,7 @@ function LoginForm() {
       )}
       <Form.Group>
         <Form.Control
-        className="my-3 text-center"
+          className="my-3 text-center"
           placeholder="Username"
           type="text"
           name="username"
